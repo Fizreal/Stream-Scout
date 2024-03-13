@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useSocket } from '@/context/SocketsContext'
-import { Content } from '@/types/index'
+import { useSocket } from '@/context/SocketContext'
+import { Content } from '@/types'
 import { useParams } from 'next/navigation'
 
 const ContentDetails = () => {

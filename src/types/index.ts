@@ -1,9 +1,18 @@
+export type Profile = {
+  user: String
+  country: String
+  subscription: String[]
+  username: String
+  // friends
+  _id: String
+}
+
 export type StreamingInfo = {
   country: String
   availability: {
-    addon: String
-    leaving: String
-    link: String
+    addon?: String
+    leaving?: String
+    link?: String
     service: String
     streamingType: String
   }[]
