@@ -14,12 +14,12 @@ TMDB_API.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-export const movieDetails = async (id: string) => {
+export const MovieDetails = async (id: string) => {
   const response = await TMDB_API.get(`movie/${id}`)
   return response.data
 }
 
-export const showDetails = async (id: string) => {
+export const ShowDetails = async (id: string) => {
   const response = await TMDB_API.get(`tv/${id}`)
   return response.data
 }

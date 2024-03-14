@@ -14,19 +14,19 @@ RAPID_API.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-export const titleSearch = async (user: Profile, query: string) => {
+export const TitleSearch = async (user: Profile, query: string) => {
   const response = await RAPID_API.get(
     `search/title?country=${user.country}&title=${query}`
   )
   return response.data
 }
 
-export const titleDetails = async (id: string) => {
+export const TitleDetails = async (id: string) => {
   const response = await RAPID_API.get(`get/?tmdb_id=${id}`)
   return response.data
 }
 
-export const filterSearch = async (user: Profile, data: FilterData) => {
+export const FilterSearch = async (user: Profile, data: FilterData) => {
   let services = '&services=' + user.subscription.join(',')
   let genres = data.genres.length ? '&genres=' + data.genres.join(',') : ''
   let keyword = data.keyword ? '&keyword=' + data.keyword : ''
