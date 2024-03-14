@@ -35,3 +35,12 @@ export type Content = {
   rating: Number
   _id: String
 } | null
+
+export type FilterData = {
+  showType: String
+  genres: String[]
+  keyword: String
+  minYear: Number
+  maxYear: Number
+  cursor?: String
+}
