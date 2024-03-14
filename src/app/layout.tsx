@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import { useEffect } from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { SocketProvider } from '@/context/SocketContext'
-import { UserProvider } from '@/context/UserContext'
+import { UserProvider, useUser } from '@/context/UserContext'
+import { CheckSession } from '@/utils/auth'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,6 +18,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { login } = useUser()
+
+  useEffect(() => {
+    const checkSession = async () => {
+      let response = await CheckSession()
+      if (response && response.status === 200) {
+        let payload = response.data
+        login(payload)
+      }
+    }
+    checkSession()
+  }, [])
   return (
     <html lang="en">
       <body className={inter.className}>
