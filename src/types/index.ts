@@ -1,46 +1,52 @@
 export type Profile = {
-  user: String
-  country: String
-  subscription: String[]
-  username: String
+  user: string
+  country: string
+  subscription: string[]
+  username: string
   // friends
-  _id: String
+  _id: string
+}
+
+export type ProfileForm = {
+  username: string
+  country: string
+  services: string[]
 }
 
 export type StreamingInfo = {
-  country: String
+  country: string
   availability: {
-    addon?: String
-    leaving?: String
-    link?: String
-    service: String
-    streamingType: String
+    addon?: string
+    leaving?: string
+    link?: string
+    service: string
+    streamingType: string
   }[]
 }
 
 export type Content = {
-  title: String
-  tmdbId: String
+  title: string
+  tmdbId: string
   streamingInfo: StreamingInfo[]
-  genres: String[]
-  releaseYear: Number
+  genres: string[]
+  releaseYear: number
   streamingValidated:
-    | { lastUpdated: Date; status: Boolean }
-    | { status: Boolean }
-  type: String
-  runtime: Number
-  backdrop: String
-  poster: String
-  overview: String
-  rating: Number
-  _id: String
+    | { lastUpdated: Date; status: boolean }
+    | { status: boolean }
+  type: string
+  runtime: number
+  backdrop: string
+  poster: string
+  overview: string
+  rating: number
+  _id: string
 } | null
 
 export type FilterData = {
-  showType: String
-  genres: String[]
-  keyword: String
-  minYear: Number
-  maxYear: Number
-  cursor?: String
+  showType: string
+  genres: string[]
+  keyword: string
+  minYear: number
+  maxYear: number
+  cursor?: string
 }

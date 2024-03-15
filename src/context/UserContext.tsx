@@ -1,11 +1,14 @@
+'use client'
+
 import { createContext, useContext, useState } from 'react'
 import { Profile } from '@/types'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 type UserContextType = {
   user: Profile | null
-  login: (payload: { user: Profile; token: string }) => void
+  login: (token: string) => void
   logout: () => void
+  assignUser: (user: Profile) => void
 }
 
 const UserContext = createContext<UserContextType>({} as UserContextType)
@@ -14,9 +17,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Profile | null>(null)
   const router = useRouter()
 
-  const login = (payload: { user: Profile; token: string }) => {
-    setUser(payload.user)
-    localStorage.setItem('token', payload.token)
+  const login = (token: string) => {
+    localStorage.setItem('token', token)
+  }
+
+  const assignUser = (user: Profile) => {
+    setUser(user)
     router.push('/')
   }
 
@@ -27,7 +33,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, assignUser }}>
       {children}
     </UserContext.Provider>
   )

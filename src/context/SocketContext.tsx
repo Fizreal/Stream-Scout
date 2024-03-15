@@ -1,5 +1,9 @@
+'use client'
+
 import { useState, useEffect, createContext, useContext } from 'react'
 import { io, Socket } from 'socket.io-client'
+import { useUser } from './UserContext'
+import { useRouter } from 'next/navigation'
 
 type SocketContextType = Socket | null
 
@@ -8,10 +12,11 @@ const SocketContext = createContext<SocketContextType>(null)
 export const useSocket = () => useContext(SocketContext)
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+  const { assignUser } = useUser()
+  const router = useRouter()
+
   const [socket, setSocket] = useState<Socket | null>(null)
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem('token')
-  )
+  const [token, setToken] = useState<string>('')
 
   useEffect(() => {
     if (!token) {
@@ -22,6 +27,15 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       auth: { token }
     })
     setSocket(newSocket)
+    newSocket.on('connected', (profile) => {
+      if (profile) {
+        assignUser(profile)
+        router.push('/')
+      } else {
+        router.push('/login/registration')
+      }
+    })
+
     return () => {
       newSocket.close()
     }
@@ -30,7 +44,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const handleStorageChange = () => {
       const newToken = localStorage.getItem('token')
-      setToken(newToken)
+      if (newToken) {
+        setToken(newToken)
+      }
     }
 
     window.addEventListener('storage', handleStorageChange)

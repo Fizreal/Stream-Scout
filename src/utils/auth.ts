@@ -9,7 +9,11 @@ export const Login = async (data: { email: string; password: string }) => {
   return response
 }
 
-export const Register = async (data: { email: string; password: string }) => {
+export const Register = async (data: {
+  name: String
+  email: string
+  password: string
+}) => {
   const response = await Client.post('auth/register', data)
   return response.data
 }

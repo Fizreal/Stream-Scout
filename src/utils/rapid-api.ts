@@ -40,3 +40,8 @@ export const FilterSearch = async (user: Profile, data: FilterData) => {
   )
   return response.data
 }
+
+export const Countries = async () => {
+  const response = await RAPID_API.get('countries')
+  return response.data
+}

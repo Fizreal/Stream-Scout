@@ -1,8 +1,10 @@
+'use client'
+
 import { useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import { Login } from '@/utils/auth'
 
-const LoginPage: React.FC = async () => {
+const LoginPage: React.FC = () => {
   const { login } = useUser()
 
   const [loginForm, setLoginForm] = useState({
@@ -26,7 +28,7 @@ const LoginPage: React.FC = async () => {
       setLoginForm({ ...loginForm, password: '' })
     } else {
       let payload = response.data
-      login(payload)
+      login(payload.token)
     }
   }
 
@@ -37,7 +39,7 @@ const LoginPage: React.FC = async () => {
         <label>
           Username:
           <input
-            type="text"
+            type="email"
             name="email"
             value={loginForm.email}
             onChange={handleChange}
