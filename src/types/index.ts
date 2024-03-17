@@ -40,7 +40,7 @@ export type Content = {
   overview: string
   rating: number
   _id: string
-} | null
+}
 
 export type FilterData = {
   showType: string
