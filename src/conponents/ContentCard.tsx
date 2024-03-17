@@ -1,7 +1,8 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { MovieDetails, ShowDetails } from '@/utils/tmdb-api'
 import Image from 'next/image'
-
 import { Content } from '@/types'
 
 const ContentCard = ({ content }: { content: Content }) => {

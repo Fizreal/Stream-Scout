@@ -39,7 +39,7 @@ export type Content = {
   poster: string
   overview: string
   rating: number
-  _id: string
+  _id?: string
 }
 
 export type FilterData = {
