@@ -11,20 +11,26 @@ const ContentCard = ({ content }: { content: Content }) => {
 
   useEffect(() => {
     const fetchTMDBData = async () => {
-      let data
-      if (contentData.type === 'movie') {
-        data = await MovieDetails(contentData.tmdbId)
-      } else {
-        data = await ShowDetails(contentData.tmdbId)
+      try {
+        let data
+        if (contentData.type === 'movie') {
+          data = await MovieDetails(contentData.tmdbId)
+        } else {
+          data = await ShowDetails(contentData.tmdbId)
+        }
+        setContentData({
+          ...contentData,
+          runtime: data.runtime,
+          poster: data.poster_path,
+          backdrop: data.backdrop_path,
+          overview: data.overview,
+          rating: Math.round(data.vote_average * 10) / 10
+        })
+        setLoading(false)
+      } catch (error) {
+        console.error('Failed to fetch data:', error)
+        setLoading(false)
       }
-      setContentData({
-        ...contentData,
-        runtime: data.runtime,
-        poster: data.poster_path,
-        backdrop: data.backdrop_path,
-        overview: data.overview
-      })
-      setLoading(false)
     }
     fetchTMDBData()
   }, [content])

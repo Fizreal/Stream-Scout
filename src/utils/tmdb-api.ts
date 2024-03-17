@@ -6,9 +6,8 @@ const TMDB_API = axios.create({ baseURL: BASE_URL })
 
 TMDB_API.interceptors.request.use(
   (config) => {
-    config.headers[
-      'Authorization'
-    ] = `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+    config.params = config.params || {}
+    config.params['api_key'] = process.env.NEXT_PUBLIC_TMDB_API_KEY
     return config
   },
   (error) => Promise.reject(error)

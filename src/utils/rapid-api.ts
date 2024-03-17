@@ -14,10 +14,8 @@ RAPID_API.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-export const TitleSearch = async (user: Profile, query: string) => {
-  const response = await RAPID_API.get(
-    `search/title?country=${user.country}&title=${query}`
-  )
+export const TitleSearch = async (query: string) => {
+  const response = await RAPID_API.get(`search/title?country=ca&title=${query}`)
   return response.data
 }
 

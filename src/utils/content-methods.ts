@@ -18,9 +18,9 @@ export const formatStreamingInfo = (streamingInfo: any): StreamingInfo[] => {
         })
       : []
 
-    let subscriptionAvailability = availability.filter((service) => {
-      service.streamingType === 'subscription'
-    })
+    let subscriptionAvailability = availability.filter(
+      (service) => service.streamingType === 'subscription'
+    )
 
     if (subscriptionAvailability.length > 0) {
       formattedInfo.push({
@@ -29,6 +29,7 @@ export const formatStreamingInfo = (streamingInfo: any): StreamingInfo[] => {
       })
     }
   }
+
   return formattedInfo
 }
 
