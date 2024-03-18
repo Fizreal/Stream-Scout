@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Register } from '@/utils/auth'
 import { useRouter } from 'next/navigation'
+import SubmitButton from '@/components/SubmitButton'
 
 const SignUp: React.FC = () => {
   const router = useRouter()
@@ -12,6 +13,7 @@ const SignUp: React.FC = () => {
     password: '',
     confirmPassword: ''
   })
+
   const [error, setError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +92,18 @@ const SignUp: React.FC = () => {
           />
         </label>
         <br />
-        <button type="submit">Register</button>
+        <SubmitButton
+          text="Register"
+          disabled={
+            registerForm.name &&
+            registerForm.email &&
+            registerForm.password &&
+            registerForm.confirmPassword
+              ? true
+              : false
+          }
+          loading={false}
+        />
       </form>
     </main>
   )

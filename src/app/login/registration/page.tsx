@@ -5,6 +5,7 @@ import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import { ProfileForm, Profile } from '@/types'
 import { Countries } from '@/utils/rapid-api'
+import SubmitButton from '@/components/SubmitButton'
 
 type Service = {
   id: string
@@ -183,6 +184,17 @@ const RegistrationPage = ({ countries }: { countries: Country[] }) => {
           ))}
           <p>{errorMessages.services}</p>
         </fieldset>
+        <SubmitButton
+          text="Create profile"
+          disabled={
+            profileForm.username &&
+            profileForm.country &&
+            profileForm.services.length
+              ? true
+              : false
+          }
+          loading={false}
+        />
       </form>
     </main>
   )

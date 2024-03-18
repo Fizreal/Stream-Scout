@@ -23,8 +23,7 @@ const SearchPage = () => {
     setLoading(true)
     if (!user) return
     try {
-      // const data = await TitleSearch(user, title)
-      const data = await TitleSearch(title)
+      const data = await TitleSearch(user, title)
       console.log(data)
       let formattedData = data.result.map((content: any) =>
         formatResult(content)

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import { Login } from '@/utils/auth'
+import SubmitButton from '@/components/SubmitButton'
 
 const LoginPage: React.FC = () => {
   const { login } = useUser()
@@ -56,7 +57,11 @@ const LoginPage: React.FC = () => {
           />
         </label>
         <br />
-        <button type="submit">Login</button>
+        <SubmitButton
+          text="Login"
+          disabled={loginForm.email && loginForm.password ? true : false}
+          loading={false}
+        />
       </form>
     </main>
   )
