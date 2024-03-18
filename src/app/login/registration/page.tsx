@@ -73,10 +73,12 @@ const RegistrationPage = ({ countries }: { countries: Country[] }) => {
     )?.services
   }, [profileForm.country])
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (e.target.name === 'services') {
       let service = e.target.value
-      if (e.target.checked) {
+      if ((e.target as HTMLInputElement).checked) {
         setProfileForm((prev) => ({
           ...prev,
           services: [...prev.services, service]
@@ -157,7 +159,7 @@ const RegistrationPage = ({ countries }: { countries: Country[] }) => {
         </fieldset>
         <fieldset>
           <label htmlFor="country">Country:</label>
-          <select name="country">
+          <select name="country" onChange={handleFormChange}>
             {countries.map((country: Country) => (
               <option key={country.countryCode} value={country.countryCode}>
                 {country.name}

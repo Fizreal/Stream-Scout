@@ -1,5 +1,4 @@
 import { Content, StreamingInfo } from '@/types'
-import { format } from 'path'
 
 export const formatStreamingInfo = (streamingInfo: any): StreamingInfo[] => {
   let formattedInfo: StreamingInfo[] = []

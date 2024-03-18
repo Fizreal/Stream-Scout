@@ -5,7 +5,8 @@ import { useState } from 'react'
 import { TitleSearch } from '@/utils/rapid-api'
 import { useUser } from '@/context/UserContext'
 import { formatResult } from '@/utils/content-methods'
-import ContentCard from '@/conponents/ContentCard'
+import ContentCard from '@/components/ContentCard'
+import SubmitButton from '@/components/SubmitButton'
 
 const SearchPage = () => {
   const [title, setTitle] = useState<string>('')
@@ -18,15 +19,23 @@ const SearchPage = () => {
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setLoading(true)
     e.preventDefault()
-    // if (!user) return
-    const data = await TitleSearch(title)
-    console.log(data)
-    let formattedData = data.result.map((content: any) => formatResult(content))
-    setContent(formattedData)
-    setTitle('')
-    setLoading(false)
+    setLoading(true)
+    if (!user) return
+    try {
+      // const data = await TitleSearch(user, title)
+      const data = await TitleSearch(title)
+      console.log(data)
+      let formattedData = data.result.map((content: any) =>
+        formatResult(content)
+      )
+      setContent(formattedData)
+      setTitle('')
+      setLoading(false)
+    } catch (error) {
+      console.error('Failed to fetch data:', error)
+      setLoading(false)
+    }
   }
 
   return (
@@ -39,7 +48,7 @@ const SearchPage = () => {
             onChange={handleChange}
             placeholder="Search for a title"
           />
-          <button type="submit">Search</button>
+          <SubmitButton text="Search" disabled={false} loading={loading} />
         </form>
         <div>
           {content.map((item) => (
