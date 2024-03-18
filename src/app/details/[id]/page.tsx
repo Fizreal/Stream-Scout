@@ -6,7 +6,7 @@ import { notFound, useParams } from 'next/navigation'
 const ContentDetails = () => {
   const socket = useSocket()
   const { id } = useParams()
-  const [content, setContent] = useState<Content>(null)
+  const [content, setContent] = useState<Content | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const ContentDetails = () => {
     })
   }, [id])
 
-  return <div>{content ? <div></div> : <p>Loading...</p>}</div>
+  return <div>{loading ? <div></div> : <p>Loading...</p>}</div>
 }
 
 export default ContentDetails
