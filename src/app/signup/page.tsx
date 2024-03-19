@@ -99,8 +99,8 @@ const SignUp: React.FC = () => {
             registerForm.email &&
             registerForm.password &&
             registerForm.confirmPassword
-              ? true
-              : false
+              ? false
+              : true
           }
           loading={false}
         />

@@ -24,8 +24,8 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     let response = await Login(loginForm)
+    console.log(response)
     if (response.status !== 200) {
-      setError(response.data)
       setLoginForm({ ...loginForm, password: '' })
     } else {
       let payload = response.data
@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
       <h1>Login Page</h1>
       <form onSubmit={handleLogin}>
         <label>
-          Username:
+          Email:
           <input
             type="email"
             name="email"
@@ -59,7 +59,7 @@ const LoginPage: React.FC = () => {
         <br />
         <SubmitButton
           text="Login"
-          disabled={loginForm.email && loginForm.password ? true : false}
+          disabled={loginForm.email && loginForm.password ? false : true}
           loading={false}
         />
       </form>

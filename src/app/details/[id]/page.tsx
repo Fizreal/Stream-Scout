@@ -23,7 +23,7 @@ const ContentDetails = () => {
     })
   }, [id])
 
-  return <div>{loading ? <div></div> : <p>Loading...</p>}</div>
+  return <div>{loading ? <div>{content?.title}</div> : <p>Loading...</p>}</div>
 }
 
 export default ContentDetails

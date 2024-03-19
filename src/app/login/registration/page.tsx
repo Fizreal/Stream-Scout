@@ -190,8 +190,8 @@ const RegistrationPage = ({ countries }: { countries: Country[] }) => {
             profileForm.username &&
             profileForm.country &&
             profileForm.services.length
-              ? true
-              : false
+              ? false
+              : true
           }
           loading={false}
         />

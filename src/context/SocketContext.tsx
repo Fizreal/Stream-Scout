@@ -22,8 +22,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) {
       return
     }
-
-    const newSocket = io('http://localhost:3000', {
+    console.log('socket')
+    const newSocket = io('http://localhost:3001', {
       auth: { token }
     })
     setSocket(newSocket)
@@ -44,6 +44,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const handleStorageChange = () => {
       const newToken = localStorage.getItem('token')
+      console.log('newToken', newToken)
       if (newToken) {
         setToken(newToken)
       }

@@ -4,10 +4,31 @@ import { useState, useEffect } from 'react'
 import { MovieDetails, ShowDetails } from '@/utils/tmdb-api'
 import Image from 'next/image'
 import { Content } from '@/types'
+import { useRouter } from 'next/navigation'
+import { useSocket } from '@/context/SocketContext'
 
 const ContentCard = ({ content }: { content: Content }) => {
+  const socket = useSocket()
+  const router = useRouter()
+
   const [contentData, setContentData] = useState<Content>(content)
   const [loading, setLoading] = useState(true)
+  const [detailsLoading, setDetailsLoading] = useState(false)
+
+  const handleDetails = () => {
+    setDetailsLoading(true)
+    socket?.emit(
+      'create content',
+      contentData,
+      (content: Content) => {
+        router.push(`/content/${content._id}`)
+      },
+      (errorMessage: string) => {
+        console.error(errorMessage)
+        setDetailsLoading(false)
+      }
+    )
+  }
 
   useEffect(() => {
     const fetchTMDBData = async () => {
@@ -56,6 +77,9 @@ const ContentCard = ({ content }: { content: Content }) => {
             <img src="" alt="Rating" />
             <p>{contentData.rating}</p>
           </div>
+          <button onClick={handleDetails} disabled={detailsLoading}>
+            {detailsLoading ? 'Loading...' : 'See Details'}
+          </button>
         </div>
       )}
     </div>

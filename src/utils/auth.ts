@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://localhost:3000/'
+const BASE_URL = 'http://localhost:3001/'
 
 const Client = axios.create({ baseURL: BASE_URL })
 
@@ -16,18 +16,4 @@ export const Register = async (data: {
 }) => {
   const response = await Client.post('auth/register', data)
   return response.data
-}
-
-export const CheckSession = async () => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    const response = await Client.get('auth/session', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return response
-  } else {
-    return null
-  }
 }
