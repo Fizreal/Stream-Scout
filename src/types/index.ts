@@ -50,3 +50,15 @@ export type FilterData = {
   maxYear: number
   cursor?: string
 }
+
+export type Service = {
+  id: string
+  name: string
+  image: string
+}
+
+export type Country = {
+  countryCode: string
+  name: string
+  services: Service[]
+}

@@ -4,56 +4,15 @@ import { useState, useEffect, useMemo } from 'react'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import { ProfileForm, Profile } from '@/types'
-import { Countries } from '@/utils/rapid-api'
 import SubmitButton from '@/components/SubmitButton'
+import { Countries } from '@/utils/rapid-api'
+import { Country, Service } from '@/types'
 
-type Service = {
-  id: string
-  name: string
-  homepage: string
-  themeColorCode: string
-  images: {
-    lightThemeImage: string
-    darkThemeImage: string
-    whiteImage: string
-  }
-  supportedStreamingTypes: {
-    addon: boolean
-    buy: boolean
-    free: boolean
-    rent: boolean
-    subscription: boolean
-  }
-}
-
-type Country = {
-  countryCode: string
-  name: string
-  services: Service[]
-}
-
-export const getStaticProps = async () => {
-  const countryData = await Countries()
-
-  const countries: Country[] = countryData.map((country: Country) => {
-    return {
-      countryCode: country.countryCode,
-      name: country.name,
-      services: Object.values(country.services)
-    }
-  })
-
-  return {
-    props: {
-      countries
-    }
-  }
-}
-
-const RegistrationPage = ({ countries }: { countries: Country[] }) => {
+const RegistrationPage = () => {
   const { assignUser } = useUser()
   const socket = useSocket()
 
+  const [countries, setCountries] = useState<Country[]>([])
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     username: '',
     country: '',
@@ -72,7 +31,7 @@ const RegistrationPage = ({ countries }: { countries: Country[] }) => {
     return countries.find(
       (country) => country.countryCode === profileForm.country
     )?.services
-  }, [profileForm.country])
+  }, [profileForm.country, countries])
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -118,6 +77,14 @@ const RegistrationPage = ({ countries }: { countries: Country[] }) => {
       )
     }
   }
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      const countries = await Countries()
+      setCountries(countries)
+    }
+    fetchCountries()
+  }, [])
 
   useEffect(() => {
     if (usernameTimer) clearTimeout(usernameTimer)

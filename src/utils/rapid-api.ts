@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Profile, StreamingInfo, FilterData } from '@/types'
+import { Profile, FilterData, Country } from '@/types'
 
 const BASE_URL = 'https://streaming-availability.p.rapidapi.com/'
 
@@ -43,5 +43,21 @@ export const FilterSearch = async (user: Profile, data: FilterData) => {
 
 export const Countries = async () => {
   const response = await RAPID_API.get('countries')
-  return response.data
+  const countries: Country[] = Object.values(response.data.result).map(
+    (country: any) => {
+      return {
+        name: country.name,
+        countryCode: country.countryCode,
+        services: Object.values(country.services).map((service: any) => {
+          return {
+            name: service.name,
+            id: service.id,
+            image: service.images.lightThemeImage
+          }
+        })
+      }
+    }
+  )
+
+  return countries
 }
