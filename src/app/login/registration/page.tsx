@@ -5,14 +5,13 @@ import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import { ProfileForm, Profile } from '@/types'
 import SubmitButton from '@/components/SubmitButton'
-import { Countries } from '@/utils/rapid-api'
+import Countries from '@/utils/services.json'
 import { Country, Service } from '@/types'
 
 const RegistrationPage = () => {
   const { assignUser } = useUser()
   const socket = useSocket()
 
-  const [countries, setCountries] = useState<Country[]>([])
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     username: '',
     country: '',
@@ -28,14 +27,17 @@ const RegistrationPage = () => {
     null
   )
   const availableServices = useMemo(() => {
-    return countries.find(
+    if (!profileForm.country) return null
+
+    return Countries.find(
       (country) => country.countryCode === profileForm.country
     )?.services
-  }, [profileForm.country, countries])
+  }, [profileForm.country])
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    console.log('name', e.target.name, 'value', e.target.value)
     if (e.target.name === 'services') {
       let service = e.target.value
       if ((e.target as HTMLInputElement).checked) {
@@ -79,14 +81,6 @@ const RegistrationPage = () => {
   }
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      const countries = await Countries()
-      setCountries(countries)
-    }
-    fetchCountries()
-  }, [])
-
-  useEffect(() => {
     if (usernameTimer) clearTimeout(usernameTimer)
     setErrorMessages((prev) => ({ ...prev, username: '' }))
     setUniqueUsername(false)
@@ -115,11 +109,12 @@ const RegistrationPage = () => {
   return (
     <main>
       <h1>Register Page</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <fieldset>
           <label htmlFor="username">Username:</label>
           <input
             type="text"
+            name="username"
             value={profileForm.username}
             onChange={handleFormChange}
           />
@@ -127,8 +122,15 @@ const RegistrationPage = () => {
         </fieldset>
         <fieldset>
           <label htmlFor="country">Country:</label>
-          <select name="country" onChange={handleFormChange}>
-            {countries.map((country: Country) => (
+          <select
+            name="country"
+            value={profileForm.country}
+            onChange={handleFormChange}
+          >
+            <option value="" disabled>
+              Select a country
+            </option>
+            {Countries.map((country: Country) => (
               <option key={country.countryCode} value={country.countryCode}>
                 {country.name}
               </option>
