@@ -37,7 +37,6 @@ const RegistrationPage = () => {
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    console.log('name', e.target.name, 'value', e.target.value)
     if (e.target.name === 'services') {
       let service = e.target.value
       if ((e.target as HTMLInputElement).checked) {

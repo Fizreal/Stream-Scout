@@ -4,6 +4,8 @@ import { useState, useEffect, createContext, useContext } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { useUser } from './UserContext'
 import { useRouter } from 'next/navigation'
+import { BASE_URL } from '@/utils/auth'
+import test from 'node:test'
 
 type SocketContextType = Socket | null
 
@@ -22,13 +24,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) {
       return
     }
-    console.log('socket')
-    const newSocket = io('http://localhost:3001', {
+    const newSocket = io(BASE_URL, {
       auth: { token }
     })
+
+    newSocket.on('connect_error', (err) => {
+      console.log(`connect_error due to ${err.message}`)
+    })
+
     setSocket(newSocket)
     newSocket.on('connected', (profile) => {
-      if (profile) {
+      if (profile.user) {
         assignUser(profile)
         router.push('/')
       } else {
@@ -44,12 +50,11 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const handleStorageChange = () => {
       const newToken = localStorage.getItem('token')
-      console.log('newToken', newToken)
       if (newToken) {
         setToken(newToken)
       }
     }
-
+    handleStorageChange()
     window.addEventListener('storage', handleStorageChange)
     return () => {
       window.removeEventListener('storage', handleStorageChange)
