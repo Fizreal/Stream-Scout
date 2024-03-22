@@ -31,8 +31,8 @@ export type Content = {
   genres: string[]
   releaseYear: number
   streamingValidated:
-    | { lastUpdated: Date; status: boolean }
-    | { status: boolean }
+    | { lastUpdated: Date; validated: boolean }
+    | { validated: boolean }
   type: string
   runtime: number
   backdrop: string

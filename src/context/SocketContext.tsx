@@ -5,7 +5,6 @@ import { io, Socket } from 'socket.io-client'
 import { useUser } from './UserContext'
 import { useRouter } from 'next/navigation'
 import { BASE_URL } from '@/utils/auth'
-import test from 'node:test'
 
 type SocketContextType = Socket | null
 

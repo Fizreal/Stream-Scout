@@ -44,7 +44,7 @@ export const formatResult = (content: any): Content => {
     streamingInfo: formatStreamingInfo(content.streamingInfo),
     genres: formattedGenres,
     releaseYear: content.type === 'movie' ? content.year : content.firstAirYear,
-    streamingValidated: { status: false },
+    streamingValidated: { validated: false },
     type: content.type,
     runtime: 0,
     backdrop: '',

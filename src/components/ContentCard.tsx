@@ -20,12 +20,13 @@ const ContentCard = ({ content }: { content: Content }) => {
     socket?.emit(
       'create content',
       contentData,
-      (content: Content) => {
-        router.push(`/content/${content._id}`)
-      },
-      (errorMessage: string) => {
-        console.error(errorMessage)
-        setDetailsLoading(false)
+      (response: { success: boolean; content?: Content; error?: string }) => {
+        if (response.success && response.content) {
+          router.push(`/details/${response.content._id}`)
+        } else {
+          console.error(response.error)
+          setDetailsLoading(false)
+        }
       }
     )
   }

@@ -21,9 +21,9 @@ export const TitleSearch = async (user: Profile, query: string) => {
   return response.data
 }
 
-export const TitleDetails = async (id: string) => {
-  const response = await RAPID_API.get(`get/?tmdb_id=${id}`)
-  return response.data
+export const TitleDetails = async (type: string, id: string) => {
+  const response = await RAPID_API.get(`get?tmdb_id=${type}/${id}`)
+  return response.data.result
 }
 
 export const FilterSearch = async (user: Profile, data: FilterData) => {
