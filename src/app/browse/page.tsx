@@ -18,17 +18,7 @@ type Filters = {
   cursor: string
 }
 
-export const getStaticProps = async () => {
-  let genres = []
-  for (const [key, value] of Object.entries(genreNames)) {
-    genres.push({ id: String(key), name: value })
-  }
-  return {
-    props: { genres }
-  }
-}
-
-const BrowsePage = ({ genres }: { genres: { id: string; name: string }[] }) => {
+const BrowsePage = () => {
   const [filters, setFilters] = useState<Filters>({
     keyword: '',
     genres: [],
@@ -41,6 +31,16 @@ const BrowsePage = ({ genres }: { genres: { id: string; name: string }[] }) => {
   const [content, setContent] = useState<Content[] | any[]>([])
   const [loading, setLoading] = useState(false)
   const { user } = useUser()
+
+  const getGenres = () => {
+    let genres = []
+    for (const genre in genreNames) {
+      genres.push({ id: genre, name: genreNames[genre] })
+    }
+    return genres
+  }
+
+  const genres = getGenres()
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

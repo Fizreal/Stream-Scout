@@ -6,15 +6,18 @@ import { useRouter } from 'next/navigation'
 
 type UserContextType = {
   user: Profile | null
+  loading: boolean
   login: (token: string) => void
   logout: () => void
   assignUser: (user: Profile) => void
+  setLoadingState: (state: boolean) => void
 }
 
 const UserContext = createContext<UserContextType>({} as UserContextType)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Profile | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
   const login = (token: string) => {
@@ -23,7 +26,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const assignUser = (user: Profile) => {
     setUser(user)
-    router.push('/')
+  }
+
+  const setLoadingState = (state: boolean) => {
+    setLoading(state)
   }
 
   const logout = () => {
@@ -33,7 +39,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, login, logout, assignUser }}>
+    <UserContext.Provider
+      value={{ user, loading, login, logout, assignUser, setLoadingState }}
+    >
       {children}
     </UserContext.Provider>
   )

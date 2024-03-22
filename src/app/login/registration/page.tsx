@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import { ProfileForm, Profile } from '@/types'
@@ -11,6 +12,7 @@ import { Country, Service } from '@/types'
 const RegistrationPage = () => {
   const { assignUser } = useUser()
   const socket = useSocket()
+  const router = useRouter()
 
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     username: '',
@@ -74,6 +76,7 @@ const RegistrationPage = () => {
         },
         (res: Profile) => {
           assignUser(res)
+          router.push('/')
         }
       )
     }

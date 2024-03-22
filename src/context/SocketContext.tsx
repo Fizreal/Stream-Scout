@@ -14,7 +14,7 @@ const SocketContext = createContext<SocketContextType>(null)
 export const useSocket = () => useContext(SocketContext)
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const { assignUser } = useUser()
+  const { assignUser, setLoadingState } = useUser()
   const router = useRouter()
 
   const [socket, setSocket] = useState<Socket | null>(null)
@@ -36,10 +36,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     newSocket.on('connected', (profile) => {
       if (profile.user) {
         assignUser(profile)
-        router.push('/')
-      } else {
-        router.push('/login/registration')
       }
+      setLoadingState(false)
     })
 
     return () => {
@@ -52,6 +50,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       const newToken = localStorage.getItem('token')
       if (newToken) {
         setToken(newToken)
+      } else {
+        setLoadingState(false)
       }
     }
     handleStorageChange()
