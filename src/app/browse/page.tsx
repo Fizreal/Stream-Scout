@@ -6,7 +6,7 @@ import { useUser } from '@/context/UserContext'
 import { FilterSearch } from '@/utils/rapid-api'
 import { formatResult } from '@/utils/content-methods'
 import { genreNames } from '@/utils/object-maps'
-import ContentCard from '@/components/ContentCard'
+import ContentCard from '@/components/cards/ContentCard'
 import SubmitButton from '@/components/SubmitButton'
 
 type Filters = {
@@ -122,9 +122,10 @@ const BrowsePage = () => {
   }, [])
 
   return (
-    <div>
+    <main>
       <form onSubmit={handleSubmit}>
         <fieldset>
+          <label>Show:</label>
           <select name="showType" onChange={handleChange}>
             <option value="all">All</option>
             <option value="movie">Movies only</option>
@@ -182,13 +183,13 @@ const BrowsePage = () => {
         <SubmitButton text="Search" disabled={false} loading={loading} />
         <button onClick={resetFilters}>Reset filters</button>
       </form>
-      <div>
+      <div className="flex flex-wrap justify-center gap-4">
         {content.map((item) => (
-          <ContentCard key={item.tmdbId} content={item} />
+          <ContentCard key={item.tmdbId} content={item} type={'browse'} />
         ))}
         {loading && <div>Loading...</div>}
       </div>
-    </div>
+    </main>
   )
 }
 export default BrowsePage

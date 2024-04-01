@@ -27,7 +27,7 @@ export const TitleDetails = async (type: string, id: string) => {
 }
 
 export const FilterSearch = async (user: Profile, data: FilterData) => {
-  let services = '&services=' + user.subscription.join(',')
+  let services = '&services=' + user.subscriptions.join(',')
   let genres = data.genres.length ? '&genres=' + data.genres.join(',') : ''
   let keyword = data.keyword ? '&keyword=' + data.keyword : ''
   let minYear = data.minYear ? '&min_year=' + data.minYear : ''

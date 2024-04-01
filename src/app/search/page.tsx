@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { TitleSearch } from '@/utils/rapid-api'
 import { useUser } from '@/context/UserContext'
 import { formatResult } from '@/utils/content-methods'
-import ContentCard from '@/components/ContentCard'
+import ContentCard from '@/components/cards/ContentCard'
 import SubmitButton from '@/components/SubmitButton'
 
 const SearchPage = () => {

@@ -33,7 +33,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     setSocket(newSocket)
     newSocket.on('connected', (profile) => {
-      if (profile.user) {
+      if (profile && profile.user) {
         assignUser(profile)
       }
       setLoadingState(false)

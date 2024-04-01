@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import { Login } from '@/utils/auth'
 import SubmitButton from '@/components/SubmitButton'
+import Link from 'next/link'
 
 const LoginPage: React.FC = () => {
   const { login } = useUser()
@@ -35,33 +36,39 @@ const LoginPage: React.FC = () => {
 
   return (
     <main>
-      <h1>Login Page</h1>
-      <form onSubmit={handleLogin}>
-        <label>
-          Email:
+      <form
+        onSubmit={handleLogin}
+        className="flex flex-col bg-PrimaryDark items-center w-4/5 max-w-md p-6 gap-1.5 rounded-lg shadow-lg"
+      >
+        <h1>Login Page</h1>
+        <fieldset className="flex flex-col w-full gap-1.5">
+          <label className="text-AccentLight">Email:</label>
           <input
             type="email"
             name="email"
             value={loginForm.email}
             onChange={handleChange}
+            className="rounded-md py-1 px-2 hover:border-AccentLight focus:border-AccentLight transition-colors duration-300 ease-in-out border-2 
+            w-full"
           />
-        </label>
-        <br />
-        <label>
-          Password:
+        </fieldset>
+        <fieldset className="flex flex-col w-full gap-1.5">
+          <label className="text-AccentLight">Password:</label>
           <input
             type="password"
             name="password"
             value={loginForm.password}
             onChange={handleChange}
+            className="rounded-md py-1 px-2 hover:border-AccentLight focus:border-AccentLight transition-colors duration-300 ease-in-out border-2 
+            w-full"
           />
-        </label>
-        <br />
+        </fieldset>
         <SubmitButton
           text="Login"
           disabled={loginForm.email && loginForm.password ? false : true}
           loading={false}
         />
+        <Link href="/signup">Don't have an account? Sign up</Link>
       </form>
     </main>
   )

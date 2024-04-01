@@ -4,10 +4,16 @@ import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
-import { ProfileForm, Profile } from '@/types'
+import { Profile } from '@/types'
 import SubmitButton from '@/components/SubmitButton'
 import Countries from '@/utils/services.json'
 import { Country, Service } from '@/types'
+
+type ProfileForm = {
+  username: string
+  country: string
+  subscriptions: string[]
+}
 
 const RegistrationPage = () => {
   const { assignUser } = useUser()
@@ -17,13 +23,13 @@ const RegistrationPage = () => {
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     username: '',
     country: '',
-    services: []
+    subscriptions: []
   })
   const [uniqueUsername, setUniqueUsername] = useState(false)
   const [errorMessages, setErrorMessages] = useState({
     username: '',
     country: '',
-    services: ''
+    subscriptions: ''
   })
   const [usernameTimer, setUsernameTimer] = useState<NodeJS.Timeout | null>(
     null
@@ -39,17 +45,17 @@ const RegistrationPage = () => {
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    if (e.target.name === 'services') {
-      let service = e.target.value
+    if (e.target.name === 'subscriptions') {
+      let subscription = e.target.value
       if ((e.target as HTMLInputElement).checked) {
         setProfileForm((prev) => ({
           ...prev,
-          services: [...prev.services, service]
+          subscriptions: [...prev.subscriptions, subscription]
         }))
       } else {
         setProfileForm((prev) => ({
           ...prev,
-          services: prev.services.filter((s) => s !== service)
+          subscriptions: prev.subscriptions.filter((s) => s !== subscription)
         }))
       }
     } else {
@@ -64,7 +70,7 @@ const RegistrationPage = () => {
     e.preventDefault()
     if (
       uniqueUsername &&
-      profileForm.services.length > 0 &&
+      profileForm.subscriptions.length > 0 &&
       profileForm.country
     ) {
       socket?.emit(
@@ -72,7 +78,7 @@ const RegistrationPage = () => {
         {
           username: profileForm.username,
           country: profileForm.country,
-          services: profileForm.services
+          subscriptions: profileForm.subscriptions
         },
         (res: Profile) => {
           assignUser(res)
@@ -141,26 +147,26 @@ const RegistrationPage = () => {
           <p>{errorMessages.country}</p>
         </fieldset>
         <fieldset>
-          <legend>Services:</legend>
+          <legend>Subscriptions:</legend>
           {availableServices?.map((service: Service) => (
             <label key={service.id}>
               <input
                 type="checkbox"
-                name="services"
+                name="subscriptions"
                 value={service.id}
                 onChange={handleFormChange}
               />
               {service.name}
             </label>
           ))}
-          <p>{errorMessages.services}</p>
+          <p>{errorMessages.subscriptions}</p>
         </fieldset>
         <SubmitButton
           text="Create profile"
           disabled={
             profileForm.username &&
             profileForm.country &&
-            profileForm.services.length
+            profileForm.subscriptions.length
               ? false
               : true
           }

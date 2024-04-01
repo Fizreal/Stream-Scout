@@ -1,16 +1,10 @@
 export type Profile = {
   user: string
   country: string
-  subscription: string[]
+  subscriptions: string[]
   username: string
   // friends
   _id: string
-}
-
-export type ProfileForm = {
-  username: string
-  country: string
-  services: string[]
 }
 
 export type StreamingInfo = {

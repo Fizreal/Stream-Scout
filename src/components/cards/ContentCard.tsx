@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react'
 import { MovieDetails, ShowDetails } from '@/utils/tmdb-api'
 import Image from 'next/image'
+import BrowseCard from './BrowseCard'
+import SearchCard from './SearchCard'
 import { Content } from '@/types'
 import { useRouter } from 'next/navigation'
 import { useSocket } from '@/context/SocketContext'
 
-const ContentCard = ({ content }: { content: Content }) => {
+const ContentCard = ({ content, type }: { content: Content; type: string }) => {
   const socket = useSocket()
   const router = useRouter()
 
@@ -57,34 +59,7 @@ const ContentCard = ({ content }: { content: Content }) => {
     fetchTMDBData()
   }, [content])
 
-  return (
-    <div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          <Image
-            src={`https://image.tmdb.org/t/p/original${contentData.poster}`}
-            alt={contentData.title}
-            width={200}
-            height={300}
-          />
-          <h2>
-            {contentData.title}
-            <span>{contentData.releaseYear}</span>
-          </h2>
-          <p>{contentData.overview}</p>
-          <div>
-            <img src="" alt="Rating" />
-            <p>{contentData.rating}</p>
-          </div>
-          <button onClick={handleDetails} disabled={detailsLoading}>
-            {detailsLoading ? 'Loading...' : 'See Details'}
-          </button>
-        </div>
-      )}
-    </div>
-  )
+  return <BrowseCard content={contentData} />
 }
 
 export default ContentCard

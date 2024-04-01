@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Register } from '@/utils/auth'
 import { useRouter } from 'next/navigation'
 import SubmitButton from '@/components/SubmitButton'
+import Link from 'next/link'
 
 const SignUp: React.FC = () => {
   const router = useRouter()
@@ -50,48 +51,55 @@ const SignUp: React.FC = () => {
 
   return (
     <main>
-      <h1>Register Page</h1>
-      <form onSubmit={handleRegister}>
-        <label>
-          Name:
+      <form
+        onSubmit={handleRegister}
+        className="flex flex-col bg-PrimaryDark items-center w-4/5 max-w-md p-6 gap-1.5 rounded-lg shadow-lg"
+      >
+        <h1>Register Page</h1>
+        <fieldset className="flex flex-col w-full gap-1.5">
+          <label className="text-AccentLight">Name:</label>
           <input
             type="text"
             name="name"
             value={registerForm.name}
             onChange={handleChange}
+            className="rounded-md py-1 px-2 hover:border-AccentLight focus:border-AccentLight transition-colors duration-300 ease-in-out border-2 
+            w-full"
           />
-        </label>
-        <br />
-        <label>
-          Email:
+        </fieldset>
+        <fieldset className="flex flex-col w-full gap-1.5">
+          <label className="text-AccentLight">Email:</label>
           <input
             type="email"
             name="email"
             value={registerForm.email}
             onChange={handleChange}
+            className="rounded-md py-1 px-2 hover:border-AccentLight focus:border-AccentLight transition-colors duration-300 ease-in-out border-2 
+            w-full"
           />
-        </label>
-        <br />
-        <label>
-          Password:
+        </fieldset>
+        <fieldset className="flex flex-col w-full gap-1.5">
+          <label className="text-AccentLight">Password:</label>
           <input
             type="password"
             name="password"
             value={registerForm.password}
             onChange={handleChange}
+            className="rounded-md py-1 px-2 hover:border-AccentLight focus:border-AccentLight transition-colors duration-300 ease-in-out border-2 
+            w-full"
           />
-        </label>
-        <br />
-        <label>
-          Confirm Password:
+        </fieldset>
+        <fieldset className="flex flex-col w-full gap-1.5">
+          <label className="text-AccentLight">Confirm Password:</label>
           <input
             type="password"
             name="confirmPassword"
             value={registerForm.confirmPassword}
             onChange={handleChange}
+            className="rounded-md py-1 px-2 hover:border-AccentLight focus:border-AccentLight transition-colors duration-300 ease-in-out border-2 
+            w-full"
           />
-        </label>
-        <br />
+        </fieldset>
         <SubmitButton
           text="Register"
           disabled={
@@ -104,6 +112,7 @@ const SignUp: React.FC = () => {
           }
           loading={false}
         />
+        <Link href="/signup">Already have an account? Login</Link>
       </form>
     </main>
   )
