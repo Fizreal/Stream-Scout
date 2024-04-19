@@ -51,7 +51,7 @@ const SearchPage = () => {
         </form>
         <div>
           {content.map((item) => (
-            <ContentCard key={item.tmdbId} content={item} />
+            <ContentCard key={item.tmdbId} content={item} type="search" />
           ))}
         </div>
       </div>

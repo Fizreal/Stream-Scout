@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { MovieDetails, ShowDetails } from '@/utils/tmdb-api'
-import Image from 'next/image'
 import BrowseCard from './BrowseCard'
 import SearchCard from './SearchCard'
 import { Content } from '@/types'
@@ -22,7 +21,7 @@ const ContentCard = ({ content, type }: { content: Content; type: string }) => {
     socket?.emit(
       'create content',
       contentData,
-      (response: { success: boolean; content?: Content; error?: string }) => {
+      (response: { success: boolean; content?: Content; error?: String }) => {
         if (response.success && response.content) {
           router.push(`/details/${response.content._id}`)
         } else {
@@ -59,7 +58,19 @@ const ContentCard = ({ content, type }: { content: Content; type: string }) => {
     fetchTMDBData()
   }, [content])
 
-  return <BrowseCard content={contentData} />
+  return type === 'browse' ? (
+    <BrowseCard
+      content={contentData}
+      handleDetails={handleDetails}
+      loading={detailsLoading}
+    />
+  ) : (
+    <SearchCard
+      content={contentData}
+      handleDetails={handleDetails}
+      loading={detailsLoading}
+    />
+  )
 }
 
 export default ContentCard

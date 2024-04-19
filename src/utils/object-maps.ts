@@ -45,3 +45,7 @@ export const genreCodes: { [key: string]: string } = {
   Mystery: '9648',
   Documentary: '99'
 }
+
+export const streamIcons: { [key: string]: string } = {
+  netflix: ''
+}

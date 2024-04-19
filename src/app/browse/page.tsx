@@ -185,7 +185,7 @@ const BrowsePage = () => {
       </form>
       <div className="flex flex-wrap justify-center gap-4">
         {content.map((item) => (
-          <ContentCard key={item.tmdbId} content={item} type={'browse'} />
+          <ContentCard key={item.tmdbId} content={item} type="browse" />
         ))}
         {loading && <div>Loading...</div>}
       </div>

@@ -6,3 +6,9 @@ main {
   min-height: 100dvh;
   padding-top: 24px;
 }
+
+.clippedOverview {
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
