@@ -115,7 +115,7 @@ const RegistrationPage = () => {
   }, [profileForm.username])
 
   return (
-    <main>
+    <section>
       <h1>Register Page</h1>
       <form onSubmit={handleSubmit}>
         <fieldset>
@@ -173,7 +173,7 @@ const RegistrationPage = () => {
           loading={false}
         />
       </form>
-    </main>
+    </section>
   )
 }
 

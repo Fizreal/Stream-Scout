@@ -24,7 +24,6 @@ const ContentDetails = ({ params }: Params) => {
 
     const streamingInfo = await TitleDetails(content.type, content.tmdbId)
     const formattedInfo = formatStreamingInfo(streamingInfo.streamingInfo)
-    console.log(streamingInfo, formattedInfo)
     socket?.emit(
       'update availability',
       { id: content._id, streamingInfo: formattedInfo },
@@ -55,7 +54,7 @@ const ContentDetails = ({ params }: Params) => {
   }, [params.id, socket])
 
   return (
-    <div>
+    <section>
       {loading ? (
         <p>Loading...</p>
       ) : content ? (
@@ -66,7 +65,7 @@ const ContentDetails = ({ params }: Params) => {
       ) : (
         <NotFound />
       )}
-    </div>
+    </section>
   )
 }
 

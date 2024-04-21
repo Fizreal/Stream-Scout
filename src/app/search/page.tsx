@@ -38,7 +38,7 @@ const SearchPage = () => {
   }
 
   return (
-    <main>
+    <section>
       <div>
         <form onSubmit={handleSubmit}>
           <input
@@ -55,7 +55,7 @@ const SearchPage = () => {
           ))}
         </div>
       </div>
-    </main>
+    </section>
   )
 }
 

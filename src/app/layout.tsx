@@ -5,6 +5,7 @@ import './index.css'
 import dynamic from 'next/dynamic'
 import { SocketProvider } from '@/context/SocketContext'
 import { UserProvider } from '@/context/UserContext'
+import NavBar from '@/components/NavBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,11 +25,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} w-full min-h-dvh flex flex-col bg-BaseDark`}
+      >
         <UserProvider>
           <SocketProvider>
             <DynamicRedirect />
-            {children}
+            <NavBar />
+            <main>{children}</main>
           </SocketProvider>
         </UserProvider>
       </body>

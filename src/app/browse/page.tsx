@@ -122,7 +122,7 @@ const BrowsePage = () => {
   }, [])
 
   return (
-    <main>
+    <section>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <label>Show:</label>
@@ -189,7 +189,7 @@ const BrowsePage = () => {
         ))}
         {loading && <div>Loading...</div>}
       </div>
-    </main>
+    </section>
   )
 }
 export default BrowsePage

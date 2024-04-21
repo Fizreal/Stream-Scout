@@ -50,7 +50,7 @@ const SignUp: React.FC = () => {
   }
 
   return (
-    <main>
+    <section>
       <form
         onSubmit={handleRegister}
         className="flex flex-col bg-PrimaryDark items-center w-4/5 max-w-md p-6 gap-1.5 rounded-lg shadow-lg"
@@ -114,7 +114,7 @@ const SignUp: React.FC = () => {
         />
         <Link href="/signup">Already have an account? Login</Link>
       </form>
-    </main>
+    </section>
   )
 }
 
