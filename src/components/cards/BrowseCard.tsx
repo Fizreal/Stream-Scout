@@ -51,7 +51,7 @@ const BrowseCard = ({
             </span>
           </h3>
           <div className="flex-grow overflow-hidden">
-            <p className="text-ellipsis overflow-hidden clippedOverview">
+            <p className="text-ellipsis overflow-hidden clippedOverviewBrowse">
               {content.overview}
             </p>
           </div>

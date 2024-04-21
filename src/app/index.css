@@ -7,8 +7,14 @@ main {
   padding-top: 24px;
 }
 
-.clippedOverview {
+.clippedOverviewBrowse {
   display: -webkit-box;
   -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
+
+.clippedOverviewSearch {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
 }

@@ -38,7 +38,7 @@ const SearchPage = () => {
   }
 
   return (
-    <div>
+    <main>
       <div>
         <form onSubmit={handleSubmit}>
           <input
@@ -49,13 +49,13 @@ const SearchPage = () => {
           />
           <SubmitButton text="Search" disabled={false} loading={loading} />
         </form>
-        <div>
+        <div className="flex flex-col gap-6 p-6 max-w-[1024px]">
           {content.map((item) => (
             <ContentCard key={item.tmdbId} content={item} type="search" />
           ))}
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 
