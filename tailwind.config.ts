@@ -11,8 +11,8 @@ const config: Config = {
       colors: {
         PrimaryDark: '#31363F',
         BaseDark: '#222831',
-        BaseLight: '#76ABAE',
-        AccentLight: '#EEEEEE'
+        AccentLight: '#76ABAE',
+        BaseLight: '#EEEEEE'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

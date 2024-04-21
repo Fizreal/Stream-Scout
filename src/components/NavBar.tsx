@@ -1,6 +1,12 @@
 import Link from 'next/link'
 
-const NavBar = () => {
+const NavBar = ({
+  open,
+  toggleOpen
+}: {
+  open: boolean
+  toggleOpen: () => void
+}) => {
   return (
     <nav className="bg-PrimaryDark flex justify-center items-center sm:justify-start shadow-lg h-12">
       <Link href="/">

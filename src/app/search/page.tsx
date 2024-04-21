@@ -39,21 +39,19 @@ const SearchPage = () => {
 
   return (
     <section>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={title}
-            onChange={handleChange}
-            placeholder="Search for a title"
-          />
-          <SubmitButton text="Search" disabled={false} loading={loading} />
-        </form>
-        <div className="flex flex-col gap-6 p-6 max-w-[1024px]">
-          {content.map((item) => (
-            <ContentCard key={item.tmdbId} content={item} type="search" />
-          ))}
-        </div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={title}
+          onChange={handleChange}
+          placeholder="Search for a title"
+        />
+        <SubmitButton text="Search" disabled={false} loading={loading} />
+      </form>
+      <div className="flex flex-col gap-6 p-6 max-w-[1024px]">
+        {content.map((item) => (
+          <ContentCard key={item.tmdbId} content={item} type="search" />
+        ))}
       </div>
     </section>
   )

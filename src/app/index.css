@@ -1,10 +1,16 @@
 main {
+  position: relative;
+  display: flex;
+  background: #222831;
+  flex-grow: 1;
+}
+
+main > *:not(:first-child) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #222831;
-  flex-grow: 1;
   padding-top: 24px;
+  flex-grow: 1;
 }
 
 .clippedOverviewBrowse {
@@ -17,4 +23,26 @@ main {
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+}
+
+.sideBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-100%);
+  height: 100%;
+}
+
+.sideBar.open {
+  transform: translateX(0);
+}
+
+@media screen and (min-width: 768px) {
+  .sideBar {
+    position: relative;
+    transform: translateX(0);
+    height: auto;
+  }
 }
