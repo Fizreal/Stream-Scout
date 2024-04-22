@@ -40,16 +40,22 @@ const SearchCard = ({
           <span className="text-lg text-gray-400">({content.releaseYear})</span>
         </h3>
         {countryAvailability?.availability.length ? (
-          <p>Not available for streaming in {country?.name}</p>
-        ) : (
-          <div>
-            {countryAvailability?.availability.map((stream) => (
-              <img
-                src={streamIcons[stream.service]}
-                alt={stream.service[0].toUpperCase() + stream.service.slice(1)}
-              />
+          <div className="flex gap-4 max-w-full items-center overflow-auto">
+            {countryAvailability.availability.map((stream) => (
+              <a
+                href={stream.link ? stream.link : ''}
+                key={stream.service}
+                target="_blank"
+              >
+                <img
+                  src={streamIcons[stream.service]?.image}
+                  alt={streamIcons[stream.service]?.name}
+                />
+              </a>
             ))}
           </div>
+        ) : (
+          <p>Not available for streaming in {country?.name}</p>
         )}
         <div className="flex-grow overflow-hidden">
           <p className="text-ellipsis overflow-hidden clippedOverviewSearch">

@@ -6,17 +6,23 @@ import Link from 'next/link'
 
 const SideBar = ({
   open,
-  closeSideBar
+  closeSideBar,
+  hamburgerRef
 }: {
   open: boolean
   closeSideBar: () => void
+  hamburgerRef: React.RefObject<HTMLDivElement>
 }) => {
   const { user, logout } = useUser()
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target as Node) &&
+        !hamburgerRef.current?.contains(event.target as Node)
+      ) {
         closeSideBar()
       }
     }

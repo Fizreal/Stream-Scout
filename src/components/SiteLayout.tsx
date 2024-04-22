@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import NavBar from './NavBar'
 import SideBar from './SideBar'
 
@@ -9,7 +9,8 @@ const SiteLayout = ({
 }: Readonly<{
   children: React.ReactNode
 }>) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
+  const hamburgerRef = useRef<HTMLDivElement>(null)
 
   const toggleOpen = () => {
     setOpen((prev) => !prev)
@@ -21,9 +22,13 @@ const SiteLayout = ({
 
   return (
     <>
-      <NavBar open={open} toggleOpen={toggleOpen} />
+      <NavBar open={open} toggleOpen={toggleOpen} hamburgerRef={hamburgerRef} />
       <main>
-        <SideBar open={open} closeSideBar={closeSideBar} />
+        <SideBar
+          open={open}
+          closeSideBar={closeSideBar}
+          hamburgerRef={hamburgerRef}
+        />
         {children}
       </main>
     </>

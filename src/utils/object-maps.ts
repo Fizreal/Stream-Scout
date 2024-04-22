@@ -46,6 +46,128 @@ export const genreCodes: { [key: string]: string } = {
   Documentary: '99'
 }
 
-export const streamIcons: { [key: string]: string } = {
-  netflix: ''
+export const streamIcons: {
+  [key: string]: {
+    name: string
+    id: string
+    image: string
+  }
+} = {
+  apple: {
+    name: 'Apple TV',
+    id: 'apple',
+    image:
+      'https://media.movieofthenight.com/services/apple/logo-light-theme.svg'
+  },
+  curiosity: {
+    name: 'Curiosity Stream',
+    id: 'curiosity',
+    image:
+      'https://media.movieofthenight.com/services/curiosity/logo-light-theme.svg'
+  },
+  mubi: {
+    name: 'Mubi',
+    id: 'mubi',
+    image:
+      'https://media.movieofthenight.com/services/mubi/logo-light-theme.svg'
+  },
+  netflix: {
+    name: 'Netflix',
+    id: 'netflix',
+    image:
+      'https://media.movieofthenight.com/services/netflix/logo-light-theme.svg'
+  },
+  prime: {
+    name: 'Prime Video',
+    id: 'prime',
+    image:
+      'https://media.movieofthenight.com/services/prime/logo-light-theme.svg'
+  },
+  zee5: {
+    name: 'Zee5',
+    id: 'zee5',
+    image:
+      'https://media.movieofthenight.com/services/zee5/logo-light-theme.svg'
+  },
+  disney: {
+    name: 'Disney+',
+    id: 'disney',
+    image:
+      'https://media.movieofthenight.com/services/disney/logo-light-theme.svg'
+  },
+  hbo: {
+    name: 'Max',
+    id: 'hbo',
+    image: 'https://media.movieofthenight.com/services/max/logo-light-theme.svg'
+  },
+  paramount: {
+    name: 'Paramount+',
+    id: 'paramount',
+    image:
+      'https://media.movieofthenight.com/services/paramount/logo-light-theme.svg'
+  },
+  britbox: {
+    name: 'BritBox',
+    id: 'britbox',
+    image:
+      'https://media.movieofthenight.com/services/britbox/logo-light-theme.svg'
+  },
+  stan: {
+    name: 'Stan',
+    id: 'stan',
+    image:
+      'https://media.movieofthenight.com/services/stan/logo-light-theme.svg'
+  },
+  crave: {
+    name: 'Crave',
+    id: 'crave',
+    image:
+      'https://media.movieofthenight.com/services/crave/logo-light-theme.svg'
+  },
+  hotstar: {
+    name: 'Disney+ Hotstar',
+    id: 'hotstar',
+    image:
+      'https://media.movieofthenight.com/services/disneyhotstar/logo-light-theme.svg'
+  },
+  wow: {
+    name: 'Wow',
+    id: 'wow',
+    image: 'https://media.movieofthenight.com/services/wow/logo-light-theme.svg'
+  },
+  all4: {
+    name: 'Channel 4',
+    id: 'all4',
+    image:
+      'https://media.movieofthenight.com/services/all4/logo-light-theme.svg'
+  },
+  iplayer: {
+    name: 'BBC iPlayer',
+    id: 'iplayer',
+    image:
+      'https://media.movieofthenight.com/services/iplayer/logo-light-theme.svg'
+  },
+  now: {
+    name: 'Now',
+    id: 'now',
+    image: 'https://media.movieofthenight.com/services/now/logo-light-theme.svg'
+  },
+  hulu: {
+    name: 'Hulu',
+    id: 'hulu',
+    image:
+      'https://media.movieofthenight.com/services/hulu/logo-light-theme.svg'
+  },
+  peacock: {
+    name: 'Peacock',
+    id: 'peacock',
+    image:
+      'https://media.movieofthenight.com/services/peacock/logo-light-theme.svg'
+  },
+  starz: {
+    name: 'Starz',
+    id: 'starz',
+    image:
+      'https://media.movieofthenight.com/services/starz/logo-light-theme.svg'
+  }
 }
