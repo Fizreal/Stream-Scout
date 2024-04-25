@@ -10,7 +10,7 @@ const NavBar = ({
   hamburgerRef: React.RefObject<HTMLDivElement>
 }) => {
   return (
-    <nav className="bg-PrimaryDark flex justify-center items-center md:justify-start shadow-lg h-12">
+    <nav className="fixed top-0 left-0 bg-PrimaryDark flex justify-center items-center md:justify-start shadow-lg h-12 w-full z-20">
       <div
         ref={hamburgerRef}
         className={`hamburgerMenu ${open ? 'open' : ''}`}
