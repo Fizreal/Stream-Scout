@@ -28,12 +28,25 @@ export type Content = {
     | { lastUpdated: Date; validated: boolean }
     | { validated: boolean }
   type: string
-  runtime: number
   backdrop: string
   poster: string
   overview: string
   rating: number
   _id?: string
+  likes: number
+  dislikes: number
+  runtime?: number
+  seasons?: [
+    {
+      air_date: string
+      episode_count: number
+      name: string
+      overview: string
+      poster: string
+      season_number: number
+      rating: number
+    }
+  ]
 }
 
 export type FilterData = {

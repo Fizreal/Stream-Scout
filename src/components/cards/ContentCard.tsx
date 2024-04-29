@@ -8,6 +8,17 @@ import { Content } from '@/types'
 import { useRouter } from 'next/navigation'
 import { useSocket } from '@/context/SocketContext'
 
+type ContentSeason = {
+  air_date: string
+  episode_count: number
+  name: string
+  overview: string
+  poster_path: string
+  season_number: number
+  vote_average: number
+  id: number
+}
+
 const ContentCard = ({ content, type }: { content: Content; type: string }) => {
   const socket = useSocket()
   const router = useRouter()
@@ -41,9 +52,28 @@ const ContentCard = ({ content, type }: { content: Content; type: string }) => {
         } else {
           data = await ShowDetails(contentData.tmdbId)
         }
+        let updatedContent = contentData
+        if (contentData.type === 'movie') {
+          updatedContent = {
+            ...contentData,
+            runtime: data.runtime
+          }
+        } else {
+          updatedContent = {
+            ...contentData,
+            seasons: data.seasons.map((season: ContentSeason) => ({
+              air_date: season.air_date,
+              episode_count: season.episode_count,
+              name: season.name,
+              overview: season.overview,
+              poster: season.poster_path,
+              season_number: season.season_number,
+              rating: season.vote_average
+            }))
+          }
+        }
         setContentData({
-          ...contentData,
-          runtime: data.runtime,
+          ...updatedContent,
           poster: data.poster_path,
           backdrop: data.backdrop_path,
           overview: data.overview,

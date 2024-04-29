@@ -46,11 +46,12 @@ export const formatResult = (content: any): Content => {
     releaseYear: content.type === 'movie' ? content.year : content.firstAirYear,
     streamingValidated: { validated: false },
     type: content.type,
-    runtime: 0,
     backdrop: '',
     poster: '',
     overview: '',
     rating: 0,
-    _id: ''
+    _id: '',
+    likes: 0,
+    dislikes: 0
   }
 }
