@@ -1,9 +1,18 @@
+export type Watched = {
+  _id: string
+  content: Content
+  liked: boolean
+  disliked: boolean
+  mood: string
+}
+
 export type Profile = {
   user: string
   country: string
   subscriptions: string[]
   username: string
   // friends
+  watched: Watched[]
   _id: string
 }
 

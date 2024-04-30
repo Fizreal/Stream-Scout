@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useUser } from '@/context/UserContext'
 import { useSocket } from '@/context/SocketContext'
-import { Content } from '@/types'
+import { Content, Profile, Watched } from '@/types'
 import { TitleDetails } from '@/utils/rapid-api'
 import { formatStreamingInfo } from '@/utils/content-methods'
 import Image from 'next/image'
@@ -20,10 +20,11 @@ type Params = {
 
 const ContentDetails = ({ params }: Params) => {
   const socket = useSocket()
-  const { user } = useUser()
+  const { user, assignUser } = useUser()
 
   const [content, setContent] = useState<Content | null>(null)
   const [displayedCountry, setDisplayedCountry] = useState('')
+  const [watched, setWatched] = useState<Watched | null>(null)
   const [loadingContent, setLoadingContent] = useState(true)
   const [loadingStreamingDetails, setLoadingStreamingDetails] = useState(false)
 
@@ -66,6 +67,113 @@ const ContentDetails = ({ params }: Params) => {
     )
   }
 
+  const getUserWatched = () => {
+    if (!content || !user) return
+
+    const watched = user.watched.find(
+      (watched) => watched.content._id === content._id
+    )
+
+    if (watched) {
+      setWatched(watched)
+    } else {
+      setWatched(null)
+    }
+  }
+
+  const handleWatched = () => {
+    if (watched) {
+      setWatched(null)
+      socket?.emit(
+        'remove from watched',
+        { watchedId: watched._id },
+        (response: { success: boolean; profile?: Profile }) => {
+          if (response.success && response.profile) {
+            assignUser(response.profile)
+          } else {
+            getUserWatched()
+          }
+        }
+      )
+    } else {
+      if (!content) return
+
+      const tempWatched = {
+        _id: '',
+        content: content,
+        liked: false,
+        disliked: false,
+        mood: ''
+      }
+      setWatched(tempWatched)
+      socket?.emit(
+        'add to watched',
+        { contentId: content._id },
+        (response: { success: boolean; profile?: Profile }) => {
+          if (response.success && response.profile) {
+            assignUser(response.profile)
+          } else {
+            setWatched(null)
+          }
+        }
+      )
+    }
+  }
+
+  // update name of this function
+  const likeCallback = (response: {
+    success: boolean
+    profile?: Profile
+    content?: Content
+    error?: string
+  }) => {
+    if (response.success && response.profile && response.content) {
+      assignUser(response.profile)
+      setContent(response.content)
+    } else {
+      console.error(response.error)
+      getUserWatched()
+    }
+  }
+
+  const updateWatched = (liked: boolean, disliked: boolean) => {
+    if (watched) {
+      setWatched({
+        ...watched,
+        liked,
+        disliked
+      })
+    } else {
+      setWatched({
+        _id: '',
+        content: content as Content,
+        liked,
+        disliked,
+        mood: ''
+      })
+    }
+  }
+
+  const handleLike = () => {
+    if (watched?.liked) {
+      updateWatched(true, false)
+      socket?.emit('like content', { id: content?._id }, likeCallback)
+    } else {
+      updateWatched(false, false)
+      socket?.emit('unlike content', { id: content?._id }, likeCallback)
+    }
+  }
+
+  const handleDislike = () => {
+    if (watched?.disliked) {
+      updateWatched(false, true)
+      socket?.emit('dislike content', { id: content?._id }, likeCallback)
+    } else {
+      updateWatched(false, false)
+      socket?.emit('undislike content', { id: content?._id }, likeCallback)
+    }
+  }
+
   useEffect(() => {
     if (!socket) {
       return
@@ -84,6 +192,10 @@ const ContentDetails = ({ params }: Params) => {
       }
     })
   }, [params.id, socket])
+
+  useEffect(() => {
+    getUserWatched()
+  }, [content, user])
 
   return (
     <section className="relative p-8">
@@ -109,6 +221,16 @@ const ContentDetails = ({ params }: Params) => {
                 className="rounded"
               />
               <div>
+                <div></div>
+                <div>
+                  <button onClick={handleWatched}></button>
+                </div>
+                <div>
+                  <button onClick={handleLike}></button>
+                </div>
+                <div>
+                  <button onClick={handleDislike}></button>
+                </div>
                 {/* options: add to list, like, unlike, mark watched */}
               </div>
             </div>
@@ -180,15 +302,17 @@ const ContentDetails = ({ params }: Params) => {
                 </div>
               </div>
             </div>
-            <div>
-              <h3>Runtime</h3>
-              <p>
-                {content.runtime > 60
-                  ? `${Math.floor(content.runtime / 60)}h `
-                  : ''}
-                {content.runtime % 60}m
-              </p>
-            </div>
+            {content.type === 'movie' && content.runtime && (
+              <div>
+                <h3>Runtime</h3>
+                <p>
+                  {content.runtime > 60
+                    ? `${Math.floor(content.runtime / 60)}h `
+                    : ''}
+                  {content.runtime % 60}m
+                </p>
+              </div>
+            )}
             <div>
               <h3>Genres</h3>
               <p>{genres}</p>
