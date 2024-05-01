@@ -24,6 +24,7 @@ const ContentDetails = ({ params }: Params) => {
 
   const [content, setContent] = useState<Content | null>(null)
   const [displayedCountry, setDisplayedCountry] = useState('')
+  const [displayedSeason, setDisplayedSeason] = useState<string | null>(null)
   const [watched, setWatched] = useState<Watched | null>(null)
   const [loadingContent, setLoadingContent] = useState(true)
   const [loadingStreamingDetails, setLoadingStreamingDetails] = useState(false)
@@ -44,8 +45,20 @@ const ContentDetails = ({ params }: Params) => {
     return countryStreamingInfo ? countryStreamingInfo.availability : []
   }, [content, displayedCountry])
 
+  const seasonInfo = useMemo(() => {
+    if (!content || !displayedSeason) return null
+
+    return content.seasons?.find(
+      (season) => season.season_number === parseInt(displayedSeason)
+    )
+  }, [content, displayedSeason])
+
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDisplayedCountry(e.target.value)
+  }
+
+  const handleSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDisplayedSeason(e.target.value)
   }
 
   const handleStreamingDetails = async () => {
@@ -185,6 +198,9 @@ const ContentDetails = ({ params }: Params) => {
         // notFound()
       } else {
         setContent(content)
+        if (content.type === 'series' && content.seasons?.length) {
+          setDisplayedSeason(content.seasons[0].season_number.toString())
+        }
         setDisplayedCountry(
           user?.country ? user.country : content.streamingInfo[0].country
         )
@@ -311,6 +327,47 @@ const ContentDetails = ({ params }: Params) => {
                     : ''}
                   {content.runtime % 60}m
                 </p>
+              </div>
+            )}
+            {content.type === 'series' && (
+              <div>
+                <h3>Seasons</h3>
+                <div>
+                  {content.seasons?.length ? (
+                    <>
+                      <select
+                        onChange={handleSeasonChange}
+                        defaultValue={content.seasons[0].season_number}
+                      >
+                        {content.seasons.map((season) => (
+                          <option
+                            value={season.season_number}
+                            key={season.season_number}
+                          >
+                            {season.name}
+                          </option>
+                        ))}
+                      </select>
+                      {seasonInfo ? (
+                        <div>
+                          <h4>{seasonInfo.name}</h4>
+                          <Image
+                            src={`https://image.tmdb.org/t/p/original${seasonInfo.poster}`}
+                            alt={seasonInfo.name}
+                            width={150}
+                            height={225}
+                          />
+                          <p>{seasonInfo.air_date}</p>
+                          <p>{seasonInfo.overview}</p>
+                        </div>
+                      ) : (
+                        <p>No season selected</p>
+                      )}
+                    </>
+                  ) : (
+                    <p>No seasons available</p>
+                  )}
+                </div>
               </div>
             )}
             <div>
