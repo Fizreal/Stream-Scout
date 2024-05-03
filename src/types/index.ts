@@ -6,6 +6,16 @@ export type Watched = {
   mood: string
 }
 
+export type Watchlist = {
+  _id: string
+  owners: string[]
+  name: string
+  list: {
+    content: Content
+    order: number
+  }[]
+}
+
 export type Profile = {
   user: string
   country: string

@@ -13,7 +13,7 @@ const SocketContext = createContext<SocketContextType>(null)
 export const useSocket = () => useContext(SocketContext)
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const { assignUser, setLoadingState } = useUser()
+  const { assignUser, setWatchlists, setLoadingState } = useUser()
   const router = useRouter()
 
   const [socket, setSocket] = useState<Socket | null>(null)
@@ -32,9 +32,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     })
 
     setSocket(newSocket)
-    newSocket.on('connected', (profile) => {
-      if (profile && profile.user) {
-        assignUser(profile)
+    newSocket.on('connected', (profileInfo) => {
+      if (profileInfo.profile && profileInfo.profile.user) {
+        assignUser(profileInfo.profile)
+      }
+      if (profileInfo.watchlists) {
+        setWatchlists(profileInfo.watchlists)
       }
       setLoadingState(false)
     })

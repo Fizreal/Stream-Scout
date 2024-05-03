@@ -1,15 +1,17 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-import { Profile } from '@/types'
+import { Profile, Watchlist } from '@/types'
 import { useRouter } from 'next/navigation'
 
 type UserContextType = {
   user: Profile | null
+  watchlists: Watchlist[]
   loading: boolean
   login: (token: string) => void
   logout: () => void
   assignUser: (user: Profile) => void
+  setWatchlists: (watchlists: Watchlist[]) => void
   setLoadingState: (state: boolean) => void
 }
 
@@ -17,6 +19,7 @@ const UserContext = createContext<UserContextType>({} as UserContextType)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Profile | null>(null)
+  const [watchlists, setWatchlists] = useState<Watchlist[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
@@ -40,7 +43,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, loading, login, logout, assignUser, setLoadingState }}
+      value={{
+        user,
+        watchlists,
+        loading,
+        login,
+        logout,
+        assignUser,
+        setWatchlists,
+        setLoadingState
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { streamIcons, countryNames } from '@/utils/object-maps'
 // import { notFound } from 'next/navigation'
 import NotFound from './not-found'
+import ListsModal from '@/components/ListsModal'
 import SubmitButton from '@/components/SubmitButton'
 
 type Params = {
@@ -28,6 +29,7 @@ const ContentDetails = ({ params }: Params) => {
   const [watched, setWatched] = useState<Watched | null>(null)
   const [loadingContent, setLoadingContent] = useState(true)
   const [loadingStreamingDetails, setLoadingStreamingDetails] = useState(false)
+  const [showListsModal, setShowListsModal] = useState(false)
 
   const genres = useMemo(() => {
     if (!content) return ''
@@ -378,6 +380,9 @@ const ContentDetails = ({ params }: Params) => {
         </>
       ) : (
         <NotFound />
+      )}
+      {showListsModal && content && (
+        <ListsModal content={content} setModalOpen={setShowListsModal} />
       )}
     </section>
   )
