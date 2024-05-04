@@ -142,6 +142,7 @@ const ContentDetails = ({ params }: Params) => {
     content?: Content
     error?: string
   }) => {
+    console.log(response)
     if (response.success && response.profile && response.content) {
       assignUser(response.profile)
       setContent(response.content)
@@ -170,7 +171,7 @@ const ContentDetails = ({ params }: Params) => {
   }
 
   const handleLike = () => {
-    if (watched?.liked) {
+    if (!watched?.liked) {
       updateWatched(true, false)
       socket?.emit('like content', { id: content?._id }, likeCallback)
     } else {
@@ -180,7 +181,7 @@ const ContentDetails = ({ params }: Params) => {
   }
 
   const handleDislike = () => {
-    if (watched?.disliked) {
+    if (!watched?.disliked) {
       updateWatched(false, true)
       socket?.emit('dislike content', { id: content?._id }, likeCallback)
     } else {
@@ -229,43 +230,85 @@ const ContentDetails = ({ params }: Params) => {
               className="object-cover w-full filter h-96 blur-sm"
             />
           </div>
-          <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 z-10 text-white">
-            <div className="min-w-[300px] shadow-lg">
+          <div className="flex flex-wrap md:flex-nowrap justify-around w-full gap-4 z-10 text-white">
+            <div className="min-w-4/5 md:w-[300px] shadow-lg">
               <Image
                 src={`https://image.tmdb.org/t/p/original${content.poster}`}
                 alt={content.title}
                 width={300}
                 height={450}
-                className="rounded"
+                className="rounded-t"
               />
-              <div>
-                <div></div>
-                <div>
-                  <button onClick={handleWatched}></button>
+              <div className="w-full grid grid-cols-4 bg-PrimaryDark">
+                <div className="flex flex-col items-center p-2 gap-1">
+                  <button onClick={() => setShowListsModal(true)}>
+                    <Image
+                      src={'/bookmark.svg'}
+                      alt="Add to watchlist"
+                      height={25}
+                      width={18.7575}
+                    />
+                  </button>
+                  <p className="text-xs">Watchlist</p>
                 </div>
-                <div>
-                  <button onClick={handleLike}></button>
+                <div className="flex flex-col items-center p-2 gap-1">
+                  <button onClick={handleWatched}>
+                    <Image
+                      src={'/checkmark.svg'}
+                      alt="Like"
+                      width={25}
+                      height={25}
+                      className={watched ? 'selectedSVG' : ''}
+                    />
+                  </button>
+                  <p className="text-xs">Seen</p>
                 </div>
-                <div>
-                  <button onClick={handleDislike}></button>
+                <div className="flex flex-col items-center p-2 gap-1">
+                  <button onClick={handleLike}>
+                    <Image
+                      src={'/thumb.svg'}
+                      alt="Like"
+                      width={25}
+                      height={25}
+                      className={watched && watched.liked ? 'selectedSVG' : ''}
+                    />
+                  </button>
+                  <p className="text-xs">{content.likes}</p>
                 </div>
-                {/* options: add to list, like, unlike, mark watched */}
+                <div className="flex flex-col items-center p-2 gap-1">
+                  <button onClick={handleDislike}>
+                    <Image
+                      src={'/thumb.svg'}
+                      alt="Dislike"
+                      width={25}
+                      height={25}
+                      className={
+                        'rotate-180' +
+                        (watched && watched.disliked ? ' selectedSVG' : '')
+                      }
+                    />
+                  </button>
+                  <p className="text-xs">{content.dislikes}</p>
+                </div>
               </div>
             </div>
             <div className="flex flex-col flex-grow gap-8 md:pt-8 p-4 bg-black/50 rounded-t-md md:bg-transparent ">
-              <h2 className="text-2xl">
-                {content.title}{' '}
-                <span className="text-lg text-gray-400">
-                  ({content.releaseYear})
-                </span>
-              </h2>
-              <div className=" flex flex-col items-center w-full">
+              <div>
+                <h2 className="text-2xl">
+                  {content.title}{' '}
+                  <span className="text-lg text-gray-400">
+                    ({content.releaseYear})
+                  </span>
+                </h2>
+                <p>{genres}</p>
+              </div>
+              <div className="flex flex-col items-center w-full">
                 <div className="flex items-center justify-between w-full">
                   <h3>Streaming options</h3>
                   <select
                     onChange={handleCountryChange}
                     defaultValue={displayedCountry}
-                    className="bg-black/50 text-white rounded-md p-2 w-1/3"
+                    className="bg-black/50 text-white rounded-md p-2 w-1/3 md:w-auto"
                   >
                     {content.streamingInfo.map((country) => (
                       <option value={country.country} key={country.country}>
@@ -307,49 +350,56 @@ const ContentDetails = ({ params }: Params) => {
             </div>
           </div>
           <div className="flex flex-col gap-4 w-full bg-black/50 text-white rounded-b-md md:mt-4 md:rounded-md shadow-lg pt-0 p-4 md:pt-4">
+            <div className="flex flex-col gap-4 md:flex-row md:justify-around">
+              <div>
+                <h3>Ratings</h3>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <img src="/TMDB.svg" alt="TMDB" />
+                    <p>{content.rating}</p>
+                  </div>
+                </div>
+              </div>
+              {content.type === 'movie' && content.runtime && (
+                <div>
+                  <h3>Runtime</h3>
+                  <p>
+                    {content.runtime > 60
+                      ? `${Math.floor(content.runtime / 60)}h `
+                      : ''}
+                    {content.runtime % 60}m
+                  </p>
+                </div>
+              )}
+            </div>
             <div>
               <h3>Synopsis</h3>
               <p className="text-wrap">{content.overview}</p>
             </div>
-            <div>
-              <h3>Ratings</h3>
-              <div>
-                <div>
-                  <img src="" alt="TMDB" />
-                  <p>{content.rating}</p>
-                </div>
-              </div>
-            </div>
-            {content.type === 'movie' && content.runtime && (
-              <div>
-                <h3>Runtime</h3>
-                <p>
-                  {content.runtime > 60
-                    ? `${Math.floor(content.runtime / 60)}h `
-                    : ''}
-                  {content.runtime % 60}m
-                </p>
-              </div>
-            )}
             {content.type === 'series' && (
               <div>
-                <h3>Seasons</h3>
+                <div className="flex flex-nowrap items-center gap-4">
+                  <h3>Seasons</h3>
+                  {content.seasons?.length && content.seasons.length > 0 && (
+                    <select
+                      onChange={handleSeasonChange}
+                      defaultValue={content.seasons[0].season_number}
+                      className="bg-black/50 text-white rounded-md p-2"
+                    >
+                      {content.seasons.map((season) => (
+                        <option
+                          value={season.season_number}
+                          key={season.season_number}
+                        >
+                          {season.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
                 <div>
                   {content.seasons?.length ? (
                     <>
-                      <select
-                        onChange={handleSeasonChange}
-                        defaultValue={content.seasons[0].season_number}
-                      >
-                        {content.seasons.map((season) => (
-                          <option
-                            value={season.season_number}
-                            key={season.season_number}
-                          >
-                            {season.name}
-                          </option>
-                        ))}
-                      </select>
                       {seasonInfo ? (
                         <div>
                           <h4>{seasonInfo.name}</h4>
@@ -358,8 +408,9 @@ const ContentDetails = ({ params }: Params) => {
                             alt={seasonInfo.name}
                             width={150}
                             height={225}
+                            className="rounded"
                           />
-                          <p>{seasonInfo.air_date}</p>
+                          <p>Air date: {seasonInfo.air_date}</p>
                           <p>{seasonInfo.overview}</p>
                         </div>
                       ) : (
@@ -372,10 +423,6 @@ const ContentDetails = ({ params }: Params) => {
                 </div>
               </div>
             )}
-            <div>
-              <h3>Genres</h3>
-              <p>{genres}</p>
-            </div>
           </div>
         </>
       ) : (
