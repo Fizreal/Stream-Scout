@@ -205,7 +205,11 @@ const ContentDetails = ({ params }: Params) => {
           setDisplayedSeason(content.seasons[0].season_number.toString())
         }
         setDisplayedCountry(
-          user?.country ? user.country : content.streamingInfo[0].country
+          user?.country
+            ? user.country
+            : content.streamingInfo.length
+            ? content.streamingInfo[0].country
+            : ''
         )
         setLoadingContent(false)
       }
@@ -246,7 +250,7 @@ const ContentDetails = ({ params }: Params) => {
                       src={'/bookmark.svg'}
                       alt="Add to watchlist"
                       height={25}
-                      width={18.7575}
+                      width={18.75}
                     />
                   </button>
                   <p className="text-xs">Watchlist</p>
@@ -305,17 +309,19 @@ const ContentDetails = ({ params }: Params) => {
               <div className="flex flex-col items-center w-full">
                 <div className="flex items-center justify-between w-full">
                   <h3>Streaming options</h3>
-                  <select
-                    onChange={handleCountryChange}
-                    defaultValue={displayedCountry}
-                    className="bg-black/50 text-white rounded-md p-2 w-1/3 md:w-auto"
-                  >
-                    {content.streamingInfo.map((country) => (
-                      <option value={country.country} key={country.country}>
-                        {countryNames[country.country]}
-                      </option>
-                    ))}
-                  </select>
+                  {displayedCountry && (
+                    <select
+                      onChange={handleCountryChange}
+                      defaultValue={displayedCountry}
+                      className="bg-black/50 text-white rounded-md p-2 w-1/3 md:w-auto"
+                    >
+                      {content.streamingInfo.map((country) => (
+                        <option value={country.country} key={country.country}>
+                          {countryNames[country.country]}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
                 <div className="flex items-center gap-4 w-full overflow-scroll">
                   {countryStreamingInfo.length ? (
@@ -333,8 +339,10 @@ const ContentDetails = ({ params }: Params) => {
                     ))
                   ) : (
                     <p>
-                      No streaming options available in{' '}
-                      {countryNames[displayedCountry]}
+                      {displayedCountry
+                        ? `No streaming options available in
+                      ${countryNames[displayedCountry]}`
+                        : 'No streaming options available'}
                     </p>
                   )}
                 </div>
@@ -355,7 +363,7 @@ const ContentDetails = ({ params }: Params) => {
                 <h3>Ratings</h3>
                 <div>
                   <div className="flex items-center gap-2">
-                    <img src="/TMDB.svg" alt="TMDB" />
+                    <img src="/TMDB.svg" alt="TMDB" className="w-12" />
                     <p>{content.rating}</p>
                   </div>
                 </div>

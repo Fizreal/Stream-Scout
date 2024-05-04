@@ -45,6 +45,7 @@ const SearchPage = () => {
           value={title}
           onChange={handleChange}
           placeholder="Search for a title"
+          className="w-60 p-2 bg-PrimaryDark rounded border border-AccentLight text-white focus:outline-none focus:ring-2 focus:ring-AccentLight focus:border-transparent"
         />
         <SubmitButton text="Search" disabled={false} loading={loading} />
       </form>

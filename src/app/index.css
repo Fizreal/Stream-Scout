@@ -34,6 +34,11 @@ main > *:not(:first-child) {
   );
 }
 
+.whiteSVG {
+  filter: invert(98%) sepia(15%) saturate(149%) hue-rotate(84deg)
+    brightness(113%) contrast(100%);
+}
+
 .selectedSVG {
   filter: invert(70%) sepia(13%) saturate(716%) hue-rotate(135deg)
     brightness(88%) contrast(95%);
