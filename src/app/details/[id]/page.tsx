@@ -55,6 +55,23 @@ const ContentDetails = ({ params }: Params) => {
     )
   }, [content, displayedSeason])
 
+  const checkUserCountryAvailability = (content: Content) => {
+    if (!content || !user) return ''
+
+    const userCountry = user.country
+
+    const countryStreamingInfo = content.streamingInfo.find(
+      (stream) => stream.country === userCountry
+    )
+    if (countryStreamingInfo) {
+      return user.country
+    } else if (content.streamingInfo.length) {
+      return content.streamingInfo[0].country
+    } else {
+      return ''
+    }
+  }
+
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDisplayedCountry(e.target.value)
   }
@@ -74,6 +91,9 @@ const ContentDetails = ({ params }: Params) => {
       (response: { success: boolean; content?: Content; error?: string }) => {
         if (response.success && response.content) {
           setContent(response.content)
+          if (!displayedCountry) {
+            setDisplayedCountry(checkUserCountryAvailability(response.content))
+          }
         } else {
           console.error(response.error)
         }
@@ -204,13 +224,7 @@ const ContentDetails = ({ params }: Params) => {
         if (content.type === 'series' && content.seasons?.length) {
           setDisplayedSeason(content.seasons[0].season_number.toString())
         }
-        setDisplayedCountry(
-          user?.country
-            ? user.country
-            : content.streamingInfo.length
-            ? content.streamingInfo[0].country
-            : ''
-        )
+        setDisplayedCountry(checkUserCountryAvailability(content))
         setLoadingContent(false)
       }
     })
@@ -241,9 +255,9 @@ const ContentDetails = ({ params }: Params) => {
                 alt={content.title}
                 width={300}
                 height={450}
-                className="rounded-t"
+                className="rounded-t-lg"
               />
-              <div className="w-full grid grid-cols-4 bg-PrimaryDark">
+              <div className="w-full grid grid-cols-4 bg-PrimaryDark rounded-b-lg">
                 <div className="flex flex-col items-center p-2 gap-1">
                   <button onClick={() => setShowListsModal(true)}>
                     <Image

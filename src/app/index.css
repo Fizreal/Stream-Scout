@@ -44,6 +44,45 @@ main > *:not(:first-child) {
     brightness(88%) contrast(95%);
 }
 
+@keyframes colorShiftIn {
+  from {
+    color: #eeeeee;
+  }
+  to {
+    color: #76abae;
+  }
+}
+
+@keyframes colorShiftOut {
+  from {
+    color: #76abae;
+  }
+  to {
+    color: #eeeeee;
+  }
+}
+
+.sectionSelected {
+  animation: colorShiftIn 300ms ease-in forwards;
+}
+
+.sectionNotSelected {
+  animation: colorShiftOut 200ms ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 400ms ease-in forwards;
+}
+
 /* Hamburger menu */
 
 .hamburgerMenu {

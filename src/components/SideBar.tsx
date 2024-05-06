@@ -51,7 +51,9 @@ const SideBar = ({
           </ul>
           <li>Profile</li>
           <ul>
-            <li>Watchlists</li>
+            <li>
+              <Link href={'/profile?display=watchlists'}>Watchlists</Link>
+            </li>
             <li>Feed (Coming soon)</li>
             <li>Social</li>
             <li>Settings</li>
