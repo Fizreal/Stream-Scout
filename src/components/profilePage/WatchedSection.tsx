@@ -1,6 +1,6 @@
 import { Watched } from '@/types'
 
-const LikedSection = ({ watchedContent }: { watchedContent: Watched[] }) => {
+const WatchedSection = ({ watchedContent }: { watchedContent: Watched[] }) => {
   return (
     <div className="fadeIn">
       {watchedContent.map((watched) => (
@@ -10,4 +10,4 @@ const LikedSection = ({ watchedContent }: { watchedContent: Watched[] }) => {
   )
 }
 
-export default LikedSection
+export default WatchedSection

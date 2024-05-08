@@ -6,9 +6,14 @@ export type Watched = {
   mood: string
 }
 
+type PublicProfile = {
+  username: string
+  _id: string
+}
+
 export type Watchlist = {
   _id: string
-  owners: string[]
+  owners: PublicProfile[]
   name: string
   list: {
     content: Content
@@ -51,7 +56,7 @@ export type Content = {
   poster: string
   overview: string
   rating: number
-  _id?: string
+  _id: string
   likes: number
   dislikes: number
   runtime?: number

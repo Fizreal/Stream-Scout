@@ -4,7 +4,6 @@ import { useSocket } from '@/context/SocketContext'
 import { Content, Watchlist } from '@/types'
 import SubmitButton from './SubmitButton'
 import { useIsOverflow } from '@/hooks/useIsOverflow'
-import { imageConfigDefault } from 'next/dist/shared/lib/image-config'
 
 type ListsModalProps = {
   setModalOpen: (open: boolean) => void
@@ -27,7 +26,6 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
   }
 
   const handleAddContent = async (watchlist: string) => {
-    console.log('Adding to watchlist')
     socket?.emit(
       'add to watchlist',
       { watchlist, content: content._id },
@@ -85,7 +83,7 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
         </h2>
         <div className="flex-grow overflow-y-auto w-full " ref={ref}>
           {watchlists.length > 0 && (
-            <ul className="flex flex-col gap-1 w-full p-4 bg-PrimaryDark rounded">
+            <ul className="flex flex-col gap-1.5 w-full p-4 bg-PrimaryDark rounded">
               {watchlists.map((watchlist) => (
                 <li
                   key={watchlist._id}

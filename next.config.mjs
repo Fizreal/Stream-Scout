@@ -7,7 +7,8 @@ const nextConfig = {
         hostname: 'image.tmdb.org'
       }
     ]
-  }
+  },
+  reactStrictMode: false
 }
 
 export default nextConfig

@@ -39,7 +39,6 @@ const ContentDetails = ({ params }: Params) => {
 
   const countryStreamingInfo = useMemo(() => {
     if (!content) return []
-
     let countryStreamingInfo = content.streamingInfo.find(
       (stream) => stream.country === displayedCountry
     )
