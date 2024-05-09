@@ -31,7 +31,7 @@ const SearchCard = ({
           alt={content.title}
           width={300}
           height={450}
-          className="rounded"
+          className="rounded-lg"
         />
       </div>
       <div className="h-full w-full">

@@ -24,7 +24,16 @@ const SearchPage = () => {
     if (!user) return
     try {
       const data = await TitleSearch(user, title)
+      const tmdbIds = new Set()
+      for (let i = data.result.length - 1; i >= 0; i--) {
+        if (tmdbIds.has(data.result[i].tmdbId)) {
+          data.result.splice(i, 1)
+        } else {
+          tmdbIds.add(data.result[i].tmdbId)
+        }
+      }
       console.log(data)
+
       let formattedData = data.result.map((content: any) =>
         formatResult(content)
       )

@@ -31,7 +31,7 @@ const BrowseCard = ({
   return (
     <div
       ref={ref}
-      className="relative rounded overflow-hidden shadow-lg"
+      className="relative rounded-lg overflow-hidden shadow-lg"
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
       onClick={() => setIsVisible(true)}

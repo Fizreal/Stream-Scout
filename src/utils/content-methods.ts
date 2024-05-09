@@ -21,6 +21,15 @@ export const formatStreamingInfo = (streamingInfo: any): StreamingInfo[] => {
       (service) => service.streamingType === 'subscription'
     )
 
+    const serviceNames = new Set()
+    for (let i = subscriptionAvailability.length - 1; i >= 0; i--) {
+      if (serviceNames.has(subscriptionAvailability[i].service)) {
+        subscriptionAvailability.splice(i, 1)
+      } else {
+        serviceNames.add(subscriptionAvailability[i].service)
+      }
+    }
+
     if (subscriptionAvailability.length > 0) {
       formattedInfo.push({
         country: country,

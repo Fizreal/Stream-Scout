@@ -83,6 +83,22 @@ const BrowsePage = () => {
     if (!user) return
     try {
       const data = await FilterSearch(user, filters)
+
+      const tmdbIds = new Set()
+      if (content.length > 0) {
+        for (let i = 0; i < content.length; i++) {
+          tmdbIds.add(content[i].tmdbId)
+        }
+      }
+
+      for (let i = data.result.length - 1; i >= 0; i--) {
+        if (tmdbIds.has(data.result[i].tmdbId)) {
+          data.result.splice(i, 1)
+        } else {
+          tmdbIds.add(data.result[i].tmdbId)
+        }
+      }
+
       let formattedData = data.result.map((content: any) =>
         formatResult(content)
       )

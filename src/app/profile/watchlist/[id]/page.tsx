@@ -5,10 +5,13 @@ import { useParams } from 'next/navigation'
 import { useUser } from '@/context/UserContext'
 import { useSocket } from '@/context/SocketContext'
 import { Watchlist } from '@/types'
+import Image from 'next/image'
+import Link from 'next/link'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { streamIcons, countryNames } from '@/utils/object-maps'
 
 const WatchlistDetail = () => {
-  const { watchlists, setWatchlists } = useUser()
+  const { watchlists, user } = useUser()
   const socket = useSocket()
 
   const { id } = useParams<{ id: string }>()
@@ -61,7 +64,7 @@ const WatchlistDetail = () => {
   }, [id, watchlists])
 
   return (
-    <div>
+    <section>
       {watchlist ? (
         <DragDropContext
           onDragEnd={(param) => {
@@ -69,10 +72,17 @@ const WatchlistDetail = () => {
           }}
         >
           <h2>{watchlist.name}</h2>
-          <p>{watchlist.owners.map((owner) => owner.username).join(', ')}</p>
+          <p>
+            Collaborators:{' '}
+            {watchlist.owners.map((owner) => owner.username).join(', ')}
+          </p>
           <Droppable droppableId="droppable-1">
             {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="flex flex-col rounded-lg bg-PrimaryDark p-8 gap-4 w-4/5 max-w-3xl"
+              >
                 {watchlist.list.map((item, index) => (
                   <Draggable
                     key={item.content._id}
@@ -80,9 +90,74 @@ const WatchlistDetail = () => {
                     index={index}
                   >
                     {(provided, snapshot) => (
-                      <div ref={provided.innerRef} {...provided.draggableProps}>
-                        <img src="" alt="Drag" {...provided.dragHandleProps} />
-                        <p>{item.content.title}</p>
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        className="flex gap-4 bg-BaseDark background-blur rounded-md shadow-lg overflow-hidden w-full h-[212px]"
+                      >
+                        <div className="flex items-center w-12 h-full aspect-square">
+                          <img
+                            src="/dragIcon.svg"
+                            alt="Drag"
+                            {...provided.dragHandleProps}
+                            className="aspect-square w-full"
+                          />
+                        </div>
+                        <Link
+                          href={`/details/${item.content._id}`}
+                          className="flex items-center h-full aspect-[30/53] mx-4"
+                        >
+                          <Image
+                            src={`https://image.tmdb.org/t/p/original${item.content.poster}`}
+                            height={180}
+                            width={120}
+                            alt={item.content.title}
+                            className="rounded-lg"
+                          />
+                        </Link>
+                        <div className="flex flex-col justify-center gap-2 flex-grow overflow-hidden h-full">
+                          <Link href={`/details/${item.content._id}`}>
+                            <h3 className="text-xl w-full truncate">
+                              {item.content.title}{' '}
+                              <span className="text-base text-gray-400">
+                                ({item.content.releaseYear})
+                              </span>
+                            </h3>
+                          </Link>
+                          <p className="w-full truncate">
+                            {item.content.genres.join(', ')}
+                          </p>
+                          <div className="flex flex-nowrap overflow-scroll gap-2">
+                            {item.content.streamingInfo.find(
+                              (countryInfo) =>
+                                countryInfo.country === user?.country
+                            ) ? (
+                              item.content.streamingInfo
+                                .find(
+                                  (stream) => stream.country === user?.country
+                                )
+                                ?.availability.map((stream) => (
+                                  <a
+                                    href={stream.link}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    <img
+                                      src={streamIcons[stream.service].image}
+                                      alt={stream.service}
+                                    />
+                                  </a>
+                                ))
+                            ) : (
+                              <p className="w-full truncate">
+                                {user?.country
+                                  ? `Not streaming options available in
+                              ${countryNames[user?.country]}`
+                                  : 'Not streaming options available in your country'}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     )}
                   </Draggable>
@@ -95,7 +170,7 @@ const WatchlistDetail = () => {
       ) : (
         <p>Watchlist not found</p>
       )}
-    </div>
+    </section>
   )
 }
 
