@@ -6,9 +6,11 @@ export type Watched = {
   mood: string
 }
 
-type PublicProfile = {
+export type PublicProfile = {
   username: string
   _id: string
+  userId: string
+  country: string
 }
 
 export type Watchlist = {
@@ -21,12 +23,18 @@ export type Watchlist = {
   }[]
 }
 
+export type Friend = {
+  _id: string
+  recipient: PublicProfile
+  status: number
+}
+
 export type Profile = {
   user: string
   country: string
   subscriptions: string[]
   username: string
-  // friends
+  friends: Friend[]
   watched: Watched[]
   _id: string
 }

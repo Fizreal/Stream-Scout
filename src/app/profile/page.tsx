@@ -3,9 +3,9 @@
 import { useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useUser } from '@/context/UserContext'
-import WatchlistsSection from '@/components/profilePage/WatchlistsSection'
-import WatchedSection from '@/components/profilePage/WatchedSection'
-import LikedSection from '@/components/profilePage/LikedSection'
+import WatchlistsSection from '@/components/profile/WatchlistsSection'
+import WatchedSection from '@/components/profile/WatchedSection'
+import LikedSection from '@/components/profile/LikedSection'
 
 const ProfilePage = () => {
   const { user, watchlists } = useUser()

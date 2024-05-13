@@ -11,7 +11,7 @@ main > *:not(:first-child) {
   flex-direction: column;
   align-items: center;
   padding-top: 24px;
-  flex-grow: 1;
+  width: 100%;
 }
 
 .clippedOverviewBrowse {
@@ -188,5 +188,7 @@ main > *:not(:first-child) {
 
   main > *:not(:first-child) {
     margin-left: 200px;
+    width: auto;
+    flex-grow: 1;
   }
 }

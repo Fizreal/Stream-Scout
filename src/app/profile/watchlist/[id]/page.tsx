@@ -81,7 +81,7 @@ const WatchlistDetail = () => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-col rounded-lg bg-PrimaryDark p-8 gap-4 w-4/5 max-w-3xl"
+                className="flex flex-col rounded-lg bg-PrimaryDark shadow-lg p-8 gap-4 w-full sm:w-4/5 max-w-3xl"
               >
                 {watchlist.list.map((item, index) => (
                   <Draggable
@@ -93,9 +93,9 @@ const WatchlistDetail = () => {
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        className="flex gap-4 bg-BaseDark background-blur rounded-md shadow-lg overflow-hidden w-full h-[212px]"
+                        className="flex gap-4 bg-BaseDark background-blur rounded-md shadow-lg overflow-hidden w-full sm:h-[212px] p-2"
                       >
-                        <div className="flex items-center w-12 h-full aspect-square">
+                        <div className="flex items-center w-6 sm:w-12 h-full flex-shrink-0">
                           <img
                             src="/dragIcon.svg"
                             alt="Drag"
@@ -105,7 +105,7 @@ const WatchlistDetail = () => {
                         </div>
                         <Link
                           href={`/details/${item.content._id}`}
-                          className="flex items-center h-full aspect-[30/53] mx-4"
+                          className="flex items-center h-full w-24 sm:w-32 flex-shrink-0"
                         >
                           <Image
                             src={`https://image.tmdb.org/t/p/original${item.content.poster}`}
@@ -149,11 +149,11 @@ const WatchlistDetail = () => {
                                   </a>
                                 ))
                             ) : (
-                              <p className="w-full truncate">
+                              <p className="w-full text-wrap">
                                 {user?.country
-                                  ? `Not streaming options available in
+                                  ? `Not streaming options in
                               ${countryNames[user?.country]}`
-                                  : 'Not streaming options available in your country'}
+                                  : 'Not streaming options in your country'}
                               </p>
                             )}
                           </div>
