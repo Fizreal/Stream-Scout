@@ -5,6 +5,8 @@ import { Profile, Watchlist } from '@/types'
 import { useRouter } from 'next/navigation'
 
 type UserContextType = {
+  token: string
+  setToken: (token: string) => void
   user: Profile | null
   watchlists: Watchlist[]
   loading: boolean
@@ -18,6 +20,7 @@ type UserContextType = {
 const UserContext = createContext<UserContextType>({} as UserContextType)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [token, setToken] = useState<string>('')
   const [user, setUser] = useState<Profile | null>(null)
   const [watchlists, setWatchlists] = useState<Watchlist[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -25,6 +28,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = (token: string) => {
     localStorage.setItem('token', token)
+    setToken(token)
   }
 
   const assignUser = (user: Profile) => {
@@ -36,14 +40,17 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const logout = () => {
-    setUser(null)
     localStorage.removeItem('token')
+    setUser(null)
+    setToken('')
     router.push('/login')
   }
 
   return (
     <UserContext.Provider
       value={{
+        token,
+        setToken,
         user,
         watchlists,
         loading,

@@ -15,5 +15,5 @@ export const Register = async (data: {
   password: string
 }) => {
   const response = await Client.post('auth/register', data)
-  return response.data
+  return response
 }

@@ -112,7 +112,7 @@ const SignUp: React.FC = () => {
           }
           loading={false}
         />
-        <Link href="/signup">Already have an account? Login</Link>
+        <Link href="/login">Already have an account? Login</Link>
       </form>
     </section>
   )

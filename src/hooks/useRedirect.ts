@@ -7,20 +7,23 @@ import { useUser } from '@/context/UserContext'
 const Redirect = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const { user, loading } = useUser()
-  const authToken = localStorage.getItem('token')
+  const { user, loading, token } = useUser()
 
   useEffect(() => {
     if (loading) return
 
-    if (!authToken && pathname !== '/signup') {
+    if (!token && pathname !== '/signup') {
       router.push('/login')
-    } else if (authToken && !user && pathname !== '/login/registration') {
+    } else if (token && !user && pathname !== '/login/registration') {
       router.push('/login/registration')
-    } else if (authToken && user && pathname === '/login/registration') {
+    } else if (
+      token &&
+      user &&
+      (pathname === '/login/registration' || pathname === '/login')
+    ) {
       router.push('/')
     }
-  }, [authToken, user, loading])
+  }, [token, user, loading])
 
   return null
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useUser } from '@/context/UserContext'
+import { useSocket } from '@/context/SocketContext'
 import Link from 'next/link'
 
 const SideBar = ({
@@ -14,7 +15,13 @@ const SideBar = ({
   hamburgerRef: React.RefObject<HTMLDivElement>
 }) => {
   const { user, logout } = useUser()
+  const socket = useSocket()
   const ref = useRef<HTMLDivElement>(null)
+
+  const handleLogout = () => {
+    socket?.disconnect()
+    logout()
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -55,9 +62,13 @@ const SideBar = ({
               <Link href={'/profile?display=watchlists'}>Watchlists</Link>
             </li>
             <li>Feed (Coming soon)</li>
-            <li>Social</li>
+            <Link href={'/profile/social'}>
+              <li>Social</li>
+            </Link>
             <li>Settings</li>
-            <li onClick={logout}>Logout</li>
+            <li onClick={handleLogout} className="cursor-pointer">
+              Logout
+            </li>
           </ul>
         </ul>
       </aside>

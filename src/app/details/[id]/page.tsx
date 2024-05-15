@@ -55,14 +55,14 @@ const ContentDetails = ({ params }: Params) => {
   }, [content, displayedSeason])
 
   const checkUserCountryAvailability = (content: Content) => {
-    if (!content || !user) return ''
+    if (!content) return ''
 
-    const userCountry = user.country
+    const userCountry = user?.country || ''
 
     const countryStreamingInfo = content.streamingInfo.find(
       (stream) => stream.country === userCountry
     )
-    if (countryStreamingInfo) {
+    if (countryStreamingInfo && user?.country) {
       return user.country
     } else if (content.streamingInfo.length) {
       return content.streamingInfo[0].country

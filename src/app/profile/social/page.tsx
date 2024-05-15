@@ -1,6 +1,10 @@
+'use client'
+
 import { useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import FriendSection from '@/components/profile/social/FriendSection'
+import InvitationSection from '@/components/profile/social/InvitationSection'
+import Link from 'next/link'
 
 const SocialPage = () => {
   const { user } = useUser()
@@ -14,6 +18,7 @@ const SocialPage = () => {
   return (
     <section>
       <h1>Social</h1>
+      <Link href="/profile/social/search">Search for friends</Link>
       <div className="relative grid grid-cols-2 bg-PrimaryDark h-12 w-full md:max-w-lg md:rounded-lg">
         <button
           onClick={() => setDisplay('friends')}
@@ -49,13 +54,18 @@ const SocialPage = () => {
         </div>
       </div>
       <div>
-        <FriendSection
-          friends={
-            user?.friends
-              ? user.friends.filter((friend) => friend.status === 3)
-              : []
-          }
-        />
+        {display === 'friends' && (
+          <FriendSection
+            friends={
+              user?.friends
+                ? user.friends.filter((friend) => friend.status === 3)
+                : []
+            }
+          />
+        )}
+        {display === 'invitations' && (
+          <InvitationSection friends={user?.friends ? user.friends : []} />
+        )}
       </div>
     </section>
   )

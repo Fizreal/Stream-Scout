@@ -99,7 +99,7 @@ const RegistrationPage = () => {
         setTimeout(() => {
           socket?.emit(
             'check username',
-            profileForm.username,
+            { username: profileForm.username },
             (res: boolean) => {
               setUniqueUsername(res)
             }

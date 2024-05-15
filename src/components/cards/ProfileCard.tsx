@@ -1,17 +1,58 @@
 import { useState, useMemo } from 'react'
-import { PublicProfile } from '@/types'
+import { Profile, PublicProfile } from '@/types'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
+import { countryNames } from '@/utils/object-maps'
 
-const FriendCard = ({ profile }: { profile: PublicProfile }) => {
+const ProfileCard = ({ profile }: { profile: PublicProfile }) => {
   const socket = useSocket()
   const { user, assignUser } = useUser()
 
-  const [online, setOnline] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSendRequest = () => {}
+  const handleSendRequest = () => {
+    setLoading(true)
+    socket?.emit(
+      'add friend',
+      { recipientId: profile._id },
+      ({
+        success,
+        updatedProfile
+      }: {
+        success: boolean
+        updatedProfile: Profile
+      }) => {
+        if (success) {
+          assignUser(updatedProfile)
+        } else {
+          console.log('Failed to send friend request')
+        }
+        setLoading(false)
+      }
+    )
+  }
 
-  const handleAccept = () => {}
+  const handleAccept = () => {
+    setLoading(true)
+    socket?.emit(
+      'accept friend',
+      { requesterId: profile._id },
+      ({
+        success,
+        updatedProfile
+      }: {
+        success: boolean
+        updatedProfile: Profile
+      }) => {
+        if (success) {
+          assignUser(updatedProfile)
+        } else {
+          console.log('Failed to accept friend request')
+        }
+        setLoading(false)
+      }
+    )
+  }
 
   const friendStatus = useMemo(() => {
     if (user?.friends) {
@@ -26,17 +67,21 @@ const FriendCard = ({ profile }: { profile: PublicProfile }) => {
   }, [user, profile])
 
   return (
-    <div>
-      <div>
+    <div className="flex flex-nowrap w-full h-40 p-4">
+      <div className="flex flex-col flex-grow h-full gap-2">
         <h4>{profile.username}</h4>
-        <p>{profile.country}</p>
+        <p>{countryNames[profile.country]}</p>
       </div>
-      <div>
+      <div className="h-full">
         {friendStatus === 0 && (
-          <button onClick={handleSendRequest}>Add friend</button>
+          <button onClick={handleSendRequest} disabled={loading}>
+            {loading ? 'Loading...' : 'Add friend'}
+          </button>
         )}
         {friendStatus === 1 && (
-          <button onClick={handleAccept}>Accept request</button>
+          <button onClick={handleAccept} disabled={loading}>
+            {loading ? 'Loading...' : 'Accept request'}
+          </button>
         )}
         {friendStatus === 2 && <button disabled>Pending</button>}
         {friendStatus === 3 && <button disabled>Friends</button>}
@@ -45,4 +90,4 @@ const FriendCard = ({ profile }: { profile: PublicProfile }) => {
   )
 }
 
-export default FriendCard
+export default ProfileCard

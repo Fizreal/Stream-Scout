@@ -1,21 +1,71 @@
 import { useState, useEffect } from 'react'
-import { Friend } from '@/types'
+import { Friend, Profile } from '@/types'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
+import RemoveFriendModal from '../RemoveFriendModal'
 
 const FriendCard = ({ friend }: { friend: Friend }) => {
   const socket = useSocket()
   const { assignUser } = useUser()
 
   const [online, setOnline] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
-  const handleCancelRequest = () => {}
+  const handleAccept = () => {
+    setLoading(true)
+    socket?.emit(
+      'accept friend',
+      { requesterId: friend.recipient._id },
+      ({
+        success,
+        updatedProfile
+      }: {
+        success: boolean
+        updatedProfile: Profile
+      }) => {
+        if (success) {
+          assignUser(updatedProfile)
+        } else {
+          console.log('Failed to accept friend request')
+        }
+        setLoading(false)
+      }
+    )
+  }
 
-  const handleAccept = () => {}
+  const handleDeleteRequest = () => {
+    setLoading(true)
+    socket?.emit(
+      'delete friend record',
+      { requesterId: friend.recipient._id },
+      ({
+        success,
+        updatedProfile,
+        error
+      }: {
+        success: boolean
+        updatedProfile?: Profile
+        error?: string
+      }) => {
+        console.log(success, updatedProfile, error)
+        if (success && updatedProfile) {
+          assignUser(updatedProfile)
+        } else {
+          console.log(error || 'Failed to delete friend request')
+        }
+        setLoading(false)
+      }
+    )
+  }
 
-  const handleDecline = () => {}
+  const handleRemove = () => {
+    setShowModal(true)
+  }
 
-  const handleRemove = () => {}
+  const closeModal = () => {
+    setShowModal(false)
+  }
 
   useEffect(() => {
     if (socket && friend.status === 3) {
@@ -30,25 +80,36 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
   }, [socket, friend])
 
   return (
-    <div>
-      <div>
+    <div className="flex flex-nowrap w-full h-40 p-4">
+      <div className="flex flex-col flex-grow h-full gap-2">
         <h4>{friend.recipient.username}</h4>
         <p>{friend.recipient.country}</p>
       </div>
-      <div>
+      <div className="flex flex-col items-center justify-around">
         {friend.status === 3 && (
-          <button onClick={handleRemove}>Remove friend</button>
+          <button onClick={handleRemove} disabled={loading}>
+            {loading ? 'Loading...' : 'Remove friend'}
+          </button>
         )}
         {friend.status === 1 && (
           <>
-            <button onClick={handleAccept}>Accept request</button>
-            <button onClick={handleDecline}>Decline request</button>
+            <button onClick={handleAccept} disabled={loading}>
+              {loading ? 'Loading...' : 'Accept request'}
+            </button>
+            <button onClick={handleDeleteRequest} disabled={loading}>
+              {loading ? 'Loading...' : 'Decline request'}
+            </button>
           </>
         )}
         {friend.status === 2 && (
-          <button onClick={handleCancelRequest}>Cancel request</button>
+          <button onClick={handleDeleteRequest} disabled={loading}>
+            {loading ? 'Loading...' : 'Cancel request'}
+          </button>
         )}
       </div>
+      {showModal && (
+        <RemoveFriendModal friend={friend.recipient} closeModal={closeModal} />
+      )}
     </div>
   )
 }

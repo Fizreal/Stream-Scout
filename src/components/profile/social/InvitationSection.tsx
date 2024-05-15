@@ -7,19 +7,23 @@ const InvitationSection = ({ friends }: { friends: Friend[] }) => {
       <h2>Manage friend requests</h2>
       <div>
         <h3>Received</h3>
-        {friends
-          .filter((friend) => friend.status === 1)
-          .map((friend) => (
-            <FriendCard friend={friend} key={friend._id} />
-          ))}
+        <div>
+          {friends
+            .filter((friend) => friend.status === 1)
+            .map((friend) => (
+              <FriendCard friend={friend} key={friend._id} />
+            ))}
+        </div>
       </div>
       <div>
         <h3>Sent</h3>
-        {friends
-          .filter((friend) => friend.status === 2)
-          .map((friend) => (
-            <FriendCard friend={friend} key={friend._id} />
-          ))}
+        <div>
+          {friends
+            .filter((friend) => friend.status === 2)
+            .map((friend) => (
+              <FriendCard friend={friend} key={friend._id} />
+            ))}
+        </div>
       </div>
     </div>
   )
