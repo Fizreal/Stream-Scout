@@ -2,7 +2,8 @@ import { useState, useRef } from 'react'
 import { useUser } from '@/context/UserContext'
 import { useSocket } from '@/context/SocketContext'
 import { Content, Watchlist } from '@/types'
-import SubmitButton from './SubmitButton'
+import SubmitButton from '../SubmitButton'
+import BaseModal from './BaseModal'
 import { useIsOverflow } from '@/hooks/useIsOverflow'
 
 type ListsModalProps = {
@@ -29,17 +30,19 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
     socket?.emit(
       'add to watchlist',
       { watchlist, content: content._id },
-      (response: {
+      ({
+        success,
+        watchlists,
+        error
+      }: {
         success: boolean
         watchlists?: Watchlist[]
         error?: string
       }) => {
-        if (response.success && response.watchlists) {
-          setWatchlists(response.watchlists)
-        } else if (response.error) {
-          setError(response.error)
+        if (success && watchlists) {
+          setWatchlists(watchlists)
         } else {
-          console.log('Failed to add to watchlist')
+          setError(error || 'An error occurred adding to watchlist')
         }
       }
     )
@@ -53,18 +56,21 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
     socket?.emit(
       'create watchlist',
       { name: newList, content: content._id },
-      (response: {
+      ({
+        success,
+        watchlists,
+        error
+      }: {
         success: boolean
         watchlists?: Watchlist[]
         error?: string
       }) => {
-        if (response.success && response.watchlists) {
-          setWatchlists(response.watchlists)
-        } else if (response.error) {
-          setError(response.error)
+        if (success && watchlists) {
+          setWatchlists(watchlists)
         } else {
-          setError('Failed to create watchlist')
+          setError(error || 'An error occurred creating your watchlist')
         }
+
         setNewList('')
         setLoading(false)
       }
@@ -72,11 +78,7 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
   }
 
   return (
-    <div className="fixed top-0 left-0 flex justify-center items-center h-dvh w-dvw z-40 text-white">
-      <div
-        className="absolute top-0 left-0 h-full w-full bg-black/50 backdrop-blur"
-        onClick={() => setModalOpen(false)}
-      ></div>
+    <BaseModal onClick={() => setModalOpen(false)}>
       <div className="flex flex-col items-center z-10 w-4/5 max-w-xl bg-BaseDark max-h-[85%] min-h-[50%] p-8 gap-4 rounded">
         <h2 className="w-full text-center text-lg text-AccentLight">
           Add {content.title} to watchlists:
@@ -138,7 +140,7 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
           </form>
         </div>
       </div>
-    </div>
+    </BaseModal>
   )
 }
 

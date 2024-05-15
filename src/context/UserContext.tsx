@@ -1,19 +1,21 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-import { Profile, Watchlist } from '@/types'
+import { Profile, Watchlist, Invitation } from '@/types'
 import { useRouter } from 'next/navigation'
 
 type UserContextType = {
   token: string
-  setToken: (token: string) => void
   user: Profile | null
   watchlists: Watchlist[]
+  invitations: Invitation[]
   loading: boolean
   login: (token: string) => void
   logout: () => void
+  setToken: (token: string) => void
   assignUser: (user: Profile) => void
   setWatchlists: (watchlists: Watchlist[]) => void
+  setInvitations: (invitations: Invitation[]) => void
   setLoadingState: (state: boolean) => void
 }
 
@@ -21,8 +23,11 @@ const UserContext = createContext<UserContextType>({} as UserContextType)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string>('')
+
   const [user, setUser] = useState<Profile | null>(null)
   const [watchlists, setWatchlists] = useState<Watchlist[]>([])
+  const [invitations, setInvitations] = useState<Invitation[]>([])
+
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
@@ -50,14 +55,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     <UserContext.Provider
       value={{
         token,
-        setToken,
         user,
         watchlists,
+        invitations,
         loading,
         login,
         logout,
+        setToken,
         assignUser,
         setWatchlists,
+        setInvitations,
         setLoadingState
       }}
     >

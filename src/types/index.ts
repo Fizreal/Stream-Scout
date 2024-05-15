@@ -23,6 +23,17 @@ export type Watchlist = {
   }[]
 }
 
+export type Invitation = {
+  _id: string
+  watchlist: {
+    _id: string
+    owners: PublicProfile[]
+    name: string
+    list: string[]
+  }
+  recipient: PublicProfile
+}
+
 export type Friend = {
   _id: string
   recipient: PublicProfile

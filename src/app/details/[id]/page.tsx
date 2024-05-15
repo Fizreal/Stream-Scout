@@ -10,7 +10,7 @@ import Image from 'next/image'
 import { streamIcons, countryNames } from '@/utils/object-maps'
 // import { notFound } from 'next/navigation'
 import NotFound from './not-found'
-import ListsModal from '@/components/ListsModal'
+import ListsModal from '@/components/modals/ListsModal'
 import SubmitButton from '@/components/SubmitButton'
 
 type Params = {
