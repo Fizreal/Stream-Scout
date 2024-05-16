@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { useUser } from '@/context/UserContext'
 import { useSocket } from '@/context/SocketContext'
 import { Watchlist } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
+import ContentFilter from '@/components/ContentFilter'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { streamIcons, countryNames } from '@/utils/object-maps'
 
@@ -16,6 +17,41 @@ const WatchlistDetail = () => {
 
   const { id } = useParams<{ id: string }>()
   const [watchlist, setWatchlist] = useState<Watchlist | null>(null)
+  const [filters, setFilters] = useState({
+    contentType: 'All',
+    genre: ''
+  })
+
+  const filtering = useMemo(() => {
+    return !(filters.contentType === 'All' && filters.genre === '')
+  }, [filters])
+
+  const filteredWatchlist = useMemo(() => {
+    if (watchlist) {
+      let filteredList = watchlist.list
+      if (filtering) {
+        if (filters.contentType !== 'All') {
+          if (filters.contentType === 'Movies') {
+            filteredList = filteredList.filter(
+              (item) => item.content.type === 'movie'
+            )
+          } else {
+            filteredList = filteredList.filter(
+              (item) => item.content.type === 'series'
+            )
+          }
+        }
+        if (filters.genre) {
+          filteredList = filteredList.filter((item) =>
+            item.content.genres.includes(filters.genre)
+          )
+        }
+      }
+      return filteredList
+    } else {
+      return []
+    }
+  }, [watchlist, filters])
 
   const handleUpdateWatchlist = (param: any) => {
     if (!socket || !watchlist) return
@@ -76,6 +112,9 @@ const WatchlistDetail = () => {
             Collaborators:{' '}
             {watchlist.owners.map((owner) => owner.username).join(', ')}
           </p>
+          <div className="flex w-full justify-center min-[390px]:justify-end max-w-3xl my-2">
+            <ContentFilter filters={filters} setFilters={setFilters} />
+          </div>
           <Droppable droppableId="droppable-1">
             {(provided, snapshot) => (
               <div
@@ -83,7 +122,7 @@ const WatchlistDetail = () => {
                 {...provided.droppableProps}
                 className="flex flex-col rounded-lg bg-PrimaryDark shadow-lg p-8 gap-4 w-full sm:w-4/5 max-w-3xl"
               >
-                {watchlist.list.map((item, index) => (
+                {filteredWatchlist.map((item, index) => (
                   <Draggable
                     key={item.content._id}
                     draggableId={`draggable-${item.content._id}`}
@@ -99,8 +138,11 @@ const WatchlistDetail = () => {
                           <img
                             src="/dragIcon.svg"
                             alt="Drag"
-                            {...provided.dragHandleProps}
-                            className="aspect-square w-full"
+                            {...(filtering ? {} : provided.dragHandleProps)}
+                            className={
+                              'aspect-square selectedSVG w-full' +
+                              (filtering ? ' opacity-50' : '')
+                            }
                           />
                         </div>
                         <Link
