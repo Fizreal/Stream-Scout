@@ -2,13 +2,11 @@
 
 import { useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useUser } from '@/context/UserContext'
 import WatchlistsSection from '@/components/profile/WatchlistsSection'
 import WatchedSection from '@/components/profile/WatchedSection'
 import LikedSection from '@/components/profile/LikedSection'
 
 const ProfilePage = () => {
-  const { user, watchlists } = useUser()
   const searchParams = useSearchParams()
 
   const display = searchParams.get('display') || 'watchlists'
@@ -74,13 +72,13 @@ const ProfilePage = () => {
           <div className="w-full h-full bg-BaseDark rounded"></div>
         </div>
       </div>
-      <div>
+      <div className="flex flex-col items-center w-full">
         {display === 'watchlists' ? (
-          <WatchlistsSection watchlists={watchlists} />
+          <WatchlistsSection />
         ) : display === 'watched' ? (
-          <WatchedSection watchedContent={user ? user.watched : []} />
+          <WatchedSection />
         ) : (
-          <LikedSection likedContent={user ? user.watched : []} />
+          <LikedSection />
         )}
       </div>
     </section>

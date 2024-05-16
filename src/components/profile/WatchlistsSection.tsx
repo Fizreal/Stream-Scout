@@ -1,7 +1,11 @@
+import { useUser } from '@/context/UserContext'
+
 import { Watchlist } from '@/types'
 import Link from 'next/link'
 
-const WatchlistsSection = ({ watchlists }: { watchlists: Watchlist[] }) => {
+const WatchlistsSection = () => {
+  const { watchlists } = useUser()
+
   return (
     <div className="fadeIn">
       <button>Create watchlist</button>

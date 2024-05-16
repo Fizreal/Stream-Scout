@@ -52,7 +52,7 @@ const ContentFilter = ({
         Filters
       </button>
       {showFilters && (
-        <div className="absolute left-0 bottom-0 translate-y-full rounded-lg w-full">
+        <div className="absolute left-1/2 bottom-0 translate-y-full -translate-x-1/2 rounded-lg">
           <p>Content type:</p>
           <div className="">
             <button

@@ -1,11 +1,19 @@
+import { useUser } from '@/context/UserContext'
 import { Watched } from '@/types'
+import WatchedCard from '../cards/WatchedCard'
 
-const WatchedSection = ({ watchedContent }: { watchedContent: Watched[] }) => {
+const WatchedSection = () => {
+  const { user } = useUser()
+
   return (
-    <div className="fadeIn">
-      {watchedContent.map((watched) => (
-        <div key={watched._id}></div>
-      ))}
+    <div className="flex flex-col gap-6 p-8 w-full max-w-3xl fadeIn">
+      {user?.watched.length ? (
+        user.watched.map((watched) => (
+          <WatchedCard key={watched._id} watched={watched} />
+        ))
+      ) : (
+        <p>No watched content</p>
+      )}
     </div>
   )
 }
