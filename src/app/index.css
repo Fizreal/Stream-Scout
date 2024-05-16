@@ -70,6 +70,32 @@ main > *:not(:first-child) {
   animation: colorShiftOut 200ms ease-in forwards;
 }
 
+@keyframes filterShiftIn {
+  from {
+    color: black;
+  }
+  to {
+    color: #76abae;
+  }
+}
+
+@keyframes filterShiftOut {
+  from {
+    color: #76abae;
+  }
+  to {
+    color: black;
+  }
+}
+
+.filterSelected {
+  animation: filterShiftIn 300ms ease-in forwards;
+}
+
+.filterNotSelected {
+  animation: filterShiftOut 200ms ease-in forwards;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

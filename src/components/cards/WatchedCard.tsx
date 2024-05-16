@@ -122,7 +122,7 @@ const WatchedCard = ({ watched }: { watched: Watched }) => {
 
   return (
     <div className="relative w-full p-6 rounded shadow-lg flex flex-col items-center min-[390px]:flex-row gap-6 bg-PrimaryDark ">
-      <div className="h-full w-[150px] flex-shrink-0 shadow-lg">
+      <div className="flex-shrink-0 shadow-lg">
         <Link href={`/details/${content._id}`}>
           <Image
             src={`https://image.tmdb.org/t/p/original${content.poster}`}

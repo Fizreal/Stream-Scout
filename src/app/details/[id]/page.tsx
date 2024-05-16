@@ -247,70 +247,74 @@ const ContentDetails = ({ params }: Params) => {
               className="object-cover w-full filter h-96 blur-sm"
             />
           </div>
-          <div className="flex flex-wrap md:flex-nowrap justify-around w-full gap-4 z-10 text-white">
-            <div className="min-w-4/5 md:w-[300px] shadow-lg">
-              <Image
-                src={`https://image.tmdb.org/t/p/original${content.poster}`}
-                alt={content.title}
-                width={300}
-                height={450}
-                className="rounded-t-lg"
-              />
-              <div className="w-full grid grid-cols-4 bg-PrimaryDark rounded-b-lg">
-                <div className="flex flex-col items-center p-2 gap-1">
-                  <button onClick={() => setShowListsModal(true)}>
-                    <Image
-                      src={'/bookmark.svg'}
-                      alt="Add to watchlist"
-                      height={25}
-                      width={18.75}
-                    />
-                  </button>
-                  <p className="text-xs">Watchlist</p>
-                </div>
-                <div className="flex flex-col items-center p-2 gap-1">
-                  <button onClick={handleWatched}>
-                    <Image
-                      src={'/checkmark.svg'}
-                      alt="Like"
-                      width={25}
-                      height={25}
-                      className={watched ? 'selectedSVG' : ''}
-                    />
-                  </button>
-                  <p className="text-xs">Seen</p>
-                </div>
-                <div className="flex flex-col items-center p-2 gap-1">
-                  <button onClick={handleLike}>
-                    <Image
-                      src={'/thumb.svg'}
-                      alt="Like"
-                      width={25}
-                      height={25}
-                      className={watched && watched.liked ? 'selectedSVG' : ''}
-                    />
-                  </button>
-                  <p className="text-xs">{content.likes}</p>
-                </div>
-                <div className="flex flex-col items-center p-2 gap-1">
-                  <button onClick={handleDislike}>
-                    <Image
-                      src={'/thumb.svg'}
-                      alt="Dislike"
-                      width={25}
-                      height={25}
-                      className={
-                        'rotate-180' +
-                        (watched && watched.disliked ? ' selectedSVG' : '')
-                      }
-                    />
-                  </button>
-                  <p className="text-xs">{content.dislikes}</p>
+          <div className="flex flex-wrap min-[950px]:flex-nowrap justify-around w-full gap-4 z-10 text-white">
+            <div className="flex justify-center w-full min-[950px]:w-[300px] flex-shrink-0">
+              <div className="w-[300px] shadow-lg">
+                <Image
+                  src={`https://image.tmdb.org/t/p/original${content.poster}`}
+                  alt={content.title}
+                  width={300}
+                  height={450}
+                  className="rounded-t-lg"
+                />
+                <div className="w-full grid grid-cols-4 bg-PrimaryDark rounded-b-lg">
+                  <div className="flex flex-col items-center p-2 gap-1">
+                    <button onClick={() => setShowListsModal(true)}>
+                      <Image
+                        src={'/bookmark.svg'}
+                        alt="Add to watchlist"
+                        height={25}
+                        width={18.75}
+                      />
+                    </button>
+                    <p className="text-xs">Watchlist</p>
+                  </div>
+                  <div className="flex flex-col items-center p-2 gap-1">
+                    <button onClick={handleWatched}>
+                      <Image
+                        src={'/checkmark.svg'}
+                        alt="Like"
+                        width={25}
+                        height={25}
+                        className={watched ? 'selectedSVG' : ''}
+                      />
+                    </button>
+                    <p className="text-xs">Seen</p>
+                  </div>
+                  <div className="flex flex-col items-center p-2 gap-1">
+                    <button onClick={handleLike}>
+                      <Image
+                        src={'/thumb.svg'}
+                        alt="Like"
+                        width={25}
+                        height={25}
+                        className={
+                          watched && watched.liked ? 'selectedSVG' : ''
+                        }
+                      />
+                    </button>
+                    <p className="text-xs">{content.likes}</p>
+                  </div>
+                  <div className="flex flex-col items-center p-2 gap-1">
+                    <button onClick={handleDislike}>
+                      <Image
+                        src={'/thumb.svg'}
+                        alt="Dislike"
+                        width={25}
+                        height={25}
+                        className={
+                          'rotate-180' +
+                          (watched && watched.disliked ? ' selectedSVG' : '')
+                        }
+                      />
+                    </button>
+                    <p className="text-xs">{content.dislikes}</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col flex-grow gap-8 md:pt-8 p-4 bg-black/50 rounded-t-md md:bg-transparent ">
-              <div>
+            <div className="flex flex-col flex-grow gap-8 min-[950px]:pt-8 p-4 bg-black/50 rounded-t-md min-[950px]:bg-transparent ">
+              <div className="flex flex-col items-center min-[950px]:items-start w-full">
                 <h2 className="text-2xl">
                   {content.title}{' '}
                   <span className="text-lg text-gray-400">
@@ -370,7 +374,7 @@ const ContentDetails = ({ params }: Params) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 w-full bg-black/50 text-white rounded-b-md md:mt-4 md:rounded-md shadow-lg pt-0 p-4 md:pt-4">
+          <div className="flex flex-col gap-4 w-full bg-black/50 text-white rounded-b-md min-[950px]:mt-4 min-[950px]:rounded-md shadow-lg pt-0 p-4 min-[950px]:pt-4">
             <div className="flex flex-col gap-4 md:flex-row md:justify-around">
               <div>
                 <h3>Ratings</h3>
