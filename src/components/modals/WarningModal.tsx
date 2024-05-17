@@ -15,11 +15,21 @@ const WarningModal = ({
 }: WarningModalProps) => {
   return (
     <BaseModal onClick={closeModal}>
-      <div className="flex flex-col items-center z-10 w-4/5 max-w-xl bg-BaseDark h-1/2 p-8 gap-4 rounded">
-        <h2>{title}</h2>
+      <div className="flex flex-col items-center z-10 w-4/5 max-w-md bg-PrimaryDark p-8 gap-6 rounded-lg">
+        <h2 className="text-center">{title}</h2>
         <div className="flex justify-around w-full">
-          <button onClick={closeModal}>Back</button>
-          <button onClick={handleAffirmative}>{affirmativeText}</button>
+          <button
+            onClick={closeModal}
+            className="rounded-full w-28 bg-BaseDark/75 hover:bg-BaseDark hover:text-AccentLight  py-2 px-1"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleAffirmative}
+            className="rounded-full w-28 border-2 border-BaseDark/75 hover:border-BaseDark hover:bg-BaseDark hover:text-AccentLight py-2 px-1 shadow-lg"
+          >
+            {affirmativeText}
+          </button>
         </div>
       </div>
     </BaseModal>

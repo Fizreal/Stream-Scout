@@ -43,55 +43,76 @@ const InviteModal = ({ closeModal, watchlistId }: InviteModalProps) => {
 
   return (
     <BaseModal onClick={closeModal}>
-      <div className="flex flex-col items-center z-10 w-4/5 max-w-xl bg-BaseDark max-h-[85%] min-h-[50%] p-8 gap-4 rounded">
-        <h2>Invite friends to watchlist</h2>
-        <div>
-          <h3>Available friends:</h3>
-          <div className="flex flex-col items-center w-full gap-4">
-            {availableFriends?.map((friend) => (
-              <div
-                key={friend.recipient._id}
-                className="flex justify-between w-full"
-              >
-                <p>{friend.recipient.username}</p>
-                <button
-                  onClick={() => {
-                    setInvites([...invites, friend])
-                  }}
+      <div className="flex flex-col items-center z-10 w-4/5 max-w-xl bg-PrimaryDark max-h-[85%] min-h-[50%] p-8 gap-4 rounded-lg">
+        <h2 className="text-xl text-AccentLight">
+          Invite friends to watchlist
+        </h2>
+        <div className="flex flex-col flex-grow items-center w-full gap-2 overflow-hidden">
+          <h3 className="text-lg">Available friends:</h3>
+          <div className="flex flex-col flex-grow items-center w-full gap-4 overflow-auto">
+            {availableFriends?.length === 0 ? (
+              <p>No available friends</p>
+            ) : (
+              availableFriends?.map((friend) => (
+                <div
+                  key={friend.recipient._id}
+                  className="flex justify-between w-full"
                 >
-                  Invite
-                </button>
-              </div>
-            ))}
+                  <p>{friend.recipient.username}</p>
+                  <button
+                    onClick={() => {
+                      setInvites([...invites, friend])
+                    }}
+                  >
+                    Invite
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
-
-        <div>
-          <h3>Invites:</h3>
-          <div className="flex flex-col items-center w-full gap-4">
-            {invites.map((friend) => (
-              <div
-                key={friend.recipient._id}
-                className="flex justify-between w-full"
-              >
-                <p>{friend.recipient.username}</p>
-                <button
-                  onClick={() => {
-                    const filteredInvites = invites.filter(
-                      (invite) => invite.recipient._id !== friend.recipient._id
-                    )
-                    setInvites([...filteredInvites])
-                  }}
+        <div className="flex flex-col flex-grow items-center w-full gap-2 overflow-hidden">
+          <h3 className="text-lg">Invites:</h3>
+          <div className="flex flex-col flex-grow items-center w-full gap-4 overflow-auto">
+            {invites.length === 0 ? (
+              <p>No invites</p>
+            ) : (
+              invites.map((friend) => (
+                <div
+                  key={friend.recipient._id}
+                  className="flex justify-between w-full"
                 >
-                  Cancel
-                </button>
-              </div>
-            ))}
+                  <p>{friend.recipient.username}</p>
+                  <button
+                    onClick={() => {
+                      const filteredInvites = invites.filter(
+                        (invite) =>
+                          invite.recipient._id !== friend.recipient._id
+                      )
+                      setInvites([...filteredInvites])
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
         <div className="flex justify-around w-full">
-          <button onClick={closeModal}>Cancel</button>
-          <button onClick={handleInvite}>Send invites</button>
+          <button
+            onClick={closeModal}
+            className="rounded-full w-32 bg-BaseDark/75 hover:bg-BaseDark hover:text-AccentLight  py-2 px-1"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleInvite}
+            disabled={invites.length === 0}
+            className="rounded-full w-32 border-2 border-BaseDark/75 hover:border-BaseDark hover:bg-BaseDark hover:text-AccentLight py-2 px-1 shadow-lg"
+          >
+            Send invites
+          </button>
         </div>
       </div>
     </BaseModal>

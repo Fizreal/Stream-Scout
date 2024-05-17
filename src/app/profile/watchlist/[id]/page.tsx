@@ -116,24 +116,18 @@ const WatchlistDetail = () => {
           >
             <div className="relative flex justify-center w-full max-w-4xl">
               <div className="flex flex-col items-center gap-1 min-[390px]:items-end w-full max-w-3xl px-8">
-                <h2 className="w-full px-6 lg:px-0 text-center truncate">
+                <h2 className="text-2xl text-AccentLight w-full px-6 lg:px-0 text-center truncate">
                   {watchlist.name}
                 </h2>
-                <p className="w-full text-center">
-                  Collaborators:{' '}
+                <p className="text-white w-full text-center">
+                  <span className="text-lg">Collaborators:</span>{' '}
                   {watchlist.owners.map((owner) => owner.username).join(', ')}
                 </p>
                 <ContentFilter filters={filters} setFilters={setFilters} />
               </div>
               <WatchlistOptions
-                showInviteModal={() => {
-                  console.log('invite')
-                  setInviteModal(true)
-                }}
-                showLeaveModal={() => {
-                  console.log('leave')
-                  setLeaveModal(true)
-                }}
+                showInviteModal={() => setInviteModal(true)}
+                showLeaveModal={() => setLeaveModal(true)}
               />
             </div>
 
@@ -240,10 +234,12 @@ const WatchlistDetail = () => {
           {leaveModal && (
             <WarningModal
               title={`Are you sure you want to ${
-                watchlist.owners.length === 0 ? 'delete' : 'leave'
+                watchlist.owners.length === 1 ? 'delete' : 'leave'
               } this watchlist?`}
               closeModal={() => setLeaveModal(false)}
-              affirmativeText="Leave"
+              affirmativeText={
+                watchlist.owners.length === 1 ? 'Delete' : 'Leave'
+              }
               handleAffirmative={() => console.log('Leave watchlist')}
             />
           )}

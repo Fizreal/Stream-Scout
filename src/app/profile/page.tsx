@@ -28,7 +28,6 @@ const ProfilePage = () => {
 
   return (
     <section className="w-full flex-flex-col">
-      <h1>Profile Page</h1>
       <div className="relative grid grid-cols-3 bg-PrimaryDark h-12 w-full md:max-w-lg md:rounded-lg">
         <button
           onClick={() => handleDisplayChange('watchlists')}

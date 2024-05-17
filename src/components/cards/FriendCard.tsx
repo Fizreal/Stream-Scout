@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Friend, Profile } from '@/types'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
-import RemoveFriendModal from '../modals/RemoveFriendModal'
 import WarningModal from '../modals/WarningModal'
 
 const FriendCard = ({ friend }: { friend: Friend }) => {

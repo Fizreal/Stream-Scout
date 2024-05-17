@@ -121,7 +121,7 @@ const WatchedCard = ({ watched }: { watched: Watched }) => {
   }
 
   return (
-    <div className="relative w-full p-6 rounded shadow-lg flex flex-col items-center min-[390px]:flex-row gap-6 bg-PrimaryDark ">
+    <div className="relative w-full p-6 rounded-xl shadow-lg flex flex-col items-center min-[390px]:flex-row gap-6 bg-PrimaryDark ">
       <div className="flex-shrink-0 shadow-lg">
         <Link href={`/details/${content._id}`}>
           <Image

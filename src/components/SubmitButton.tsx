@@ -12,7 +12,7 @@ const SubmitButton = ({
   onClick = () => {}
 }: SubmitButtonProps) => {
   return (
-    <button type="submit" disabled={disabled} onClick={onClick}>
+    <button type="submit" disabled={disabled} onClick={onClick} className="">
       {loading ? 'Loading...' : text}
     </button>
   )

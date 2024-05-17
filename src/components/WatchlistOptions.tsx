@@ -44,16 +44,22 @@ const WatchlistOptions = ({
         <img src="/dragIcon.svg" alt="Open" className="whiteSVG" />
       </button>
       {showOptions && (
-        <div className="flex flex-col items-center gap-2 absolute right-0 bottom-0 translate-y-full xl:right-1/2 xl:translate-x-1/2 rounded-xl w-40 z-10 p-2 bg-BaseLight fadeIn">
+        <div className="flex flex-col items-center gap-2 absolute right-0 bottom-0 translate-y-full xl:right-1/2 xl:translate-x-1/2 rounded-xl w-44 z-10 p-2 bg-BaseLight fadeIn">
           <button
-            onClick={showInviteModal}
-            className="rounded-lg bg-PrimaryDark text-AccentLight w-full"
+            onClick={() => {
+              setShowOptions(false)
+              showInviteModal()
+            }}
+            className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-0.5 py-1"
           >
             Invite to watchlist
           </button>
           <button
-            onClick={showLeaveModal}
-            className="rounded-lg bg-PrimaryDark text-AccentLight w-full"
+            onClick={() => {
+              setShowOptions(false)
+              showLeaveModal()
+            }}
+            className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-0.5 py-1"
           >
             Leave watchlist
           </button>

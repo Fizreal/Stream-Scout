@@ -247,7 +247,7 @@ const ContentDetails = ({ params }: Params) => {
               className="object-cover w-full filter h-96 blur-sm"
             />
           </div>
-          <div className="flex flex-wrap min-[950px]:flex-nowrap justify-around w-full gap-4 z-10 text-white">
+          <div className="flex flex-wrap min-[950px]:flex-nowrap justify-around lg:justify-start w-full gap-4 z-10 text-white">
             <div className="flex justify-center w-full min-[950px]:w-[300px] flex-shrink-0">
               <div className="w-[300px] shadow-lg">
                 <Image
@@ -313,7 +313,7 @@ const ContentDetails = ({ params }: Params) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col flex-grow gap-8 min-[950px]:pt-8 p-4 bg-black/50 rounded-t-md min-[950px]:bg-transparent ">
+            <div className="flex flex-col flex-grow gap-8 max-w-2xl min-[950px]:pt-8 p-4 bg-black/50 rounded-t-md min-[950px]:bg-black/30 h-min">
               <div className="flex flex-col items-center min-[950px]:items-start w-full">
                 <h2 className="text-2xl textShadow">
                   {content.title}{' '}
