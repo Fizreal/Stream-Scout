@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { useUser } from '@/context/UserContext'
 import { useSocket } from '@/context/SocketContext'
@@ -13,10 +14,12 @@ import WarningModal from '@/components/modals/WarningModal'
 import InviteModal from '@/components/modals/InviteModal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { streamIcons, countryNames } from '@/utils/object-maps'
+import { list } from 'postcss'
 
 const WatchlistDetail = () => {
-  const { watchlists, user } = useUser()
+  const { watchlists, setWatchlists, user } = useUser()
   const socket = useSocket()
+  const router = useRouter()
 
   const { id } = useParams<{ id: string }>()
 
@@ -87,6 +90,25 @@ const WatchlistDetail = () => {
 
     socket.emit('reorder watchlist', { watchlist: updatedWatchlist }, () =>
       console.log('Reordered watchlist')
+    )
+  }
+
+  const handleLeaveWatchlist = () => {
+    if (!socket || !watchlist) return
+
+    socket.emit(
+      'leave watchlist',
+      { watchlist: watchlist._id },
+      ({ success }: { success: boolean }) => {
+        if (success) {
+          const updatedWatchlists = watchlists.filter((list) => list._id !== id)
+          setWatchlists(updatedWatchlists)
+          router.push('/profile?display=watchlists')
+        } else {
+          console.log('Error leaving watchlist')
+          setLeaveModal(false)
+        }
+      }
     )
   }
 
@@ -240,7 +262,7 @@ const WatchlistDetail = () => {
               affirmativeText={
                 watchlist.owners.length === 1 ? 'Delete' : 'Leave'
               }
-              handleAffirmative={() => console.log('Leave watchlist')}
+              handleAffirmative={handleLeaveWatchlist}
             />
           )}
         </>

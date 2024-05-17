@@ -1,14 +1,24 @@
+'use client'
+
+import { useState } from 'react'
 import { useUser } from '@/context/UserContext'
-
-import { Watchlist } from '@/types'
 import Link from 'next/link'
+import CreateWatchlistModal from '../modals/CreateWatchlistModal'
 
-const WatchlistsSection = () => {
+type WatchlistsSectionProps = {
+  showCreateModal: boolean
+  setShowCreateModal: (show: boolean) => void
+}
+
+const WatchlistsSection = ({
+  showCreateModal,
+  setShowCreateModal
+}: WatchlistsSectionProps) => {
   const { watchlists } = useUser()
 
   return (
     <div className="fadeIn">
-      <button>Create watchlist</button>
+      <button onClick={() => setShowCreateModal(true)}>Create watchlist</button>
       <div>
         {watchlists.map((watchlist) => (
           <Link

@@ -1,13 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import WatchlistsSection from '@/components/profile/WatchlistsSection'
 import WatchedSection from '@/components/profile/WatchedSection'
 import LikedSection from '@/components/profile/LikedSection'
+import CreateWatchlistModal from '@/components/modals/CreateWatchlistModal'
 
 const ProfilePage = () => {
   const searchParams = useSearchParams()
+
+  const [showCreateModal, setShowCreateModal] = useState(false)
 
   const display = searchParams.get('display') || 'watchlists'
   const displayTranslation: { [key: string]: number } = {
@@ -30,7 +33,10 @@ const ProfilePage = () => {
     <section className="w-full flex-flex-col">
       <div className="relative grid grid-cols-3 bg-PrimaryDark h-12 w-full md:max-w-lg md:rounded-lg">
         <button
-          onClick={() => handleDisplayChange('watchlists')}
+          onClick={() => {
+            setShowCreateModal(false)
+            handleDisplayChange('watchlists')
+          }}
           className={
             'z-10 w-full h-full' +
             (display === 'watchlists'
@@ -41,7 +47,10 @@ const ProfilePage = () => {
           Watchlists
         </button>
         <button
-          onClick={() => handleDisplayChange('watched')}
+          onClick={() => {
+            setShowCreateModal(false)
+            handleDisplayChange('watched')
+          }}
           className={
             'z-10' +
             (display === 'watched' ? ' sectionSelected' : ' sectionNotSelected')
@@ -50,7 +59,10 @@ const ProfilePage = () => {
           Watched
         </button>
         <button
-          onClick={() => handleDisplayChange('liked')}
+          onClick={() => {
+            setShowCreateModal(false)
+            handleDisplayChange('liked')
+          }}
           className={
             'z-10' +
             (display === 'liked' ? ' sectionSelected' : ' sectionNotSelected')
@@ -73,13 +85,19 @@ const ProfilePage = () => {
       </div>
       <div className="flex flex-col items-center w-full">
         {display === 'watchlists' ? (
-          <WatchlistsSection />
+          <WatchlistsSection
+            showCreateModal={showCreateModal}
+            setShowCreateModal={setShowCreateModal}
+          />
         ) : display === 'watched' ? (
           <WatchedSection />
         ) : (
           <LikedSection />
         )}
       </div>
+      {showCreateModal && (
+        <CreateWatchlistModal closeModal={() => setShowCreateModal(false)} />
+      )}
     </section>
   )
 }
