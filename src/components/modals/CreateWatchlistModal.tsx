@@ -5,15 +5,15 @@ import BaseModal from './BaseModal'
 import { useUser } from '@/context/UserContext'
 import { useSocket } from '@/context/SocketContext'
 import { Watchlist } from '@/types'
+import { useRouter } from 'next/navigation'
 
 const CreateWatchlistModal = () => {
   const socket = useSocket()
-  const { user, setWatchlists } = useUser()
+  const { setWatchlists } = useUser()
+  const router = useRouter()
 
-  const [newList, setNewList] = useState({ name: '', invites: [] })
+  const [newList, setNewList] = useState({ name: '' })
   const [errorMessage, setErrorMessage] = useState<string>('')
-
-  const friends = user?.friends.filter((friend) => friend.status === 3) || []
 
   const handleCreateList = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,17 +33,14 @@ const CreateWatchlistModal = () => {
       }) => {
         if (success && watchlists) {
           setWatchlists(watchlists)
-          if (errorMessage) setErrorMessage('')
+          router.push(
+            `/profile/watchlist/${watchlists[watchlists.length - 1]._id}`
+          )
         } else {
           setErrorMessage(error || 'An error occurred creating your watchlist')
         }
       }
     )
-
-    if (!errorMessage) {
-      // send invites
-      // socket?.emit('invite to watchlist', {watchlist})
-    }
   }
 
   return (
@@ -61,13 +58,12 @@ const CreateWatchlistModal = () => {
             placeholder="New watchlist name"
             className="w-full max-w-60 p-2 bg-PrimaryDark rounded border border-AccentLight text-white focus:outline-none focus:ring-2 focus:ring-AccentLight focus:border-transparent"
           />
-          {friends && (
-            <div>
-              {friends.map((friend) => (
-                <div></div>
-              ))}
-            </div>
-          )}
+          <button
+            type="submit"
+            className="w-full max-w-60 p-2 bg-AccentLight text-BaseDark rounded"
+          >
+            Create
+          </button>
         </form>
       </div>
     </BaseModal>

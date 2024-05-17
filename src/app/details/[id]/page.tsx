@@ -315,13 +315,13 @@ const ContentDetails = ({ params }: Params) => {
             </div>
             <div className="flex flex-col flex-grow gap-8 min-[950px]:pt-8 p-4 bg-black/50 rounded-t-md min-[950px]:bg-transparent ">
               <div className="flex flex-col items-center min-[950px]:items-start w-full">
-                <h2 className="text-2xl">
+                <h2 className="text-2xl textShadow">
                   {content.title}{' '}
                   <span className="text-lg text-gray-400">
                     ({content.releaseYear})
                   </span>
                 </h2>
-                <p>{genres}</p>
+                <p className="textShadow">{genres}</p>
               </div>
               <div className="flex flex-col items-center w-full">
                 <div className="flex items-center justify-between w-full">

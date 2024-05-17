@@ -3,6 +3,7 @@ import { Friend, Profile } from '@/types'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import RemoveFriendModal from '../modals/RemoveFriendModal'
+import WarningModal from '../modals/WarningModal'
 
 const FriendCard = ({ friend }: { friend: Friend }) => {
   const socket = useSocket()
@@ -52,7 +53,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
         if (success && updatedProfile) {
           assignUser(updatedProfile)
         } else {
-          console.log(error || 'Failed to delete friend request')
+          console.log(error || 'Failed to delete friend record')
         }
         setLoading(false)
       }
@@ -108,7 +109,12 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
         )}
       </div>
       {showModal && (
-        <RemoveFriendModal friend={friend.recipient} closeModal={closeModal} />
+        <WarningModal
+          title={`Are you sure you want to remove ${friend.recipient.username} from your friendlist?`}
+          closeModal={closeModal}
+          affirmativeText="Remove"
+          handleAffirmative={handleDeleteRequest}
+        />
       )}
     </div>
   )

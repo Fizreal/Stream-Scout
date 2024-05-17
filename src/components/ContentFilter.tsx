@@ -34,18 +34,18 @@ const ContentFilter = ({ filters, setFilters }: ContentFilterProps) => {
   }
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+    const handleClickOutsideFilters = (event: MouseEvent | TouchEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setShowFilters(false)
       }
     }
 
-    document.addEventListener('mouseup', handleClickOutside)
-    document.addEventListener('touchend', handleClickOutside)
+    document.addEventListener('mouseup', handleClickOutsideFilters)
+    document.addEventListener('touchend', handleClickOutsideFilters)
 
     return () => {
-      document.removeEventListener('mouseup', handleClickOutside)
-      document.removeEventListener('touchend', handleClickOutside)
+      document.removeEventListener('mouseup', handleClickOutsideFilters)
+      document.removeEventListener('touchend', handleClickOutsideFilters)
     }
   }, [])
 
