@@ -31,7 +31,7 @@ export type Invitation = {
     name: string
     list: string[]
   }
-  recipient: PublicProfile
+  requester: PublicProfile
 }
 
 export type Friend = {

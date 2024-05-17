@@ -14,7 +14,6 @@ import WarningModal from '@/components/modals/WarningModal'
 import InviteModal from '@/components/modals/InviteModal'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { streamIcons, countryNames } from '@/utils/object-maps'
-import { list } from 'postcss'
 
 const WatchlistDetail = () => {
   const { watchlists, setWatchlists, user } = useUser()
