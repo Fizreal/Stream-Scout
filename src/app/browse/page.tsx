@@ -5,12 +5,23 @@ import { useState, useEffect } from 'react'
 import { useUser } from '@/context/UserContext'
 import { FilterSearch } from '@/utils/rapid-api'
 import { formatResult } from '@/utils/content-methods'
-import { genreNames } from '@/utils/object-maps'
 import ContentCard from '@/components/cards/ContentCard'
-import SubmitButton from '@/components/SubmitButton'
+import FilterType from '@/components/browse/FilterType'
+import FilterGenres from '@/components/browse/FilterGenres'
+import FilterKeyword from '@/components/browse/FilterKeyword'
+import FilterReleaseYear from '@/components/browse/FilterReleaseYear'
 
 const BrowsePage = () => {
-  const [filters, setFilters] = useState<BrowseFilters>({
+  const [currentFilters, setCurrentFilters] = useState<BrowseFilters>({
+    keyword: '',
+    genres: [],
+    minYear: 0,
+    maxYear: 0,
+    contentType: 'all',
+    cursor: ''
+  })
+
+  const [searchFilters, setSearchFilters] = useState<BrowseFilters>({
     keyword: '',
     genres: [],
     minYear: 0,
@@ -23,38 +34,12 @@ const BrowsePage = () => {
   const [loading, setLoading] = useState(false)
   const { user } = useUser()
 
-  const getGenres = () => {
-    let genres = []
-    for (const genre in genreNames) {
-      genres.push({ id: genre, name: genreNames[genre] })
-    }
-    return genres
-  }
-
-  const genres = getGenres()
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    if (e.target.name === 'genres') {
-      let genres = filters.genres
-      if ((e.target as HTMLInputElement).checked) {
-        genres.push(e.target.value)
-      } else {
-        genres = genres.filter((genre) => genre !== e.target.value)
-      }
-      setFilters({ ...filters, genres: genres })
-    } else {
-      setFilters({ ...filters, [e.target.name]: e.target.value })
-    }
-  }
-
   const handleContentFilter = (contentType: string) => {
-    setFilters({ ...filters, contentType: contentType })
+    setCurrentFilters({ ...currentFilters, contentType: contentType })
   }
 
   const handleGenreFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let genres = filters.genres
+    let genres = currentFilters.genres
     if (e.target.checked) {
       genres.push(e.target.value)
     } else {
@@ -66,13 +51,16 @@ const BrowsePage = () => {
     setKeyword(e.target.value)
   }
 
-  const handleAddKeyword = () => {
-    setFilters({ ...filters, keyword: keyword })
+  const handleAddKeyword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!keyword) return
+
+    setCurrentFilters({ ...currentFilters, keyword: keyword })
     setKeyword('')
   }
 
   const resetFilters = () => {
-    setFilters({
+    setCurrentFilters({
       keyword: '',
       genres: [],
       minYear: 0,
@@ -86,7 +74,7 @@ const BrowsePage = () => {
     setLoading(true)
     if (!user) return
     try {
-      const data = await FilterSearch(user, filters)
+      const data = await FilterSearch(user, searchFilters)
 
       const tmdbIds = new Set()
       if (content.length > 0) {
@@ -108,9 +96,9 @@ const BrowsePage = () => {
       )
       setContent(formattedData)
       if (data.hasMore) {
-        setFilters({ ...filters, cursor: data.cursor })
+        setSearchFilters({ ...searchFilters, cursor: data.cursor })
       } else {
-        setFilters({ ...filters, cursor: '' })
+        setSearchFilters({ ...searchFilters, cursor: '' })
       }
       setLoading(false)
     } catch (error) {
@@ -119,8 +107,8 @@ const BrowsePage = () => {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSearch = async () => {
+    setSearchFilters(currentFilters)
     await fetchResults()
   }
 
@@ -129,7 +117,8 @@ const BrowsePage = () => {
       const isBottom =
         window.innerHeight + document.documentElement.scrollTop ===
         document.documentElement.offsetHeight
-      if (isBottom && filters.cursor) {
+      console.log('ping', isBottom)
+      if (isBottom && searchFilters.cursor) {
         await fetchResults()
       }
     }
@@ -142,67 +131,36 @@ const BrowsePage = () => {
   }, [])
 
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <label>Show:</label>
-          <select name="contentType" onChange={handleChange}>
-            <option value="all">All</option>
-            <option value="movie">Movies only</option>
-            <option value="series">Shows only</option>
-          </select>
-        </fieldset>
-        <fieldset>
-          <legend>Genres:</legend>
-          {genres.map((genre) => (
-            <label key={genre.id}>
-              <input
-                type="checkbox"
-                name="genres"
-                value={genre.id}
-                onChange={handleChange}
-              />
-              {genre.name}
-            </label>
-          ))}
-        </fieldset>
-        <fieldset>
-          <label htmlFor="">Min release year:</label>
-          <input
-            type="number"
-            name="minYear"
-            value={filters.minYear}
-            onChange={handleChange}
-          />
-          <label htmlFor="">Max release year:</label>
-          <input
-            type="number"
-            name="maxYear"
-            value={filters.maxYear}
-            onChange={handleChange}
-          />
-        </fieldset>
-        <fieldset>
-          <div>
-            <div>
-              <p>{filters.keyword}</p>
-            </div>
+    <section className="gap-4">
+      <div className="flex flex-col items-center justify-center w-full bg-AccentLight">
+        <h2>Filters</h2>
+        <div className="flex items-center justify-center gap-6 w-full">
+          <div className="flex items-center justify-center gap-3 h-12">
+            <FilterType
+              filters={currentFilters}
+              handleContentFilter={handleContentFilter}
+            />
+            <FilterGenres
+              filters={currentFilters}
+              handleChangeGenre={handleGenreFilter}
+            />
+            <FilterKeyword
+              filters={currentFilters}
+              keyword={keyword}
+              handleKeywordChange={handleKeywordChange}
+              handleAddKeyword={handleAddKeyword}
+            />
+            <FilterReleaseYear
+              filters={currentFilters}
+              setFilters={setCurrentFilters}
+            />
           </div>
-          <label>Keyword:</label>
-          <input
-            type="text"
-            name="keyword"
-            value={keyword}
-            onChange={handleKeywordChange}
-            placeholder="Zombies, aliens, etc."
-          />
-          <button onClick={handleAddKeyword}>
-            {filters.keyword ? 'Replace keyword' : 'Add keyword'}
-          </button>
-        </fieldset>
-        <SubmitButton text="Search" disabled={false} loading={loading} />
-        <button onClick={resetFilters}>Reset filters</button>
-      </form>
+          <div>
+            <button onClick={resetFilters}>Reset Filters</button>
+            <button onClick={handleSearch}>Search</button>
+          </div>
+        </div>
+      </div>
       <div className="flex flex-wrap justify-center gap-4">
         {content.map((item) => (
           <ContentCard key={item.tmdbId} content={item} type="browse" />

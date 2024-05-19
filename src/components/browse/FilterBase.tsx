@@ -31,9 +31,14 @@ const FilterBase = ({ title, children }: FilterBaseProps) => {
     <div
       onMouseEnter={() => setShowFilters(true)}
       onMouseLeave={() => setShowFilters(false)}
-      className="z-10 relative"
+      className="relative z-10 h-12"
     >
-      <button onClick={() => setShowFilters((prev) => !prev)}>{title}</button>
+      <button
+        className="h-full p-2"
+        onClick={() => setShowFilters((prev) => !prev)}
+      >
+        {title}
+      </button>
       {(showFilters || smallScreen) && children}
     </div>
   )
