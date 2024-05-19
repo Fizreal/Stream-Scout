@@ -2,16 +2,11 @@ import FilterBase from './FilterBase'
 import { BrowseFilters } from '@/types'
 
 type FilterTypeProps = {
-  title: string
   filters: BrowseFilters
   handleContentFilter: (contentType: string) => void
 }
 
-const FilterType = ({
-  title,
-  filters,
-  handleContentFilter
-}: FilterTypeProps) => {
+const FilterType = ({ filters, handleContentFilter }: FilterTypeProps) => {
   const displayTranslation: { [key: string]: number } = {
     All: 0,
     Movies: 1,
@@ -19,7 +14,7 @@ const FilterType = ({
   }
 
   return (
-    <FilterBase title={title}>
+    <FilterBase title="Content type">
       <div className="flex flex-col items-center gap-3 absolute left-1/2 bottom-0 translate-y-full -translate-x-1/2 rounded-xl w-56 p-2 bg-BaseLight fadeIn">
         <p>Show me:</p>
         <div className="relative grid grid-cols-3 w-full h-8 bg-BaseDark rounded-full">

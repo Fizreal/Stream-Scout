@@ -53,6 +53,15 @@ const BrowsePage = () => {
     setFilters({ ...filters, contentType: contentType })
   }
 
+  const handleGenreFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let genres = filters.genres
+    if (e.target.checked) {
+      genres.push(e.target.value)
+    } else {
+      genres = genres.filter((genre) => genre !== e.target.value)
+    }
+  }
+
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value)
   }
