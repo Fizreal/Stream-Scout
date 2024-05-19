@@ -92,13 +92,13 @@ export type Content = {
   ]
 }
 
-export type FilterData = {
-  showType: string
-  genres: string[]
+export type BrowseFilters = {
   keyword: string
+  genres: string[]
   minYear: number
   maxYear: number
-  cursor?: string
+  contentType: string
+  cursor: string
 }
 
 export type Service = {

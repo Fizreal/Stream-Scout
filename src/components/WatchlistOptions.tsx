@@ -50,7 +50,7 @@ const WatchlistOptions = ({
               setShowOptions(false)
               showInviteModal()
             }}
-            className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-0.5 py-1"
+            className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-1 py-0.5"
           >
             Invite to watchlist
           </button>
@@ -59,7 +59,7 @@ const WatchlistOptions = ({
               setShowOptions(false)
               showLeaveModal()
             }}
-            className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-0.5 py-1"
+            className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-1 py-0.5"
           >
             Leave watchlist
           </button>

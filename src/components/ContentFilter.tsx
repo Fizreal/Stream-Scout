@@ -52,7 +52,7 @@ const ContentFilter = ({ filters, setFilters }: ContentFilterProps) => {
   return (
     <div
       ref={ref}
-      className="relative flex items-center justify-center min-[390px]:mr-16"
+      className="relative flex items-center justify-center min-[390px]:mr-16 pb-1"
     >
       <button
         onClick={() => setShowFilters((prev) => !prev)}
@@ -64,13 +64,13 @@ const ContentFilter = ({ filters, setFilters }: ContentFilterProps) => {
         <div className="flex flex-col items-center gap-3 absolute left-1/2 bottom-0 translate-y-full -translate-x-1/2 rounded-xl w-56 z-10 p-2 bg-BaseLight fadeIn">
           <div className="flex flex-col items-center w-full">
             <p>Content type:</p>
-            <div className="relative grid grid-cols-3 w-full h-8">
+            <div className="relative grid grid-cols-3 w-full h-8 bg-BaseDark rounded-full">
               <button
                 className={
                   'z-10 w-full h-full' +
                   (filters.contentType === 'All'
-                    ? ' filterSelected'
-                    : ' filterNotSelected')
+                    ? ' sectionSelected'
+                    : ' sectionNotSelected')
                 }
                 onClick={() => handleContentFilter('All')}
               >
@@ -80,8 +80,8 @@ const ContentFilter = ({ filters, setFilters }: ContentFilterProps) => {
                 className={
                   'z-10' +
                   (filters.contentType === 'Movies'
-                    ? ' filterSelected'
-                    : ' filterNotSelected')
+                    ? ' sectionSelected'
+                    : ' sectionNotSelected')
                 }
                 onClick={() => handleContentFilter('Movies')}
               >
@@ -91,15 +91,15 @@ const ContentFilter = ({ filters, setFilters }: ContentFilterProps) => {
                 className={
                   'z-10' +
                   (filters.contentType === 'Shows'
-                    ? ' filterSelected'
-                    : ' filterNotSelected')
+                    ? ' sectionSelected'
+                    : ' sectionNotSelected')
                 }
                 onClick={() => handleContentFilter('Shows')}
               >
                 Shows
               </button>
               <div
-                className="absolute top-0 left-0 h-full w-1/3 transition-all duration-300 p-2 rounded-full bg-BaseDark"
+                className="absolute top-0 left-0 h-full w-1/3 transition-all duration-300 p-2 rounded-full bg-PrimaryDark"
                 style={{
                   transform: `translateX(${
                     displayTranslation[filters.contentType]

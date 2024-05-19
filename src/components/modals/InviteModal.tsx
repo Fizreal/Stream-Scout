@@ -102,14 +102,14 @@ const InviteModal = ({ closeModal, watchlistId }: InviteModalProps) => {
         <div className="flex justify-around w-full">
           <button
             onClick={closeModal}
-            className="rounded-full w-32 bg-BaseDark/75 hover:bg-BaseDark hover:text-AccentLight  py-2 px-1"
+            className="rounded-full w-32 bg-BaseDark/75 hover:bg-BaseDark hover:text-AccentLight  py-1 px-2"
           >
             Cancel
           </button>
           <button
             onClick={handleInvite}
             disabled={invites.length === 0}
-            className="rounded-full w-32 border-2 border-BaseDark/75 hover:border-BaseDark hover:bg-BaseDark hover:text-AccentLight py-2 px-1 shadow-lg"
+            className="rounded-full w-32 border-2 border-BaseDark/75 hover:border-BaseDark hover:bg-BaseDark hover:text-AccentLight py-1 px-2 shadow-lg"
           >
             Send invites
           </button>

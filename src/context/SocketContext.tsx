@@ -68,13 +68,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.emit(
         'get watchlists',
         ({ watchlists }: { watchlists: Watchlist[] }) => {
-          setWatchlists(watchlists)
+          if (watchlists) {
+            setWatchlists(watchlists)
+          }
         }
       )
       socket.emit(
         'get invitations',
         ({ invitations }: { invitations: Invitation[] }) => {
-          setInvitations(invitations)
+          if (invitations) {
+            setInvitations(invitations)
+          }
         }
       )
 

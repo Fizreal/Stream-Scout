@@ -1,6 +1,6 @@
 'use client'
 
-import { Content } from '@/types'
+import { Content, BrowseFilters } from '@/types'
 import { useState, useEffect } from 'react'
 import { useUser } from '@/context/UserContext'
 import { FilterSearch } from '@/utils/rapid-api'
@@ -9,22 +9,13 @@ import { genreNames } from '@/utils/object-maps'
 import ContentCard from '@/components/cards/ContentCard'
 import SubmitButton from '@/components/SubmitButton'
 
-type Filters = {
-  keyword: string
-  genres: string[]
-  minYear: number
-  maxYear: number
-  showType: string
-  cursor: string
-}
-
 const BrowsePage = () => {
-  const [filters, setFilters] = useState<Filters>({
+  const [filters, setFilters] = useState<BrowseFilters>({
     keyword: '',
     genres: [],
     minYear: 0,
     maxYear: 0,
-    showType: 'all',
+    contentType: 'all',
     cursor: ''
   })
   const [keyword, setKeyword] = useState('')
@@ -58,6 +49,10 @@ const BrowsePage = () => {
     }
   }
 
+  const handleContentFilter = (contentType: string) => {
+    setFilters({ ...filters, contentType: contentType })
+  }
+
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value)
   }
@@ -73,7 +68,7 @@ const BrowsePage = () => {
       genres: [],
       minYear: 0,
       maxYear: 0,
-      showType: 'all',
+      contentType: 'all',
       cursor: ''
     })
   }
@@ -142,7 +137,7 @@ const BrowsePage = () => {
       <form onSubmit={handleSubmit}>
         <fieldset>
           <label>Show:</label>
-          <select name="showType" onChange={handleChange}>
+          <select name="contentType" onChange={handleChange}>
             <option value="all">All</option>
             <option value="movie">Movies only</option>
             <option value="series">Shows only</option>

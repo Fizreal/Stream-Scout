@@ -85,10 +85,7 @@ const ProfilePage = () => {
       </div>
       <div className="flex flex-col items-center w-full">
         {display === 'watchlists' ? (
-          <WatchlistsSection
-            showCreateModal={showCreateModal}
-            setShowCreateModal={setShowCreateModal}
-          />
+          <WatchlistsSection setShowCreateModal={setShowCreateModal} />
         ) : display === 'watched' ? (
           <WatchedSection />
         ) : (

@@ -20,13 +20,13 @@ const WarningModal = ({
         <div className="flex justify-around w-full">
           <button
             onClick={closeModal}
-            className="rounded-full w-28 bg-BaseDark/75 hover:bg-BaseDark hover:text-AccentLight  py-2 px-1"
+            className="rounded-full w-28 bg-BaseDark/75 hover:bg-BaseDark hover:text-AccentLight  py-1 px-2"
           >
             Cancel
           </button>
           <button
             onClick={handleAffirmative}
-            className="rounded-full w-28 border-2 border-BaseDark/75 hover:border-BaseDark hover:bg-BaseDark hover:text-AccentLight py-2 px-1 shadow-lg"
+            className="rounded-full w-28 border-2 border-BaseDark/75 hover:border-BaseDark hover:bg-BaseDark hover:text-AccentLight py-1 px-2 shadow-lg"
           >
             {affirmativeText}
           </button>

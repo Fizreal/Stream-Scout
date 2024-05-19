@@ -37,17 +37,29 @@ const InvitationCard = ({ invitation }: { invitation: Invitation }) => {
   }
 
   return (
-    <div>
-      <div>
-        <h4>
+    <div className="flex w-full gap-2 p-2 bg-PrimaryDark text-white">
+      <div className="flex flex-col flex-grow gap-1">
+        <h4 className="w-full text-wrap text-lg">
           Invited to {invitation.watchlist.name} by{' '}
           {invitation.requester.username}
         </h4>
-        <p>{invitation.watchlist.list.length} in watchlist</p>
+        <p className="w-full text-wrap">
+          {invitation.watchlist.list.length} in watchlist
+        </p>
       </div>
-      <div>
-        <button onClick={handleAccept}>Accept</button>
-        <button onClick={handleDecline}>Decline</button>
+      <div className="flex flex-col justify-around flex-shrink-0 h-full">
+        <button
+          onClick={handleAccept}
+          className="w-full px-2 py-1 bg-PrimaryDark/75 hover:bg-PrimaryDark hover:text-AccentLight"
+        >
+          Accept
+        </button>
+        <button
+          onClick={handleDecline}
+          className="w-full px-2 py-1 border-2 border-PrimaryDark hover:bg-PrimaryDark hover:text-AccentLight"
+        >
+          Decline
+        </button>
       </div>
     </div>
   )
