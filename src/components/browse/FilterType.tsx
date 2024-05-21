@@ -8,9 +8,9 @@ type FilterTypeProps = {
 
 const FilterType = ({ filters, handleContentFilter }: FilterTypeProps) => {
   const displayTranslation: { [key: string]: number } = {
-    All: 0,
-    Movies: 1,
-    Shows: 2
+    all: 0,
+    movie: 1,
+    series: 2
   }
 
   return (
@@ -21,7 +21,7 @@ const FilterType = ({ filters, handleContentFilter }: FilterTypeProps) => {
           <button
             className={
               'z-10 w-full h-full' +
-              (filters.contentType === 'All'
+              (filters.contentType === 'all'
                 ? ' sectionSelected'
                 : ' sectionNotSelected')
             }
@@ -32,7 +32,7 @@ const FilterType = ({ filters, handleContentFilter }: FilterTypeProps) => {
           <button
             className={
               'z-10' +
-              (filters.contentType === 'Movies'
+              (filters.contentType === 'movie'
                 ? ' sectionSelected'
                 : ' sectionNotSelected')
             }
@@ -43,7 +43,7 @@ const FilterType = ({ filters, handleContentFilter }: FilterTypeProps) => {
           <button
             className={
               'z-10' +
-              (filters.contentType === 'Shows'
+              (filters.contentType === 'series'
                 ? ' sectionSelected'
                 : ' sectionNotSelected')
             }

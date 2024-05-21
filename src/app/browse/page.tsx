@@ -70,11 +70,12 @@ const BrowsePage = () => {
     })
   }
 
-  const fetchResults = async () => {
+  const fetchResults = async (filters: BrowseFilters) => {
     setLoading(true)
     if (!user) return
     try {
-      const data = await FilterSearch(user, searchFilters)
+      console.log('fetching data', filters)
+      const data = await FilterSearch(user, filters)
 
       const tmdbIds = new Set()
       if (content.length > 0) {
@@ -94,13 +95,13 @@ const BrowsePage = () => {
       let formattedData = data.result.map((content: any) =>
         formatResult(content)
       )
-      setContent(formattedData)
       if (data.hasMore) {
-        setSearchFilters({ ...searchFilters, cursor: data.cursor })
+        setSearchFilters({ ...filters, cursor: data.nextCursor })
       } else {
-        setSearchFilters({ ...searchFilters, cursor: '' })
+        setSearchFilters({ ...filters, cursor: '' })
       }
       setLoading(false)
+      return formattedData
     } catch (error) {
       console.error('Failed to fetch data:', error)
       setLoading(false)
@@ -109,7 +110,8 @@ const BrowsePage = () => {
 
   const handleSearch = async () => {
     setSearchFilters(currentFilters)
-    await fetchResults()
+    const results = await fetchResults(currentFilters)
+    setContent(results)
   }
 
   useEffect(() => {
@@ -117,9 +119,9 @@ const BrowsePage = () => {
       const isBottom =
         window.innerHeight + document.documentElement.scrollTop ===
         document.documentElement.offsetHeight
-      console.log('ping', isBottom)
       if (isBottom && searchFilters.cursor) {
-        await fetchResults()
+        const results = await fetchResults(searchFilters)
+        setContent([...content, ...results])
       }
     }
 
@@ -128,7 +130,7 @@ const BrowsePage = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [searchFilters])
 
   return (
     <section className="gap-4">
