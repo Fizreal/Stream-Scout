@@ -34,10 +34,24 @@ const FilterBase = ({ title, children }: FilterBaseProps) => {
       className="relative z-10 h-12"
     >
       <button
-        className="h-full p-2"
+        className={
+          'flex justify-center items-center gap-2 h-full p-2' +
+          (showFilters ? ' bg-PrimaryDark/50' : ' ') +
+          ' rounded-md w-full transition-all duration-300 cursor-pointer'
+        }
         onClick={() => setShowFilters((prev) => !prev)}
       >
-        {title}
+        {title}{' '}
+        {!smallScreen && (
+          <img
+            src="/arrow.svg"
+            alt="Arrow"
+            className={
+              'transition-all duration-300 h-4' +
+              (showFilters ? ' -rotate-90' : ' rotate-90')
+            }
+          />
+        )}
       </button>
       {(showFilters || smallScreen) && children}
     </div>

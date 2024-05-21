@@ -15,8 +15,8 @@ const BrowsePage = () => {
   const [currentFilters, setCurrentFilters] = useState<BrowseFilters>({
     keyword: '',
     genres: [],
-    minYear: 0,
-    maxYear: 0,
+    minYear: 1900,
+    maxYear: new Date().getFullYear(),
     contentType: 'all',
     cursor: ''
   })
@@ -24,8 +24,8 @@ const BrowsePage = () => {
   const [searchFilters, setSearchFilters] = useState<BrowseFilters>({
     keyword: '',
     genres: [],
-    minYear: 0,
-    maxYear: 0,
+    minYear: 1900,
+    maxYear: new Date().getFullYear(),
     contentType: 'all',
     cursor: ''
   })
@@ -38,13 +38,15 @@ const BrowsePage = () => {
     setCurrentFilters({ ...currentFilters, contentType: contentType })
   }
 
-  const handleGenreFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGenreFilter = (genre: string) => {
     let genres = currentFilters.genres
-    if (e.target.checked) {
-      genres.push(e.target.value)
+
+    if (!genres.includes(genre)) {
+      genres.push(genre)
     } else {
-      genres = genres.filter((genre) => genre !== e.target.value)
+      genres = genres.filter((currentGenre) => currentGenre !== genre)
     }
+    setCurrentFilters({ ...currentFilters, genres: genres })
   }
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +65,8 @@ const BrowsePage = () => {
     setCurrentFilters({
       keyword: '',
       genres: [],
-      minYear: 0,
-      maxYear: 0,
+      minYear: 1900,
+      maxYear: new Date().getFullYear(),
       contentType: 'all',
       cursor: ''
     })
@@ -74,7 +76,6 @@ const BrowsePage = () => {
     setLoading(true)
     if (!user) return
     try {
-      console.log('fetching data', filters)
       const data = await FilterSearch(user, filters)
 
       const tmdbIds = new Set()

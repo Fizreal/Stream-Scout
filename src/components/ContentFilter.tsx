@@ -56,9 +56,17 @@ const ContentFilter = ({ filters, setFilters }: ContentFilterProps) => {
     >
       <button
         onClick={() => setShowFilters((prev) => !prev)}
-        className="h-full text-AccentLight"
+        className="flex items-center justify-center gap-2 h-full text-AccentLight"
       >
-        Filters
+        <p>Filters</p>
+        <img
+          src="/arrow.svg"
+          alt="Arrow"
+          className={
+            'transition-all duration-300 h-4 selectedSVG' +
+            (showFilters ? ' -rotate-90' : ' rotate-90')
+          }
+        />
       </button>
       {showFilters && (
         <div className="flex flex-col items-center gap-3 absolute left-1/2 bottom-0 translate-y-full -translate-x-1/2 rounded-xl w-56 z-10 p-2 bg-BaseLight fadeIn">
