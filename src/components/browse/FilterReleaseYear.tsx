@@ -1,5 +1,6 @@
 import { BrowseFilters } from '@/types'
 import FilterBase from './FilterBase'
+import MultiRangeSlider from 'multi-range-slider-react'
 
 type FilterReleaseYearProps = {
   filters: BrowseFilters
@@ -26,25 +27,23 @@ const FilterReleaseYear = ({ filters, setFilters }: FilterReleaseYearProps) => {
 
   return (
     <FilterBase title="Release year">
-      <div className="flex flex-col items-center gap-3 absolute left-1/2 bottom-0 translate-y-full -translate-x-1/2 rounded-xl w-64 p-2 bg-BaseLight fadeIn">
+      <div className="flex flex-col items-center gap-3 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-64 p-2 bg-BaseLight fadeIn">
         <div className="flex items-center justify-center gap-1 w-full">
           <span>{min}</span>
-          <div className="flex-grow relative">
-            <input
-              type="range"
+          <div className="flex-grow">
+            <MultiRangeSlider
               min={min}
               max={max}
-              value={filters.minYear}
-              onChange={handleFromChange}
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-full"
-            />
-            <input
-              type="range"
-              min={min}
-              max={max}
-              value={filters.maxYear}
-              onChange={handleToChange}
-              className="absolute left-[30px] top-1/2 -translate-y-1/2 w-full"
+              minValue={filters.minYear}
+              maxValue={filters.maxYear}
+              onChange={({ min, max }) =>
+                setFilters({ ...filters, minYear: min, maxYear: max })
+              }
+              label={false}
+              ruler={false}
+              canMinMaxValueSame={true}
+              barInnerColor="#76ABAE"
+              style={{ border: 'none', boxShadow: 'none' }}
             />
           </div>
           <span>{max}</span>

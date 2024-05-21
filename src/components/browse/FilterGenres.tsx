@@ -12,7 +12,7 @@ const FilterGenres = ({ filters, handleChangeGenre }: FilterGenresProps) => {
 
   return (
     <FilterBase title="Genres">
-      <div className="grid grid-cols-2 gap-2 absolute left-1/2 bottom-0 translate-y-full -translate-x-1/2 rounded-xl w-80 p-2 bg-BaseLight fadeIn">
+      <div className="grid grid-cols-2 gap-2 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-80 p-2 bg-BaseLight fadeIn">
         {genres.map((genre) => (
           <button
             key={genre}

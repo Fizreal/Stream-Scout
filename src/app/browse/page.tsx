@@ -32,6 +32,9 @@ const BrowsePage = () => {
   const [keyword, setKeyword] = useState('')
   const [content, setContent] = useState<Content[] | any[]>([])
   const [loading, setLoading] = useState(false)
+  const [smallScreen, setSmallScreen] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+
   const { user } = useUser()
 
   const handleContentFilter = (contentType: string) => {
@@ -116,6 +119,23 @@ const BrowsePage = () => {
   }
 
   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setShowFilters(false)
+        setSmallScreen(true)
+      } else {
+        setSmallScreen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
     const handleScroll = async () => {
       const isBottom =
         window.innerHeight + document.documentElement.scrollTop ===
@@ -136,31 +156,46 @@ const BrowsePage = () => {
   return (
     <section className="gap-4">
       <div className="flex flex-col items-center justify-center w-full bg-AccentLight">
-        <h2>Filters</h2>
-        <div className="flex items-center justify-center gap-6 w-full">
-          <div className="flex items-center justify-center gap-3 h-12">
-            <FilterType
-              filters={currentFilters}
-              handleContentFilter={handleContentFilter}
-            />
-            <FilterGenres
-              filters={currentFilters}
-              handleChangeGenre={handleGenreFilter}
-            />
-            <FilterKeyword
-              filters={currentFilters}
-              keyword={keyword}
-              handleKeywordChange={handleKeywordChange}
-              handleAddKeyword={handleAddKeyword}
-            />
-            <FilterReleaseYear
-              filters={currentFilters}
-              setFilters={setCurrentFilters}
-            />
-          </div>
-          <div>
-            <button onClick={resetFilters}>Reset Filters</button>
-            <button onClick={handleSearch}>Search</button>
+        {smallScreen && (
+          <p onClick={() => setShowFilters((prev) => !prev)}>Show filters</p>
+        )}
+
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-full">
+          {(!smallScreen || showFilters) && (
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-3 w-full lg:w-fit lg:h-12">
+              <FilterType
+                filters={currentFilters}
+                handleContentFilter={handleContentFilter}
+              />
+              <FilterGenres
+                filters={currentFilters}
+                handleChangeGenre={handleGenreFilter}
+              />
+              <FilterKeyword
+                filters={currentFilters}
+                keyword={keyword}
+                handleKeywordChange={handleKeywordChange}
+                handleAddKeyword={handleAddKeyword}
+              />
+              <FilterReleaseYear
+                filters={currentFilters}
+                setFilters={setCurrentFilters}
+              />
+            </div>
+          )}
+          <div className="flex flex-row items-center justify-center gap-3 h-12">
+            <button
+              onClick={resetFilters}
+              className="flex items-center justify-center px-2 py-1 h-full"
+            >
+              <p className="text-nowrap">Reset Filters</p>
+            </button>
+            <button
+              onClick={handleSearch}
+              className="flex items-center justify-center px-2 py-1 w-full"
+            >
+              <p>Search</p>
+            </button>
           </div>
         </div>
       </div>
