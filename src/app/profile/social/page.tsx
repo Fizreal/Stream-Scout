@@ -17,8 +17,12 @@ const SocialPage = () => {
 
   return (
     <section>
-      <h1>Social</h1>
-      <Link href="/profile/social/search">Search for friends</Link>
+      <Link
+        href="/profile/social/search"
+        className="py-2 px-4 bg-AccentLight/50 hover:bg-AccentLight rounded-lg text-lg my-3 text-BaseDark"
+      >
+        Search for friends
+      </Link>
       <div className="relative grid grid-cols-2 bg-PrimaryDark h-12 w-full md:max-w-lg md:rounded-lg">
         <button
           onClick={() => setDisplay('friends')}
@@ -53,7 +57,7 @@ const SocialPage = () => {
           <div className="w-full h-full bg-BaseDark rounded"></div>
         </div>
       </div>
-      <div>
+      <div className="w-full p-4">
         {display === 'friends' && (
           <FriendSection
             friends={

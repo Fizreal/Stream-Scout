@@ -38,7 +38,7 @@ const LikedSection = () => {
   }, [user, filters])
 
   return (
-    <div className="flex flex-col items-center min-[390px]:items-end gap-6 p-8 w-full max-w-3xl fadeIn">
+    <div className="flex flex-col items-center min-[390px]:items-end gap-6 w-full max-w-3xl fadeIn">
       <ContentFilter filters={filters} setFilters={setFilters} />
       {filteredLikedContent.map((liked) => (
         <WatchedCard key={liked._id} watched={liked} />

@@ -6,13 +6,13 @@ const InvitationSection = ({ friends }: { friends: Friend[] }) => {
   const sent = friends.filter((friend) => friend.status === 2)
 
   return (
-    <div className="fadeIn">
-      <h2>Manage friend requests</h2>
-      <div>
-        <h3>Received</h3>
+    <div className="flex flex-col items-center gap-2 w-full fadeIn">
+      <h2 className="text-2xl text-BaseLight my-1">Manage friend requests</h2>
+      <div className="flex flex-col items-center w-full gap-2 max-w-lg">
+        <h3 className="text-2xl text-AccentLight my-1">Received</h3>
         <div>
           {received.length === 0 ? (
-            <p>No outstanding friend requests</p>
+            <p className="text-BaseLight">No outstanding friend requests</p>
           ) : (
             received.map((friend) => (
               <FriendCard friend={friend} key={friend._id} />
@@ -20,11 +20,11 @@ const InvitationSection = ({ friends }: { friends: Friend[] }) => {
           )}
         </div>
       </div>
-      <div>
-        <h3>Sent</h3>
-        <div>
+      <div className="flex flex-col items-center w-full gap-2 max-w-lg">
+        <h3 className="text-2xl text-AccentLight my-1">Sent</h3>
+        <div className="flex flex-col gap-2">
           {sent.length === 0 ? (
-            <p>No pending friend requests</p>
+            <p className="text-BaseLight">No pending friend requests</p>
           ) : (
             sent.map((friend) => (
               <FriendCard friend={friend} key={friend._id} />
