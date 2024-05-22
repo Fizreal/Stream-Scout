@@ -10,10 +10,10 @@ const WatchlistsSection = ({ setShowCreateModal }: WatchlistsSectionProps) => {
   const { watchlists, invitations } = useUser()
 
   return (
-    <div className="fadeIn">
+    <div className="flex flex-col items-center gap-4 fadeIn w-full">
       <button onClick={() => setShowCreateModal(true)}>Create watchlist</button>
       {invitations.length !== 0 && (
-        <div>
+        <div className="flex flex-col items-center w-full">
           <h3>Pending Invitations</h3>
           <div>
             {invitations.map((invitation) => (
@@ -22,18 +22,21 @@ const WatchlistsSection = ({ setShowCreateModal }: WatchlistsSectionProps) => {
           </div>
         </div>
       )}
-      <div>
+      <div className="flex flex-col items-center gap-2 w-full">
+        <h3 className="text-2xl text-AccentLight my-1">My Watchlists</h3>
         {watchlists.map((watchlist) => (
           <Link
             href={`/profile/watchlist/${watchlist._id}`}
             key={watchlist._id}
-            className="flex flex-col gap-2 overflow-hidden"
+            className="flex flex-col items-center gap-2 w-full max-w-xl overflow-hidden bg-PrimaryDark rounded-lg p-3  text-BaseLight"
           >
-            <h3 className="w-full text-center truncate">{watchlist.name}</h3>
-            <div className="flex flex-col gap-1">
+            <h4 className="w-full text-center truncate text-lg text-AccentLight">
+              {watchlist.name}
+            </h4>
+            <div className="flex items-center w-full justify-around gap-1 overflow-hidden">
               <p>{watchlist.list.length} items in watchlist</p>
               {watchlist.owners.length > 1 ? (
-                <p className="w-full truncate">
+                <p className="truncate">
                   Collaborators:{' '}
                   {watchlist.owners.map((owner) => owner.username).join(', ')}
                 </p>

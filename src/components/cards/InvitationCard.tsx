@@ -37,14 +37,14 @@ const InvitationCard = ({ invitation }: { invitation: Invitation }) => {
   }
 
   return (
-    <div className="flex w-full gap-2 p-2 bg-PrimaryDark text-white">
+    <div className="flex w-full max-w-lg gap-2 p-2 bg-PrimaryDark text-BaseLight">
       <div className="flex flex-col flex-grow gap-1">
-        <h4 className="w-full text-wrap text-lg">
+        <h4 className="w-full text-wrap text-lg text-AccentLight">
           Invited to {invitation.watchlist.name} by{' '}
           {invitation.requester.username}
         </h4>
         <p className="w-full text-wrap">
-          {invitation.watchlist.list.length} in watchlist
+          {invitation.watchlist.list.length} items in watchlist
         </p>
       </div>
       <div className="flex flex-col justify-around flex-shrink-0 h-full">

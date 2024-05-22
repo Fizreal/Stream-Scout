@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 type FilterBaseProps = {
   title: string
@@ -14,7 +14,7 @@ const FilterBase = ({ title, children }: FilterBaseProps) => {
     <div
       onMouseEnter={() => setShowFilters(true)}
       onMouseLeave={() => setShowFilters(false)}
-      className="relative z-20 lg:h-12 w-full lg:w-auto"
+      className="relative z-10 lg:h-12 w-full lg:w-auto"
     >
       <button
         className={

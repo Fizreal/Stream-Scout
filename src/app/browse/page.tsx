@@ -119,6 +119,7 @@ const BrowsePage = () => {
   }
 
   useEffect(() => {
+    setSmallScreen(window.innerWidth < 1024)
     const handleResize = () => {
       if (window.innerWidth < 1024) {
         setShowFilters(false)
@@ -154,35 +155,45 @@ const BrowsePage = () => {
   }, [searchFilters])
 
   return (
-    <section className="gap-4">
+    <section className="gap-4 -mt-6">
       <div className="flex flex-col items-center justify-center w-full bg-AccentLight">
-        {smallScreen && (
-          <p onClick={() => setShowFilters((prev) => !prev)}>Show filters</p>
-        )}
-
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-full">
-          {(!smallScreen || showFilters) && (
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-3 w-full lg:w-fit lg:h-12">
-              <FilterType
-                filters={currentFilters}
-                handleContentFilter={handleContentFilter}
-              />
-              <FilterGenres
-                filters={currentFilters}
-                handleChangeGenre={handleGenreFilter}
-              />
-              <FilterKeyword
-                filters={currentFilters}
-                keyword={keyword}
-                handleKeywordChange={handleKeywordChange}
-                handleAddKeyword={handleAddKeyword}
-              />
-              <FilterReleaseYear
-                filters={currentFilters}
-                setFilters={setCurrentFilters}
-              />
-            </div>
-          )}
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-8 w-full">
+          <div
+            className="flex flex-col w-full lg:w-fit"
+            onMouseEnter={() => setShowFilters(true)}
+            onMouseLeave={() => setShowFilters(false)}
+          >
+            {smallScreen && (
+              <p
+                onClick={() => setShowFilters((prev) => !prev)}
+                className="text-center"
+              >
+                Show filters
+              </p>
+            )}
+            {(!smallScreen || showFilters) && (
+              <div className="flex flex-col lg:flex-row items-center justify-center gap-3 w-full lg:w-fit lg:h-12">
+                <FilterType
+                  filters={currentFilters}
+                  handleContentFilter={handleContentFilter}
+                />
+                <FilterGenres
+                  filters={currentFilters}
+                  handleChangeGenre={handleGenreFilter}
+                />
+                <FilterKeyword
+                  filters={currentFilters}
+                  keyword={keyword}
+                  handleKeywordChange={handleKeywordChange}
+                  handleAddKeyword={handleAddKeyword}
+                />
+                <FilterReleaseYear
+                  filters={currentFilters}
+                  setFilters={setCurrentFilters}
+                />
+              </div>
+            )}
+          </div>
           <div className="flex flex-row items-center justify-center gap-3 h-12">
             <button
               onClick={resetFilters}

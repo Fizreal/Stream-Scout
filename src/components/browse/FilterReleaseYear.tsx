@@ -11,23 +11,9 @@ const FilterReleaseYear = ({ filters, setFilters }: FilterReleaseYearProps) => {
   const min = 1900
   const max = new Date().getFullYear()
 
-  const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value)
-    if (newValue >= min && newValue <= filters.maxYear) {
-      setFilters({ ...filters, minYear: newValue })
-    }
-  }
-
-  const handleToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value)
-    if (newValue >= filters.minYear && newValue <= max) {
-      setFilters({ ...filters, maxYear: newValue })
-    }
-  }
-
   return (
     <FilterBase title="Release year">
-      <div className="flex flex-col items-center gap-3 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-64 p-2 bg-BaseLight fadeIn">
+      <div className="flex flex-col items-center gap-3 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-64 p-2 bg-BaseLight fadeIn shadow-lg">
         <div className="flex items-center justify-center gap-1 w-full">
           <span>{min}</span>
           <div className="flex-grow">

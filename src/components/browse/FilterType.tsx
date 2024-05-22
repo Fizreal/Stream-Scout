@@ -15,7 +15,7 @@ const FilterType = ({ filters, handleContentFilter }: FilterTypeProps) => {
 
   return (
     <FilterBase title="Content type">
-      <div className="flex flex-col items-center gap-1 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-56 p-2 bg-BaseLight fadeIn">
+      <div className="flex flex-col items-center gap-1 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-56 p-2 bg-BaseLight fadeIn shadow-lg">
         <div className="relative grid grid-cols-3 w-full h-9 bg-BaseDark rounded-full">
           <button
             className={

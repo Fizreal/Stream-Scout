@@ -16,7 +16,7 @@ const FilterKeyword = ({
 }: FilterKeywordProps) => {
   return (
     <FilterBase title="Keyword">
-      <div className="flex flex-col items-center gap-3 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-56 p-2 bg-BaseLight fadeIn">
+      <div className="flex flex-col items-center gap-3 relative lg:absolute lg:left-1/2 lg:bottom-0 lg:translate-y-full lg:-translate-x-1/2 lg:rounded-xl w-full lg:w-56 p-2 bg-BaseLight fadeIn shadow-lg">
         <div>
           {filters.keyword && (
             <div className="relative flex items-center justify-center">
