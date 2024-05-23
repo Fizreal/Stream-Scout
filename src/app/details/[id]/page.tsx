@@ -369,6 +369,8 @@ const ContentDetails = ({ params }: Params) => {
                     disabled={false}
                     loading={loadingStreamingDetails}
                     onClick={handleStreamingDetails}
+                    style="secondaryLight"
+                    width="fit"
                   />
                 )}
               </div>

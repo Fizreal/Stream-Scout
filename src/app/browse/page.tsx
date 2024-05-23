@@ -10,6 +10,7 @@ import FilterType from '@/components/browse/FilterType'
 import FilterGenres from '@/components/browse/FilterGenres'
 import FilterKeyword from '@/components/browse/FilterKeyword'
 import FilterReleaseYear from '@/components/browse/FilterReleaseYear'
+import SubmitButton from '@/components/SubmitButton'
 
 const BrowsePage = () => {
   const [currentFilters, setCurrentFilters] = useState<BrowseFilters>({
@@ -76,7 +77,6 @@ const BrowsePage = () => {
   }
 
   const fetchResults = async (filters: BrowseFilters) => {
-    setLoading(true)
     if (!user) return
     try {
       const data = await FilterSearch(user, filters)
@@ -104,18 +104,18 @@ const BrowsePage = () => {
       } else {
         setSearchFilters({ ...filters, cursor: '' })
       }
-      setLoading(false)
       return formattedData
     } catch (error) {
       console.error('Failed to fetch data:', error)
-      setLoading(false)
     }
   }
 
   const handleSearch = async () => {
+    setLoading(true)
     setSearchFilters(currentFilters)
     const results = await fetchResults(currentFilters)
     setContent(results)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -194,19 +194,21 @@ const BrowsePage = () => {
               </div>
             )}
           </div>
-          <div className="flex flex-row items-center justify-center gap-3 h-12">
-            <button
+          <div className="grid grid-cols-2 gap-3 h-12 items-center">
+            <SubmitButton
+              text="Reset filters"
+              disabled={false}
+              loading={false}
+              style="secondaryDark"
               onClick={resetFilters}
-              className="flex items-center justify-center px-2 py-1 h-full"
-            >
-              <p className="text-nowrap">Reset Filters</p>
-            </button>
-            <button
+            />
+            <SubmitButton
+              text="Search"
+              disabled={false}
+              loading={loading}
+              style="primaryDark"
               onClick={handleSearch}
-              className="flex items-center justify-center px-2 py-1 w-full"
-            >
-              <p>Search</p>
-            </button>
+            />
           </div>
         </div>
       </div>

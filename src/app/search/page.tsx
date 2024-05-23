@@ -48,7 +48,10 @@ const SearchPage = () => {
 
   return (
     <section>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center gap-2"
+      >
         <input
           type="text"
           value={title}
@@ -56,7 +59,13 @@ const SearchPage = () => {
           placeholder="Search for a title"
           className="w-60 p-2 bg-PrimaryDark rounded border border-AccentLight text-white focus:outline-none focus:ring-2 focus:ring-AccentLight focus:border-transparent"
         />
-        <SubmitButton text="Search" disabled={false} loading={loading} />
+
+        <SubmitButton
+          text="Search"
+          disabled={false}
+          loading={loading}
+          width="fit"
+        />
       </form>
       <div className="flex flex-col gap-6 p-6 max-w-[1024px]">
         {content.map((item) => (

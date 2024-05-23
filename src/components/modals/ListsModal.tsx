@@ -136,6 +136,7 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
               text="Create"
               disabled={loading || !newList ? true : false}
               loading={loading}
+              width="fit"
             />
           </form>
         </div>

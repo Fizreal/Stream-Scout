@@ -89,7 +89,7 @@ const SignUp: React.FC = () => {
             w-full"
           />
         </fieldset>
-        <fieldset className="flex flex-col w-full gap-1.5">
+        <fieldset className="flex flex-col w-full gap-1.5 mb-2">
           <label className="text-AccentLight">Confirm Password:</label>
           <input
             type="password"
