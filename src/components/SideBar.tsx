@@ -45,30 +45,60 @@ const SideBar = ({
 
   return (
     user && (
-      <aside ref={ref} className={`bg-BaseLight sideBar ${open ? 'open' : ''}`}>
-        <ul>
-          <li>Find something to watch</li>
-          <ul>
-            <Link href={'/search'}>
+      <aside
+        ref={ref}
+        className={`bg-AccentLight sideBar ${open ? 'open' : ''}`}
+      >
+        <ul className="flex flex-col">
+          <li className="py-2 px-1 my-1 text-BaseDark font-medium">
+            Find something to watch
+          </li>
+          <ul className="flex flex-col gap-2 bg-PrimaryDark/50">
+            <Link
+              href={'/search'}
+              className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
+              onClick={closeSideBar}
+            >
               <li>Search</li>
             </Link>
-            <Link href={'/browse'}>
+            <Link
+              href={'/browse'}
+              className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
+              onClick={closeSideBar}
+            >
               <li>Browse</li>
             </Link>
           </ul>
-          <li>Profile</li>
-          <ul>
-            <li>
-              <Link href={'/profile?display=watchlists'}>Watchlists</Link>
-            </li>
-            <li>Feed (Coming soon)</li>
-            <Link href={'/profile/social'}>
+          <li className="py-2 px-1 my-1 text-BaseDark font-medium">Profile</li>
+          <ul className="flex flex-col gap-2 bg-PrimaryDark/50">
+            <Link
+              href={'/profile?display=watchlists'}
+              className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
+              onClick={closeSideBar}
+            >
+              <li>Watchlists</li>
+            </Link>
+            <Link
+              href={'/profile/social'}
+              className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
+              onClick={closeSideBar}
+            >
               <li>Social</li>
             </Link>
-            <li>Settings</li>
-            <li onClick={handleLogout} className="cursor-pointer">
-              Logout
-            </li>
+            <Link
+              href={'/'}
+              className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
+              onClick={closeSideBar}
+            >
+              <li>Settings</li>
+            </Link>
+            <Link
+              href={''}
+              className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
+              onClick={closeSideBar}
+            >
+              <li onClick={handleLogout}>Logout</li>
+            </Link>
           </ul>
         </ul>
       </aside>

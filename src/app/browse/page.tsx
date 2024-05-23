@@ -156,7 +156,7 @@ const BrowsePage = () => {
 
   return (
     <section className="gap-4 -mt-6">
-      <div className="flex flex-col items-center justify-center w-full bg-AccentLight">
+      <div className="flex flex-col items-center justify-center w-full bg-AccentLight/75">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-8 w-full">
           <div
             className="flex flex-col w-full lg:w-fit"

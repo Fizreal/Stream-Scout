@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <section>
+    <section className="flex flex-col items-center pt-6 w-full">
       <form
         onSubmit={handleLogin}
         className="flex flex-col bg-PrimaryDark items-center w-4/5 max-w-md p-6 gap-1.5 rounded-lg shadow-lg"
