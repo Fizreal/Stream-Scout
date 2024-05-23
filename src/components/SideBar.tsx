@@ -86,7 +86,7 @@ const SideBar = ({
               <li>Social</li>
             </Link>
             <Link
-              href={'/'}
+              href={'/profile/settings'}
               className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
               onClick={closeSideBar}
             >

@@ -101,6 +101,12 @@ export type BrowseFilters = {
   cursor: string
 }
 
+export type ProfileForm = {
+  username?: string
+  country: string
+  subscriptions: string[]
+}
+
 export type Service = {
   id: string
   name: string

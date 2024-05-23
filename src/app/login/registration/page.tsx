@@ -1,13 +1,11 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import { Profile } from '@/types'
-import SubmitButton from '@/components/SubmitButton'
-import Countries from '@/utils/services.json'
-import { Country, Service } from '@/types'
+import ProfileUpdate from '@/components/ProfileUpdate'
 
 type ProfileForm = {
   username: string
@@ -26,21 +24,10 @@ const RegistrationPage = () => {
     subscriptions: []
   })
   const [uniqueUsername, setUniqueUsername] = useState(false)
-  const [errorMessages, setErrorMessages] = useState({
-    username: '',
-    country: '',
-    subscriptions: ''
-  })
+  const [errorMessage, setErrorMessage] = useState('')
   const [usernameTimer, setUsernameTimer] = useState<NodeJS.Timeout | null>(
     null
   )
-  const availableServices = useMemo(() => {
-    if (!profileForm.country) return null
-
-    return Countries.find(
-      (country) => country.countryCode === profileForm.country
-    )?.services
-  }, [profileForm.country])
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -58,6 +45,12 @@ const RegistrationPage = () => {
           subscriptions: prev.subscriptions.filter((s) => s !== subscription)
         }))
       }
+    } else if (e.target.name === 'country') {
+      setProfileForm({
+        ...profileForm,
+        country: e.target.value,
+        subscriptions: []
+      })
     } else {
       setProfileForm((prev) => ({
         ...prev,
@@ -90,7 +83,7 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     if (usernameTimer) clearTimeout(usernameTimer)
-    setErrorMessages((prev) => ({ ...prev, username: '' }))
+    setErrorMessage('')
     setUniqueUsername(false)
 
     let validUsername = /^[a-zA-Z0-9]+$/.test(profileForm.username)
@@ -107,72 +100,20 @@ const RegistrationPage = () => {
         }, 1000)
       )
     } else {
-      setErrorMessages((prev) => ({
-        ...prev,
-        username: 'Username does not meet requirements'
-      }))
+      setErrorMessage('Username does not meet requirements')
     }
   }, [profileForm.username])
 
   return (
     <section>
-      <h1>Register Page</h1>
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={profileForm.username}
-            onChange={handleFormChange}
-          />
-          <p>{errorMessages.username}</p>
-        </fieldset>
-        <fieldset>
-          <label htmlFor="country">Country:</label>
-          <select
-            name="country"
-            value={profileForm.country}
-            onChange={handleFormChange}
-          >
-            <option value="" disabled>
-              Select a country
-            </option>
-            {Countries.map((country: Country) => (
-              <option key={country.countryCode} value={country.countryCode}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-          <p>{errorMessages.country}</p>
-        </fieldset>
-        <fieldset>
-          <legend>Subscriptions:</legend>
-          {availableServices?.map((service: Service) => (
-            <label key={service.id}>
-              <input
-                type="checkbox"
-                name="subscriptions"
-                value={service.id}
-                onChange={handleFormChange}
-              />
-              {service.name}
-            </label>
-          ))}
-          <p>{errorMessages.subscriptions}</p>
-        </fieldset>
-        <SubmitButton
-          text="Create profile"
-          disabled={
-            profileForm.username &&
-            profileForm.country &&
-            profileForm.subscriptions.length
-              ? false
-              : true
-          }
-          loading={false}
-        />
-      </form>
+      <h2>Register Page</h2>
+      <ProfileUpdate
+        profileForm={profileForm}
+        handleFormChange={handleFormChange}
+        handleSubmit={handleSubmit}
+        errorMessage={errorMessage}
+        submitText="Create profile"
+      />
     </section>
   )
 }

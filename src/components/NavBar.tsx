@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useUser } from '@/context/UserContext'
 
 const NavBar = ({
   open,
@@ -9,6 +10,8 @@ const NavBar = ({
   toggleOpen: () => void
   hamburgerRef: React.RefObject<HTMLDivElement>
 }) => {
+  const { user } = useUser()
+
   return (
     <nav className="fixed top-0 left-0 bg-PrimaryDark flex justify-center items-center md:justify-start shadow-lg h-14 w-full z-20">
       <div
@@ -23,7 +26,7 @@ const NavBar = ({
         <span></span>
       </div>
       <Link
-        href="/"
+        href={user ? '/' : '/login'}
         className="flex items-center justify-center h-full w-[200px]"
       >
         <h1 className="text-2xl text-AccentLight">Stream Scout</h1>
