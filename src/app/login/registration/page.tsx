@@ -106,7 +106,7 @@ const RegistrationPage = () => {
 
   return (
     <section>
-      <h2>Register Page</h2>
+      <h2 className="text-2xl text-AccentLight mb-3">Register Page</h2>
       <ProfileUpdate
         profileForm={profileForm}
         handleFormChange={handleFormChange}

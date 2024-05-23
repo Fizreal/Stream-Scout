@@ -73,20 +73,14 @@ const SettingsPage = () => {
 
   return (
     <section>
-      <h2>Update profile</h2>
+      <h2 className="text-2xl text-AccentLight mb-3">Update profile</h2>
       <ProfileUpdate
         profileForm={profileForm}
         errorMessage=""
         handleSubmit={handleSubmit}
         handleFormChange={handleFormChange}
+        handleDiscard={() => router.push('/profile')}
         submitText="Update profile"
-      />
-      <SubmitButton
-        text="Discard changes"
-        onClick={() => router.push('/profile')}
-        width="fit"
-        loading={false}
-        disabled={false}
       />
     </section>
   )
