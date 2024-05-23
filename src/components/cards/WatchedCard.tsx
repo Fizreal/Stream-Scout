@@ -191,8 +191,9 @@ const WatchedCard = ({ watched }: { watched: Watched }) => {
                 target="_blank"
               >
                 <img
-                  src={streamIcons[stream.service]?.image}
-                  alt={streamIcons[stream.service]?.name}
+                  src={`/streamIcons/${stream.service}.png`}
+                  alt={streamIcons[stream.service].name}
+                  className="aspect-square w-12 rounded-lg shadow-lg"
                 />
               </a>
             ))}

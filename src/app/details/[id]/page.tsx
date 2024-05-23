@@ -349,8 +349,9 @@ const ContentDetails = ({ params }: Params) => {
                         key={streamingService.service}
                       >
                         <img
-                          src={streamIcons[streamingService.service].image}
+                          src={`/streamIcons/${streamingService}.png`}
                           alt={streamIcons[streamingService.service].name}
+                          className="aspect-square w-12 rounded-lg shadow-lg"
                         />
                       </a>
                     ))

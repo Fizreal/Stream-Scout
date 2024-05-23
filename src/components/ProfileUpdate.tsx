@@ -91,6 +91,11 @@ const ProfileUpdate = ({
                 value={service.id}
                 onChange={handleFormChange}
               />
+              <img
+                src={`/streamIcons/${service.id}.png`}
+                alt={service.name}
+                className="aspect-square w-12 rounded-lg shadow-lg border"
+              />
               {service.name}
             </label>
           ))}

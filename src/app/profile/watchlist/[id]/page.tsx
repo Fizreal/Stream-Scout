@@ -222,8 +222,9 @@ const WatchlistDetail = () => {
                                       rel="noreferrer"
                                     >
                                       <img
-                                        src={streamIcons[stream.service].image}
-                                        alt={stream.service}
+                                        src={`/streamIcons/${stream.service}.png`}
+                                        alt={streamIcons[stream.service].name}
+                                        className="aspect-square w-12 rounded-lg shadow-lg"
                                       />
                                     </a>
                                   ))
