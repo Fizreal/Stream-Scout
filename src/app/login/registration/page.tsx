@@ -32,20 +32,7 @@ const RegistrationPage = () => {
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    if (e.target.name === 'subscriptions') {
-      let subscription = e.target.value
-      if ((e.target as HTMLInputElement).checked) {
-        setProfileForm((prev) => ({
-          ...prev,
-          subscriptions: [...prev.subscriptions, subscription]
-        }))
-      } else {
-        setProfileForm((prev) => ({
-          ...prev,
-          subscriptions: prev.subscriptions.filter((s) => s !== subscription)
-        }))
-      }
-    } else if (e.target.name === 'country') {
+    if (e.target.name === 'country') {
       setProfileForm({
         ...profileForm,
         country: e.target.value,
@@ -56,6 +43,20 @@ const RegistrationPage = () => {
         ...prev,
         [e.target.name]: e.target.value
       }))
+    }
+  }
+
+  const handleGenreChange = (id: string) => {
+    if (profileForm.subscriptions.includes(id)) {
+      setProfileForm({
+        ...profileForm,
+        subscriptions: profileForm.subscriptions.filter((sub) => sub !== id)
+      })
+    } else {
+      setProfileForm({
+        ...profileForm,
+        subscriptions: [...profileForm.subscriptions, id]
+      })
     }
   }
 
@@ -110,6 +111,7 @@ const RegistrationPage = () => {
       <ProfileUpdate
         profileForm={profileForm}
         handleFormChange={handleFormChange}
+        handleGenreChange={handleGenreChange}
         handleSubmit={handleSubmit}
         errorMessage={errorMessage}
         submitText="Create profile"

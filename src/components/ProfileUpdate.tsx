@@ -10,6 +10,7 @@ type ProfileUpdateProps = {
   handleFormChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void
+  handleGenreChange: (id: string) => void
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
   handleDiscard?: () => void
 }
@@ -20,6 +21,7 @@ const ProfileUpdate = ({
   submitText,
   handleSubmit,
   handleFormChange,
+  handleGenreChange,
   handleDiscard
 }: ProfileUpdateProps) => {
   const availableServices = useMemo(() => {
@@ -32,8 +34,8 @@ const ProfileUpdate = ({
 
   return (
     <form
-      onSubmit={handleSubmit}
       className="flex flex-col items-center gap-2 w-full max-w-lg p-4 bg-BaseLight rounded-md shadow-md"
+      onSubmit={handleSubmit}
     >
       {profileForm.username !== undefined && (
         <fieldset>
@@ -84,20 +86,24 @@ const ProfileUpdate = ({
         </label>
         <div className="grid grid-cols-2 gap-1 w-full">
           {availableServices?.map((service: Service) => (
-            <label key={service.id}>
-              <input
-                type="checkbox"
-                name="subscriptions"
-                value={service.id}
-                onChange={handleFormChange}
-              />
+            <button
+              key={service.id}
+              onClick={() => handleGenreChange(service.id)}
+              className={
+                'flex items-center gap-2 p-2 rounded' +
+                (profileForm.subscriptions?.includes(service.id)
+                  ? ' bg-PrimaryDark/50'
+                  : '')
+              }
+              type="button"
+            >
               <img
                 src={`/streamIcons/${service.id}.png`}
                 alt={service.name}
-                className="aspect-square w-12 rounded-lg shadow-lg border"
+                className="aspect-square w-12 rounded-lg shadow-lg"
               />
-              {service.name}
-            </label>
+              <p>{service.name}</p>
+            </button>
           ))}
         </div>
       </fieldset>
@@ -105,9 +111,9 @@ const ProfileUpdate = ({
         <SubmitButton
           text={submitText}
           disabled={
-            (profileForm.username === undefined || profileForm?.username) &&
+            (profileForm.username === undefined || profileForm.username) &&
             profileForm.country &&
-            profileForm.subscriptions.length
+            profileForm.subscriptions?.length
               ? false
               : true
           }
@@ -123,6 +129,7 @@ const ProfileUpdate = ({
             loading={false}
             disabled={false}
             style="secondaryDark"
+            type="button"
           />
         )}
       </div>

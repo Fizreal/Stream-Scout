@@ -170,7 +170,7 @@ const WatchedCard = ({ watched }: { watched: Watched }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col flex-grow gap-2 h-full">
+      <div className="flex flex-col flex-grow gap-2 h-full text-BaseLight">
         <Link href={`/details/${content._id}`}>
           <h3 className="text-2xl text-center min-[390px]:text-start">
             {content.title}{' '}
@@ -194,6 +194,7 @@ const WatchedCard = ({ watched }: { watched: Watched }) => {
                   src={`/streamIcons/${stream.service}.png`}
                   alt={streamIcons[stream.service].name}
                   className="aspect-square w-12 rounded-lg shadow-lg"
+                  title={streamIcons[stream.service].name}
                 />
               </a>
             ))}

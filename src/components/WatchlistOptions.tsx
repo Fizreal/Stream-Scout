@@ -1,13 +1,16 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { Watchlist } from '@/types'
 
 type WatchlistOptionsProps = {
+  watchlist: Watchlist
   showInviteModal: () => void
   showLeaveModal: () => void
 }
 
 const WatchlistOptions = ({
+  watchlist,
   showInviteModal,
   showLeaveModal
 }: WatchlistOptionsProps) => {
@@ -61,7 +64,9 @@ const WatchlistOptions = ({
             }}
             className="rounded-lg bg-PrimaryDark hover:bg-PrimaryDark/80 text-AccentLight w-full px-1 py-0.5"
           >
-            Leave watchlist
+            {watchlist.owners.length > 1
+              ? 'Leave watchlist'
+              : 'Delete watchlist'}
           </button>
         </div>
       )}

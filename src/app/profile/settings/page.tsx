@@ -21,23 +21,26 @@ const SettingsPage = () => {
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    if (e.target.name === 'subscriptions') {
-      let subscription = e.target.value
-      if ((e.target as HTMLInputElement).checked) {
-        setProfileForm((prev) => ({
-          ...prev,
-          subscriptions: [...prev.subscriptions, subscription]
-        }))
-      } else {
-        setProfileForm((prev) => ({
-          ...prev,
-          subscriptions: prev.subscriptions.filter((s) => s !== subscription)
-        }))
-      }
-    } else {
+    setProfileForm({
+      country: e.target.value,
+      subscriptions: []
+    })
+  }
+
+  const handleGenreChange = (id: string) => {
+    if (profileForm.subscriptions.includes(id)) {
+      let updatedSubs = profileForm.subscriptions.filter((sub) => sub !== id)
+      console.log('remove', updatedSubs)
       setProfileForm({
-        country: e.target.value,
-        subscriptions: []
+        ...profileForm,
+        subscriptions: updatedSubs
+      })
+    } else {
+      let updatedSubs = [...profileForm.subscriptions, id]
+      console.log('add', updatedSubs)
+      setProfileForm({
+        ...profileForm,
+        subscriptions: [...profileForm.subscriptions, id]
       })
     }
   }
@@ -79,6 +82,7 @@ const SettingsPage = () => {
         errorMessage=""
         handleSubmit={handleSubmit}
         handleFormChange={handleFormChange}
+        handleGenreChange={handleGenreChange}
         handleDiscard={() => router.push('/profile')}
         submitText="Update profile"
       />

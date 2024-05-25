@@ -1,6 +1,7 @@
 import { useUser } from '@/context/UserContext'
 import Link from 'next/link'
 import InvitationCard from '../cards/InvitationCard'
+import SubmitButton from '../SubmitButton'
 
 type WatchlistsSectionProps = {
   setShowCreateModal: (show: boolean) => void
@@ -11,7 +12,13 @@ const WatchlistsSection = ({ setShowCreateModal }: WatchlistsSectionProps) => {
 
   return (
     <div className="flex flex-col items-center gap-4 fadeIn w-full">
-      <button onClick={() => setShowCreateModal(true)}>Create watchlist</button>
+      <SubmitButton
+        text={'Create Watchlist'}
+        onClick={() => setShowCreateModal(true)}
+        width="fit"
+        disabled={false}
+        loading={false}
+      />
       {invitations.length !== 0 && (
         <div className="flex flex-col items-center w-full">
           <h3>Pending Invitations</h3>

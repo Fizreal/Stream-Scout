@@ -147,11 +147,11 @@ const WatchlistDetail = () => {
                 <ContentFilter filters={filters} setFilters={setFilters} />
               </div>
               <WatchlistOptions
+                watchlist={watchlist}
                 showInviteModal={() => setInviteModal(true)}
                 showLeaveModal={() => setLeaveModal(true)}
               />
             </div>
-
             <Droppable droppableId="droppable-1">
               {(provided, snapshot) => (
                 <div
@@ -169,7 +169,7 @@ const WatchlistDetail = () => {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          className="flex gap-4 bg-BaseDark background-blur rounded-md shadow-lg overflow-hidden w-full sm:h-[212px] p-2"
+                          className="flex gap-4 bg-BaseDark background-blur rounded-md shadow-lg overflow-hidden w-full sm:h-[212px] p-2 text-BaseLight"
                         >
                           <div className="flex items-center w-6 sm:w-12 h-full flex-shrink-0">
                             <img
@@ -225,6 +225,7 @@ const WatchlistDetail = () => {
                                         src={`/streamIcons/${stream.service}.png`}
                                         alt={streamIcons[stream.service].name}
                                         className="aspect-square w-12 rounded-lg shadow-lg"
+                                        title={streamIcons[stream.service].name}
                                       />
                                     </a>
                                   ))

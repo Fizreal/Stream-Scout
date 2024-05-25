@@ -37,6 +37,23 @@ const ContentDetails = ({ params }: Params) => {
     return content.genres.join(', ')
   }, [content])
 
+  const streamScoutLikes = useMemo(() => {
+    if (!content) return null
+
+    if (content.likes + content.dislikes === 0) return null
+
+    const likePercentage = Math.round(
+      (content.likes / (content.likes + content.dislikes)) * 100
+    )
+
+    const likeCount =
+      content.likes > 1000
+        ? `${Math.round(content.likes / 100) / 10}k`
+        : content.likes
+
+    return `${likePercentage}% (${likeCount})`
+  }, [content])
+
   const countryStreamingInfo = useMemo(() => {
     if (!content) return []
     let countryStreamingInfo = content.streamingInfo.find(
@@ -325,7 +342,9 @@ const ContentDetails = ({ params }: Params) => {
               </div>
               <div className="flex flex-col items-center w-full">
                 <div className="flex items-center justify-between w-full">
-                  <h3>Streaming options</h3>
+                  <h3 className="text-lg text-AccentLight">
+                    Streaming options
+                  </h3>
                   {displayedCountry && (
                     <select
                       onChange={handleCountryChange}
@@ -349,8 +368,9 @@ const ContentDetails = ({ params }: Params) => {
                         key={streamingService.service}
                       >
                         <img
-                          src={`/streamIcons/${streamingService}.png`}
+                          src={`/streamIcons/${streamingService.service}.png`}
                           alt={streamIcons[streamingService.service].name}
+                          title={streamIcons[streamingService.service].name}
                           className="aspect-square w-12 rounded-lg shadow-lg"
                         />
                       </a>
@@ -377,20 +397,36 @@ const ContentDetails = ({ params }: Params) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 w-full bg-black/50 text-white rounded-b-md min-[950px]:mt-4 min-[950px]:rounded-md shadow-lg pt-0 p-4 min-[950px]:pt-4">
+          <div className="flex flex-col gap-4 w-full bg-black/50 text-BaseLight rounded-b-md min-[950px]:mt-4 min-[950px]:rounded-md shadow-lg pt-0 p-4 min-[950px]:pt-4">
             <div className="flex flex-col gap-4 md:flex-row md:justify-around">
-              <div>
-                <h3>Ratings</h3>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <img src="/TMDB.svg" alt="TMDB" className="w-12" />
+              <div className="flex flex-col gap-1">
+                <h3 className="text-lg w-full text-center text-AccentLight">
+                  Ratings
+                </h3>
+                <div className="flex items-center justify-center gap-4 w-full">
+                  <div className="flex flex-col items-center gap-2">
+                    <img
+                      src="/TMDB.svg"
+                      alt="TMDB"
+                      className="h-5"
+                      title="TMDB"
+                    />
                     <p>{content.rating}</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <img
+                      src="/logo.png"
+                      alt="Stream Scout logo"
+                      className="h-5"
+                      title="Stream Scout"
+                    />
+                    <p>{streamScoutLikes ? streamScoutLikes : 'N/A'}</p>
                   </div>
                 </div>
               </div>
               {content.type === 'movie' && content.runtime && (
-                <div>
-                  <h3>Runtime</h3>
+                <div className="flex flex-col items-center gap-1">
+                  <h3 className="text-lg text-AccentLight">Runtime</h3>
                   <p>
                     {content.runtime > 60
                       ? `${Math.floor(content.runtime / 60)}h `
@@ -401,18 +437,18 @@ const ContentDetails = ({ params }: Params) => {
               )}
             </div>
             <div>
-              <h3>Synopsis</h3>
+              <h3 className="text-lg text-AccentLight">Synopsis</h3>
               <p className="text-wrap">{content.overview}</p>
             </div>
             {content.type === 'series' && (
               <div>
                 <div className="flex flex-nowrap items-center gap-4">
-                  <h3>Seasons</h3>
+                  <h3 className="text-lg text-AccentLight">Seasons</h3>
                   {content.seasons?.length && content.seasons.length > 0 && (
                     <select
                       onChange={handleSeasonChange}
                       defaultValue={content.seasons[0].season_number}
-                      className="bg-black/50 text-white rounded-md p-2"
+                      className="bg-black/50 rounded-md p-2"
                     >
                       {content.seasons.map((season) => (
                         <option
