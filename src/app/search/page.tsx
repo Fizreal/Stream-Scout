@@ -7,6 +7,7 @@ import { useUser } from '@/context/UserContext'
 import { formatResult } from '@/utils/content-methods'
 import ContentCard from '@/components/cards/ContentCard'
 import SubmitButton from '@/components/SubmitButton'
+import Loading from '@/components/Loading'
 
 const SearchPage = () => {
   const [title, setTitle] = useState<string>('')
@@ -32,7 +33,6 @@ const SearchPage = () => {
           tmdbIds.add(data.result[i].tmdbId)
         }
       }
-      console.log(data)
 
       let formattedData = data.result.map((content: any) =>
         formatResult(content)
@@ -62,7 +62,7 @@ const SearchPage = () => {
 
         <SubmitButton
           text="Search"
-          disabled={false}
+          disabled={!title}
           loading={loading}
           width="fit"
         />
@@ -72,6 +72,7 @@ const SearchPage = () => {
           <ContentCard key={item.tmdbId} content={item} type="search" />
         ))}
       </div>
+      {loading && <Loading />}
     </section>
   )
 }

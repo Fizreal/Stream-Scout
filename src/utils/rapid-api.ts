@@ -30,8 +30,8 @@ export const FilterSearch = async (user: Profile, data: BrowseFilters) => {
   let services = '&services=' + user.subscriptions.join(',')
   let genres = data.genres.length ? '&genres=' + data.genres.join(',') : ''
   let keyword = data.keyword ? '&keyword=' + data.keyword : ''
-  let minYear = data.minYear ? '&min_year=' + data.minYear : ''
-  let maxYear = data.maxYear ? '&max_year=' + data.maxYear : ''
+  let minYear = data.minYear ? '&year_min=' + data.minYear : ''
+  let maxYear = data.maxYear ? '&year_max=' + data.maxYear : ''
   let cursor = data.cursor ? '&cursor=' + data.cursor : ''
   let contentType = '&show_type=' + data.contentType
 
@@ -62,7 +62,7 @@ export const Countries = async () => {
   return countries
 }
 
-export const popularThisWeek = async (user: Profile) => {
+export const PopularThisWeek = async (user: Profile) => {
   let services = '&services=' + user.subscriptions.join(',')
   const response = await RAPID_API.get(
     `search/filters?country=${user.country}&order_by=popularity_1week&desc=true${services}`

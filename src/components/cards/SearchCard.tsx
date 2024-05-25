@@ -24,7 +24,7 @@ const SearchCard = ({
   )
 
   return (
-    <div className="relative w-full p-6 rounded shadow-lg flex gap-6 bg-PrimaryDark">
+    <div className="relative w-full p-6 rounded shadow-lg flex gap-6 bg-PrimaryDark fadeIn">
       <div onClick={handleDetails} className="cursor-pointer">
         <Image
           src={`https://image.tmdb.org/t/p/original${content.poster}`}

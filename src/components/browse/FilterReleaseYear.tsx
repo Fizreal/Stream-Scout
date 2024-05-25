@@ -1,6 +1,6 @@
 import { BrowseFilters } from '@/types'
 import FilterBase from './FilterBase'
-import MultiRangeSlider from 'multi-range-slider-react'
+import MultiRangeSlider, { ChangeResult } from 'multi-range-slider-react'
 
 type FilterReleaseYearProps = {
   filters: BrowseFilters
@@ -10,6 +10,10 @@ type FilterReleaseYearProps = {
 const FilterReleaseYear = ({ filters, setFilters }: FilterReleaseYearProps) => {
   const min = 1900
   const max = new Date().getFullYear()
+
+  const OnChange = (e: ChangeResult) => {
+    setFilters({ ...filters, minYear: e.minValue, maxYear: e.maxValue })
+  }
 
   return (
     <FilterBase title="Release year">
@@ -22,9 +26,7 @@ const FilterReleaseYear = ({ filters, setFilters }: FilterReleaseYearProps) => {
               max={max}
               minValue={filters.minYear}
               maxValue={filters.maxYear}
-              onChange={({ min, max }) =>
-                setFilters({ ...filters, minYear: min, maxYear: max })
-              }
+              onChange={OnChange}
               label={false}
               ruler={false}
               canMinMaxValueSame={true}

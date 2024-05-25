@@ -1,11 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { popularThisWeek } from '@/utils/rapid-api'
+import { PopularThisWeek } from '@/utils/rapid-api'
 import ContentCard from '@/components/cards/ContentCard'
 import { useUser } from '@/context/UserContext'
 import { Content } from '@/types'
 import { formatResult } from '@/utils/content-methods'
+import Loading from '@/components/Loading'
 
 const Home = () => {
   const { user } = useUser()
@@ -15,7 +16,7 @@ const Home = () => {
   const fetchResults = async () => {
     if (!user) return
     try {
-      const data = await popularThisWeek(user)
+      const data = await PopularThisWeek(user)
 
       const tmdbIds = new Set()
 
@@ -50,11 +51,15 @@ const Home = () => {
 
   return (
     <section className="gap-3">
-      <h2 className="text-xl text-AccentLight">Popular this week</h2>
+      <h2 className="text-2xl text-AccentLight">Popular this week</h2>
       <div className="flex flex-wrap justify-center gap-4 pb-3">
-        {popular.map((content) => (
-          <ContentCard content={content} type="browse" />
-        ))}
+        {loading ? (
+          <Loading />
+        ) : (
+          popular.map((content, idx) => (
+            <ContentCard content={content} type="browse" key={idx} />
+          ))
+        )}
       </div>
     </section>
   )

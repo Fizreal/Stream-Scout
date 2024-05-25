@@ -11,6 +11,7 @@ import FilterGenres from '@/components/browse/FilterGenres'
 import FilterKeyword from '@/components/browse/FilterKeyword'
 import FilterReleaseYear from '@/components/browse/FilterReleaseYear'
 import SubmitButton from '@/components/SubmitButton'
+import Loading from '@/components/Loading'
 
 const BrowsePage = () => {
   const [currentFilters, setCurrentFilters] = useState<BrowseFilters>({
@@ -139,8 +140,8 @@ const BrowsePage = () => {
   useEffect(() => {
     const handleScroll = async () => {
       const isBottom =
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 450
       if (isBottom && searchFilters.cursor) {
         const results = await fetchResults(searchFilters)
         setContent([...content, ...results])
@@ -159,17 +160,19 @@ const BrowsePage = () => {
       <div className="flex flex-col items-center justify-center w-full bg-AccentLight/75">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-8 w-full">
           <div
-            className="flex flex-col w-full lg:w-fit"
+            className="flex flex-col items-center w-full gap-2 lg:w-fit py-2"
             onMouseEnter={() => setShowFilters(true)}
             onMouseLeave={() => setShowFilters(false)}
           >
             {smallScreen && (
-              <p
+              <SubmitButton
+                text="Show filters"
+                disabled={false}
+                loading={false}
+                style="primaryDark"
                 onClick={() => setShowFilters((prev) => !prev)}
-                className="text-center"
-              >
-                Show filters
-              </p>
+                width="fit"
+              />
             )}
             {(!smallScreen || showFilters) && (
               <div className="flex flex-col lg:flex-row items-center justify-center gap-3 w-full lg:w-fit lg:h-12">
@@ -186,6 +189,7 @@ const BrowsePage = () => {
                   keyword={keyword}
                   handleKeywordChange={handleKeywordChange}
                   handleAddKeyword={handleAddKeyword}
+                  setFilters={setCurrentFilters}
                 />
                 <FilterReleaseYear
                   filters={currentFilters}
@@ -212,11 +216,11 @@ const BrowsePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 pb-4">
         {content.map((item) => (
           <ContentCard key={item.tmdbId} content={item} type="browse" />
         ))}
-        {loading && <div>Loading...</div>}
+        {loading && <Loading />}
       </div>
     </section>
   )
