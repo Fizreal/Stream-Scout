@@ -61,3 +61,11 @@ export const Countries = async () => {
 
   return countries
 }
+
+export const popularThisWeek = async (user: Profile) => {
+  let services = '&services=' + user.subscriptions.join(',')
+  const response = await RAPID_API.get(
+    `search/filters?country=${user.country}&order_by=popularity_1week&desc=true${services}`
+  )
+  return response.data
+}
