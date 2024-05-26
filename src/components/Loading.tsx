@@ -2,7 +2,7 @@ import { Oval } from 'react-loader-spinner'
 
 const Loading = () => {
   return (
-    <div className="flex items-center justify-center my-12 fadeIn">
+    <div className="flex items-center justify-center mt-28 fadeIn">
       <Oval
         visible={true}
         height="150"

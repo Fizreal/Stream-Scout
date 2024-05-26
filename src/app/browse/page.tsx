@@ -108,6 +108,7 @@ const BrowsePage = () => {
       return formattedData
     } catch (error) {
       console.error('Failed to fetch data:', error)
+      return []
     }
   }
 

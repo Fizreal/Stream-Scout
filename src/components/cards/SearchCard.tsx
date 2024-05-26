@@ -7,11 +7,13 @@ import Countries from '@/utils/services.json'
 const SearchCard = ({
   content,
   handleDetails,
-  loading
+  loading,
+  detailsLoading
 }: {
   content: Content
   handleDetails: () => void
   loading: boolean
+  detailsLoading: boolean
 }) => {
   const { user } = useUser()
 
@@ -23,7 +25,9 @@ const SearchCard = ({
     (country) => country.countryCode === user?.country
   )
 
-  return (
+  return loading ? (
+    <div className="w-full p-6 rounded shadow-lg flex gap-6 bg-PrimaryDark blur fadeIn"></div>
+  ) : (
     <div className="relative w-full p-6 rounded shadow-lg flex gap-6 bg-PrimaryDark fadeIn">
       <div onClick={handleDetails} className="cursor-pointer">
         <Image

@@ -25,6 +25,7 @@ const SearchPage = () => {
     if (!user) return
     try {
       const data = await TitleSearch(user, title)
+
       const tmdbIds = new Set()
       for (let i = data.result.length - 1; i >= 0; i--) {
         if (tmdbIds.has(data.result[i].tmdbId)) {

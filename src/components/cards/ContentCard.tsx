@@ -92,13 +92,15 @@ const ContentCard = ({ content, type }: { content: Content; type: string }) => {
     <BrowseCard
       content={contentData}
       handleDetails={handleDetails}
-      loading={detailsLoading}
+      loading={loading}
+      detailsLoading={detailsLoading}
     />
   ) : (
     <SearchCard
       content={contentData}
       handleDetails={handleDetails}
-      loading={detailsLoading}
+      loading={loading}
+      detailsLoading={detailsLoading}
     />
   )
 }

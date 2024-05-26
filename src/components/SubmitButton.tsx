@@ -40,7 +40,7 @@ const SubmitButton = ({
       disabled={disabled}
       onClick={onClick}
       className={
-        'py-2 px-4 font-medium rounded-md transition-colors duration-300 ease-in-out h-fit' +
+        'py-2 px-4 font-medium rounded-md transition-colors duration-300 ease-in-out h-fit shadow-lg' +
         styleType +
         widthFit
       }

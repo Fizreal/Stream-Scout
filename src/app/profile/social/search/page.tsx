@@ -4,6 +4,7 @@ import { useSocket } from '@/context/SocketContext'
 import { useState } from 'react'
 import { PublicProfile } from '@/types'
 import ProfileCard from '@/components/cards/ProfileCard'
+import SubmitButton from '@/components/SubmitButton'
 
 const ProfileSearchPage = () => {
   const socket = useSocket()
@@ -42,8 +43,11 @@ const ProfileSearchPage = () => {
   }
 
   return (
-    <section>
-      <form onSubmit={handleSearch}>
+    <section className="gap-4">
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col items-center gap-2"
+      >
         <input
           type="text"
           value={username}
@@ -51,9 +55,14 @@ const ProfileSearchPage = () => {
           placeholder="Search for a username"
           className="w-60 p-2 bg-PrimaryDark rounded border border-AccentLight text-white focus:outline-none focus:ring-2 focus:ring-AccentLight focus:border-transparent"
         />
-        <button>{loading ? 'Loading...' : 'Search'}</button>
+        <SubmitButton
+          disabled={!username}
+          loading={loading}
+          text="Search"
+          width="fit"
+        />
       </form>
-      <div>
+      <div className="flex justify-center w-full">
         {results &&
           results.map((result) => (
             <ProfileCard key={result._id} profile={result} />

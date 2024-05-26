@@ -3,6 +3,8 @@ import { Friend, Profile } from '@/types'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import WarningModal from '../modals/WarningModal'
+import SubmitButton from '../SubmitButton'
+import { countryNames } from '@/utils/object-maps'
 
 const FriendCard = ({ friend }: { friend: Friend }) => {
   const socket = useSocket()
@@ -48,7 +50,6 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
         updatedProfile?: Profile
         error?: string
       }) => {
-        console.log(success, updatedProfile, error)
         if (success && updatedProfile) {
           assignUser(updatedProfile)
         } else {
@@ -80,31 +81,59 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
   }, [socket, friend])
 
   return (
-    <div className="flex flex-nowrap w-full h-40 p-4">
-      <div className="flex flex-col flex-grow h-full gap-2">
-        <h4>{friend.recipient.username}</h4>
-        <p>{friend.recipient.country}</p>
+    <div className="flex flex-nowrap justify-between gap-6 w-full py-4 px-6 bg-PrimaryDark rounded-lg max-w-xs">
+      <div className="flex flex-col flex-grow h-full gap-1 flex-shrink overflow-hidden">
+        <h4 className="text-xl text-AccentLight truncate">
+          {friend.recipient.username}
+        </h4>
+        {friend.status === 3 && (
+          <p
+            className={
+              'truncate' + (online ? ' text-AccentLight' : ' text-BaseLight')
+            }
+          >
+            {online ? 'Online' : 'Offline'}
+          </p>
+        )}
+        <p className="text-BaseLight truncate">
+          {countryNames[friend.recipient.country]}
+        </p>
       </div>
       <div className="flex flex-col items-center justify-around">
         {friend.status === 3 && (
-          <button onClick={handleRemove} disabled={loading}>
-            {loading ? 'Loading...' : 'Remove friend'}
-          </button>
+          <SubmitButton
+            text="Remove friend"
+            disabled={loading}
+            loading={false}
+            onClick={handleRemove}
+            style="secondaryLight"
+          />
         )}
         {friend.status === 1 && (
           <>
-            <button onClick={handleAccept} disabled={loading}>
-              {loading ? 'Loading...' : 'Accept request'}
-            </button>
-            <button onClick={handleDeleteRequest} disabled={loading}>
-              {loading ? 'Loading...' : 'Decline request'}
-            </button>
+            <SubmitButton
+              text="Accept request"
+              onClick={handleAccept}
+              loading={loading}
+              disabled={false}
+            />
+            <SubmitButton
+              text="Decline request"
+              onClick={handleDeleteRequest}
+              loading={loading}
+              disabled={false}
+              style="secondaryLight"
+            />
           </>
         )}
         {friend.status === 2 && (
-          <button onClick={handleDeleteRequest} disabled={loading}>
-            {loading ? 'Loading...' : 'Cancel request'}
-          </button>
+          <SubmitButton
+            text="Cancel request"
+            onClick={handleDeleteRequest}
+            disabled={false}
+            loading={loading}
+            style="secondaryLight"
+          />
         )}
       </div>
       {showModal && (

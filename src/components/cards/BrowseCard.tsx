@@ -5,11 +5,13 @@ import Image from 'next/image'
 const BrowseCard = ({
   content,
   handleDetails,
-  loading
+  loading,
+  detailsLoading
 }: {
   content: Content
   handleDetails: () => void
   loading: boolean
+  detailsLoading: boolean
 }) => {
   const [isVisible, setIsVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -28,7 +30,9 @@ const BrowseCard = ({
     }
   }, [])
 
-  return (
+  return loading ? (
+    <div className="rounded-lg overflow-hidden shadow-lg fadeIn bg-PrimaryDark blur h-[450px] w-[300px]"></div>
+  ) : (
     <div
       ref={ref}
       className="relative rounded-lg overflow-hidden shadow-lg fadeIn"
@@ -55,7 +59,9 @@ const BrowseCard = ({
               {content.overview}
             </p>
           </div>
-          <button onClick={handleDetails}>See details</button>
+          <button onClick={handleDetails}>
+            {detailsLoading ? 'Loading' : 'See details'}
+          </button>
         </div>
       )}
     </div>

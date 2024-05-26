@@ -10,7 +10,7 @@ const InvitationSection = ({ friends }: { friends: Friend[] }) => {
       <h2 className="text-2xl text-BaseLight my-1">Manage friend requests</h2>
       <div className="flex flex-col items-center w-full gap-2 max-w-lg">
         <h3 className="text-2xl text-AccentLight my-1">Received</h3>
-        <div>
+        <div className="flex flex-wrap gap-2 w-full justify-center items-center">
           {received.length === 0 ? (
             <p className="text-BaseLight">No outstanding friend requests</p>
           ) : (
@@ -22,7 +22,7 @@ const InvitationSection = ({ friends }: { friends: Friend[] }) => {
       </div>
       <div className="flex flex-col items-center w-full gap-2 max-w-lg">
         <h3 className="text-2xl text-AccentLight my-1">Sent</h3>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-wrap gap-2 w-full justify-center items-center">
           {sent.length === 0 ? (
             <p className="text-BaseLight">No pending friend requests</p>
           ) : (

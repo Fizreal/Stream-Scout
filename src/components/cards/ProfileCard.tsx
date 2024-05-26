@@ -3,6 +3,7 @@ import { Profile, PublicProfile } from '@/types'
 import { useSocket } from '@/context/SocketContext'
 import { useUser } from '@/context/UserContext'
 import { countryNames } from '@/utils/object-maps'
+import SubmitButton from '../SubmitButton'
 
 const ProfileCard = ({ profile }: { profile: PublicProfile }) => {
   const socket = useSocket()
@@ -67,24 +68,45 @@ const ProfileCard = ({ profile }: { profile: PublicProfile }) => {
   }, [user, profile])
 
   return (
-    <div className="flex flex-nowrap w-full h-40 p-4">
-      <div className="flex flex-col flex-grow h-full gap-2">
-        <h4>{profile.username}</h4>
-        <p>{countryNames[profile.country]}</p>
+    <div className="flex flex-nowrap justify-between gap-6 w-full py-4 px-6 bg-PrimaryDark rounded-lg max-w-xs">
+      <div className="flex flex-col flex-grow h-full gap-2 flex-shrink overflow-hidden">
+        <h4 className="text-xl text-AccentLight truncate">
+          {profile.username}
+        </h4>
+        <p className="text-BaseLight truncate">
+          {countryNames[profile.country]}
+        </p>
       </div>
-      <div className="h-full">
+      <div>
         {friendStatus === 0 && (
-          <button onClick={handleSendRequest} disabled={loading}>
-            {loading ? 'Loading...' : 'Add friend'}
-          </button>
+          <SubmitButton
+            text="Add friend"
+            onClick={handleSendRequest}
+            loading={loading}
+            disabled={false}
+            style="secondaryLight"
+          />
         )}
         {friendStatus === 1 && (
-          <button onClick={handleAccept} disabled={loading}>
-            {loading ? 'Loading...' : 'Accept request'}
-          </button>
+          <SubmitButton
+            text="Accept request"
+            onClick={handleAccept}
+            loading={loading}
+            disabled={false}
+          />
         )}
-        {friendStatus === 2 && <button disabled>Pending</button>}
-        {friendStatus === 3 && <button disabled>Friends</button>}
+        {friendStatus === 2 && (
+          <SubmitButton
+            text="Pending"
+            disabled={true}
+            loading={false}
+            style="primaryDark"
+          />
+        )}
+
+        {friendStatus === 3 && (
+          <SubmitButton text="Friends" disabled={true} loading={false} />
+        )}
       </div>
     </div>
   )
