@@ -24,7 +24,10 @@ const RegistrationPage = () => {
     subscriptions: []
   })
   const [uniqueUsername, setUniqueUsername] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [usernameCriteria, setUsernameCriteria] = useState({
+    length: false,
+    valid: false
+  })
   const [usernameTimer, setUsernameTimer] = useState<NodeJS.Timeout | null>(
     null
   )
@@ -84,10 +87,12 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     if (usernameTimer) clearTimeout(usernameTimer)
-    setErrorMessage('')
     setUniqueUsername(false)
 
     let validUsername = /^[a-zA-Z0-9]+$/.test(profileForm.username)
+    let validLength = profileForm.username.length > 4
+    setUsernameCriteria({ length: validLength, valid: validUsername })
+
     if (profileForm.username.length > 4 && validUsername) {
       setUsernameTimer(
         setTimeout(() => {
@@ -100,20 +105,19 @@ const RegistrationPage = () => {
           )
         }, 1000)
       )
-    } else {
-      setErrorMessage('Username does not meet requirements')
     }
   }, [profileForm.username])
 
   return (
-    <section>
-      <h2 className="text-2xl text-AccentLight mb-3">Register Page</h2>
+    <section className="flex flex-col items-center pt-6 w-full">
+      <h2 className="text-2xl text-AccentLight mb-3">Create profile</h2>
       <ProfileUpdate
         profileForm={profileForm}
+        uniqueUsername={uniqueUsername}
+        usernameCriteria={usernameCriteria}
         handleFormChange={handleFormChange}
         handleGenreChange={handleGenreChange}
         handleSubmit={handleSubmit}
-        errorMessage={errorMessage}
         submitText="Create profile"
       />
     </section>
