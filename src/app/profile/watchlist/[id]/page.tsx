@@ -220,6 +220,7 @@ const WatchlistDetail = () => {
                                       href={stream.link}
                                       target="_blank"
                                       rel="noreferrer"
+                                      key={stream.service}
                                     >
                                       <img
                                         src={`/streamIcons/${stream.service}.png`}

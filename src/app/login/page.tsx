@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
         onSubmit={handleLogin}
         className="flex flex-col bg-PrimaryDark items-center w-4/5 max-w-md p-6 gap-1.5 rounded-lg shadow-lg"
       >
-        <h1>Login Page</h1>
+        <h2 className="text-xl text-AccentLight">Login</h2>
         <fieldset className="flex flex-col w-full gap-1.5">
           <label className="text-AccentLight">Email:</label>
           <input
@@ -68,7 +68,10 @@ const LoginPage: React.FC = () => {
           disabled={loginForm.email && loginForm.password ? false : true}
           loading={false}
         />
-        <Link href="/signup">Don't have an account? Sign up</Link>
+        <Link href="/signup" className="text-BaseLight">
+          Don&apos;t have an account?{' '}
+          <span className="text-AccentLight">Sign up</span>
+        </Link>
       </form>
     </section>
   )

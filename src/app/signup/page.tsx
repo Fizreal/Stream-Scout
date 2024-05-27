@@ -55,7 +55,7 @@ const SignUp: React.FC = () => {
         onSubmit={handleRegister}
         className="flex flex-col bg-PrimaryDark items-center w-4/5 max-w-md p-6 gap-1.5 rounded-lg shadow-lg"
       >
-        <h1>Register Page</h1>
+        <h2 className="text-xl text-AccentLight">Register</h2>
         <fieldset className="flex flex-col w-full gap-1.5">
           <label className="text-AccentLight">Name:</label>
           <input
@@ -112,7 +112,10 @@ const SignUp: React.FC = () => {
           }
           loading={false}
         />
-        <Link href="/login">Already have an account? Login</Link>
+        <Link href="/login" className="text-BaseLight">
+          Already have an account?{' '}
+          <span className="text-AccentLight">Login</span>
+        </Link>
       </form>
     </section>
   )
