@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { ProfileForm, Country, Service } from '@/types'
 import SubmitButton from './SubmitButton'
 import Countries from '@/utils/services.json'
-import { unique } from 'next/dist/build/utils'
 
 type ProfileUpdateProps = {
   profileForm: ProfileForm

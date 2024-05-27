@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect } from 'react'
 import { MovieDetails, ShowDetails } from '@/utils/tmdb-api'
 import BrowseCard from './BrowseCard'

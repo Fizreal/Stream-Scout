@@ -8,7 +8,6 @@ import { TitleDetails } from '@/utils/rapid-api'
 import { formatStreamingInfo } from '@/utils/content-methods'
 import Image from 'next/image'
 import { streamIcons, countryNames } from '@/utils/object-maps'
-// import { notFound } from 'next/navigation'
 import NotFound from './not-found'
 import ListsModal from '@/components/modals/ListsModal'
 import SubmitButton from '@/components/SubmitButton'
@@ -232,17 +231,14 @@ const ContentDetails = ({ params }: Params) => {
     }
 
     socket.emit('get content', { id: params.id }, (content: Content | null) => {
-      if (content === null) {
-        // console.log('not found')
-        // notFound()
-      } else {
+      if (content !== null) {
         setContent(content)
         if (content.type === 'series' && content.seasons?.length) {
           setDisplayedSeason(content.seasons[0].season_number.toString())
         }
         setDisplayedCountry(checkUserCountryAvailability(content))
-        setLoadingContent(false)
       }
+      setLoadingContent(false)
     })
   }, [params.id, socket])
 

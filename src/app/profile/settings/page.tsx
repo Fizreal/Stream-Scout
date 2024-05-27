@@ -6,7 +6,6 @@ import { useUser } from '@/context/UserContext'
 import { Profile, ProfileForm } from '@/types'
 import { useRouter } from 'next/navigation'
 import ProfileUpdate from '@/components/ProfileUpdate'
-import SubmitButton from '@/components/SubmitButton'
 
 const SettingsPage = () => {
   const socket = useSocket()
@@ -79,7 +78,6 @@ const SettingsPage = () => {
       <h2 className="text-2xl text-AccentLight mb-3">Update profile</h2>
       <ProfileUpdate
         profileForm={profileForm}
-        errorMessage=""
         handleSubmit={handleSubmit}
         handleFormChange={handleFormChange}
         handleGenreChange={handleGenreChange}
