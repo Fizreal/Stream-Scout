@@ -30,18 +30,9 @@ const ListsModal = ({ setModalOpen, content }: ListsModalProps) => {
     socket?.emit(
       'add to watchlist',
       { watchlist, content: content._id },
-      ({
-        success,
-        watchlists,
-        error
-      }: {
-        success: boolean
-        watchlists?: Watchlist[]
-        error?: string
-      }) => {
-        if (success && watchlists) {
-          setWatchlists(watchlists)
-        } else {
+      ({ success, error }: { success: boolean; error?: string }) => {
+        if (!success) {
+          console.log(error || 'An error occurred adding to watchlist')
           setError(error || 'An error occurred adding to watchlist')
         }
       }

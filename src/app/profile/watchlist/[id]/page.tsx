@@ -9,6 +9,7 @@ import { Watchlist } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import ContentFilter from '@/components/ContentFilter'
+import SubmitButton from '@/components/SubmitButton'
 import WatchlistOptions from '@/components/WatchlistOptions'
 import WarningModal from '@/components/modals/WarningModal'
 import InviteModal from '@/components/modals/InviteModal'
@@ -16,7 +17,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { streamIcons, countryNames } from '@/utils/object-maps'
 
 const WatchlistDetail = () => {
-  const { watchlists, setWatchlists, user } = useUser()
+  const { watchlists, setWatchlists, user, assignUser } = useUser()
   const socket = useSocket()
   const router = useRouter()
 
@@ -92,6 +93,62 @@ const WatchlistDetail = () => {
     )
   }
 
+  const handleRemoveContent = (contentId: string) => {
+    if (!socket || !watchlist) return
+
+    const previousList = [...watchlist.list]
+
+    const removedIndex = previousList.findIndex(
+      (item) => item.content._id === contentId
+    )
+
+    const updatedList = previousList.filter(
+      (item) => item.content._id !== contentId
+    )
+
+    for (let i = removedIndex; i < updatedList.length; i++) {
+      updatedList[i].order = i
+    }
+
+    setWatchlist({ ...watchlist, list: updatedList })
+
+    socket.emit(
+      'remove from watchlist',
+      { watchlist: watchlist._id, content: contentId },
+      ({ success, error }: { success: boolean; error?: string }) => {
+        if (!success) {
+          console.log(error || 'Error removing from watchlist')
+          setWatchlist({ ...watchlist, list: previousList })
+        }
+      }
+    )
+  }
+
+  const handleWatchAndRemoveContent = (contentId: string) => {
+    if (!socket || !watchlist) return
+
+    socket.emit(
+      'add to watched',
+      { contentId },
+      ({
+        success,
+        profile,
+        error
+      }: {
+        success: boolean
+        profile?: any
+        error?: string
+      }) => {
+        if (success) {
+          assignUser(profile)
+          handleRemoveContent(contentId)
+        } else {
+          console.log(error || 'Error adding to watched')
+        }
+      }
+    )
+  }
+
   const handleLeaveWatchlist = () => {
     if (!socket || !watchlist) return
 
@@ -157,7 +214,7 @@ const WatchlistDetail = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="flex flex-col rounded-lg bg-PrimaryDark shadow-lg p-8 gap-4 w-full sm:w-4/5 max-w-3xl"
+                  className="flex flex-col rounded-lg bg-PrimaryDark shadow-lg py-8 sm:px-8 gap-4 w-full sm:w-4/5 max-w-3xl"
                 >
                   {filteredWatchlist.map((item, index) => (
                     <Draggable
@@ -239,6 +296,25 @@ const WatchlistDetail = () => {
                                 </p>
                               )}
                             </div>
+                          </div>
+                          <div className="flex flex-col justify-around flex-grow shrink-0">
+                            <SubmitButton
+                              text="Watched"
+                              loading={false}
+                              disabled={false}
+                              onClick={() =>
+                                handleWatchAndRemoveContent(item.content._id)
+                              }
+                            />
+                            <SubmitButton
+                              text="Remove"
+                              loading={false}
+                              disabled={false}
+                              onClick={() =>
+                                handleRemoveContent(item.content._id)
+                              }
+                              style="secondaryLight"
+                            />
                           </div>
                         </div>
                       )}

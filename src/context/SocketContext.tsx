@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, createContext, useContext, use } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { useUser } from './UserContext'
 import { BASE_URL } from '@/utils/auth'
@@ -81,31 +81,18 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           }
         }
       )
-
-      socket.on('profile update', ({ profile }: { profile: Profile }) => {
-        assignUser(profile)
-      })
-      socket.on(
-        'update watchlist',
-        ({ watchlist }: { watchlist: Watchlist }) => {
-          const watchlistIndex = watchlists.findIndex(
-            (prevWatchlist) => prevWatchlist._id === watchlist._id
-          )
-
-          if (watchlistIndex !== -1) {
-            const newWatchlists = [...watchlists]
-            newWatchlists[watchlistIndex] = watchlist
-            setWatchlists(newWatchlists)
-          }
-        }
-      )
-      socket.on(
-        'update invitations',
-        ({ invitations }: { invitations: Invitation[] }) => {
-          setInvitations(invitations)
-        }
-      )
     })
+
+    socket.on('profile update', ({ profile }: { profile: Profile }) => {
+      assignUser(profile)
+    })
+
+    socket.on(
+      'update invitations',
+      ({ invitations }: { invitations: Invitation[] }) => {
+        setInvitations(invitations)
+      }
+    )
 
     socket.on('connect_error', (err) => {
       console.log(`connect_error due to ${err.message}`)
@@ -114,10 +101,29 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socket.off('connect')
       socket.off('profile update')
-      socket.off('update watchlist')
       socket.off('update invitations')
     }
   }, [socket])
+
+  useEffect(() => {
+    if (!socket) return
+
+    socket.on('update watchlist', ({ watchlist }: { watchlist: Watchlist }) => {
+      const watchlistIndex = watchlists.findIndex(
+        (prevWatchlist) => prevWatchlist._id === watchlist._id
+      )
+
+      if (watchlistIndex !== -1) {
+        const newWatchlists = [...watchlists]
+        newWatchlists[watchlistIndex] = watchlist
+        setWatchlists(newWatchlists)
+      }
+    })
+
+    return () => {
+      socket.off('update watchlist')
+    }
+  }, [watchlists, socket])
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
