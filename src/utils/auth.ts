@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-export const BASE_URL = 'http://localhost:3001/'
+export const BASE_URL =
+  'https://stream-scout-server-08ac5e37329e.herokuapp.com/'
 
 const Client = axios.create({ baseURL: BASE_URL })
 
