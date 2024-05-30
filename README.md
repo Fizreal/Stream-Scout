@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Stream Scout
 
-## Getting Started
+## Date: 5/30/2024
 
-First, run the development server:
+### By: Adam Buffett
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[GitHub](https://github.com/Fizreal) | [LinkedIn](https://www.linkedin.com/in/adam-buffett/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### **_Description_**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Stream Scout is a streaming available tool. Users can browse for content based on their streaming subscriptions, find streaming availability for specific titles, and create collaborative watchlists. Using WebSockets through Socket.IO, friend requests and changes to watchlists are updated in real-time for all impacted users.
 
-## Learn More
+The server-side repo can be found [here](https://github.com/Fizreal/Stream-Scout-server).
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### **_Technologies Used_**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Technologies Used](https://skillicons.dev/icons?i=nextjs,ts,nodejs,express,mongodb,tailwind)
 
-## Deploy on Vercel
+- Next.js
+- TypeScript
+- Node.js
+- Express
+- MongoDB
+- Tailwind CSS
+- WebSockets (Socket.IO)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## API Integration
+
+Utilized the Streaming Availability API from Movie of the Night, as well as TMDB's API to populate missing content information.
+
+#### **_Getting Started_**
+
+[Visit Stream Scout](https://stream-scout-temp.vercel.app/)
+
+New users must create an account, selecting their country and streaming subscriptions to begin.
+
+---
+
+#### **_Credits_**
+
+**Streaming Availability API**: [Movie of the Night](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability)
+
+**TMDB API**: [TMDB](https://developer.themoviedb.org/reference/intro/getting-started)
+
+**Icons**:
+
+- [Flaticon](https://www.flaticon.com/)
+  - [Film Reel](https://stream-scout-temp.vercel.app/)
