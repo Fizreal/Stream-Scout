@@ -14,17 +14,19 @@ const NavBar = ({
 
   return (
     <nav className="fixed top-0 left-0 bg-PrimaryDark flex justify-center items-center md:justify-start shadow-lg h-14 w-full z-20">
-      <div
-        ref={hamburgerRef}
-        className={`hamburgerMenu ${open ? 'open' : ''}`}
-        onClick={toggleOpen}
-        aria-label={open ? 'Close side bar' : 'Open side bar'}
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      {user && (
+        <div
+          ref={hamburgerRef}
+          className={`hamburgerMenu ${open ? 'open' : ''}`}
+          onClick={toggleOpen}
+          aria-label={open ? 'Close side bar' : 'Open side bar'}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      )}
       <Link
         href={user ? '/' : '/login'}
         className="flex items-center justify-center h-full w-[200px]"
