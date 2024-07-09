@@ -51,7 +51,7 @@ const SideBar = ({
           <li className="py-2 px-1 my-1 text-BaseDark font-medium">
             Find something to watch
           </li>
-          <ul className="flex flex-col gap-2 bg-PrimaryDark/50">
+          <ul className="flex flex-col gap-2">
             <Link
               href={'/search'}
               className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
@@ -67,8 +67,10 @@ const SideBar = ({
               <li>Browse</li>
             </Link>
           </ul>
-          <li className="py-2 px-1 my-1 text-BaseDark font-medium">Profile</li>
-          <ul className="flex flex-col gap-2 bg-PrimaryDark/50">
+          <li className="py-2 px-1 my-1 text-BaseDark font-medium mt-10">
+            Profile
+          </li>
+          <ul className="flex flex-col gap-2 ">
             <Link
               href={'/profile?display=watchlists'}
               className="py-2 px-4 sideBarLink transition-colors text-PrimaryDark hover:text-AccentLight hover:bg-PrimaryDark/75"
